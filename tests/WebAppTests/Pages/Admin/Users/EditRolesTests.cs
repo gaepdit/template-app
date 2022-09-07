@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Identity;
@@ -5,9 +8,6 @@ using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Users;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebAppTests.Pages.Admin.Users;
 
@@ -106,7 +106,7 @@ public class EditRolesTests
         staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new List<string> { AppRole.Manager });
         var page = new EditRoles(staffService.Object)
-        { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -129,7 +129,7 @@ public class EditRolesTests
         staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
             .ReturnsAsync((StaffViewDto?)null);
         var page = new EditRoles(staffService.Object)
-        { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -147,7 +147,7 @@ public class EditRolesTests
         staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new List<string> { AppRole.Manager });
         var page = new EditRoles(staffService.Object)
-        { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 

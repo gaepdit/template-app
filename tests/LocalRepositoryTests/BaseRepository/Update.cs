@@ -1,9 +1,9 @@
+using GaEpd.Library.Domain.Repositories;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
-using GaEpd.Library.Domain.Repositories;
 
-namespace LocalRepositoryTests.BaseReadOnlyRepository;
+namespace LocalRepositoryTests.BaseRepository;
 
 public class Update
 {

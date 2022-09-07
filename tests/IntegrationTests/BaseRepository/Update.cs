@@ -1,8 +1,8 @@
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.Domain.Entities;
-using MyAppRoot.TestData.Offices;
-using MyAppRoot.TestData.Constants;
 using GaEpd.Library.Domain.Repositories;
+using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Offices;
+using MyAppRoot.TestData.Constants;
+using MyAppRoot.TestData.Offices;
 
 namespace IntegrationTests.BaseRepository;
 

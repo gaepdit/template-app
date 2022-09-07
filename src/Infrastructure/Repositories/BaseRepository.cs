@@ -1,7 +1,7 @@
-﻿using MyAppRoot.Infrastructure.Contexts;
-using GaEpd.Library.Domain.Entities;
+﻿using GaEpd.Library.Domain.Entities;
 using GaEpd.Library.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Infrastructure.Contexts;
 
 namespace MyAppRoot.Infrastructure.Repositories;
 
@@ -22,19 +22,17 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
         DbContext.Attach(entity);
         DbContext.Update(entity);
 
-        if (autoSave)
-        {
-            try
-            {
-                await DbContext.SaveChangesAsync(token);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await DbContext.Set<TEntity>().AsNoTracking().AnyAsync(e => e.Id.Equals(entity.Id), token))
-                    throw new EntityNotFoundException(typeof(TEntity), entity.Id);
+        if (!autoSave) return;
 
-                throw;
-            }
+        try
+        {
+            await DbContext.SaveChangesAsync(token);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!await DbContext.Set<TEntity>().AsNoTracking().AnyAsync(e => e.Id.Equals(entity.Id), token))
+                throw new EntityNotFoundException(typeof(TEntity), entity.Id);
+            throw;
         }
     }
 

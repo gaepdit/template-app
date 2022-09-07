@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GaEpd.Library.ListItems;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Offices;
-using GaEpd.Library.ListItems;
 
 namespace MyAppRoot.AppServices.Offices;
 
@@ -43,7 +43,7 @@ public sealed class OfficeAppService : IOfficeAppService
 
     public async Task<Guid> CreateAsync(OfficeCreateDto resource, CancellationToken token = default)
     {
-        var office = await _manager.CreateAsync(resource.Name, token: token);
+        var office = await _manager.CreateAsync(resource.Name, token);
         office.SetCreator((await _userService.GetCurrentUserAsync())?.Id);
         await _repository.InsertAsync(office, token: token);
         return office.Id;

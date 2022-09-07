@@ -1,9 +1,9 @@
-﻿using MyAppRoot.AppServices.AutoMapper;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+using MyAppRoot.AppServices.AutoMapper;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Offices;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MyAppRoot.AppServices.ServiceCollectionExtensions;
 

@@ -1,8 +1,8 @@
-﻿using MyAppRoot.AppServices.StaffServices;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.LocalRepository.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MyAppRoot.LocalRepository.ServiceCollectionExtensions;
 

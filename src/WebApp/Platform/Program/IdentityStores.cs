@@ -1,10 +1,10 @@
-﻿using MyAppRoot.AppServices.StaffServices;
+﻿using Microsoft.AspNetCore.Identity;
+using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Identity;
 using MyAppRoot.LocalRepository.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Settings;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.WebApp.Platform.Program;
 

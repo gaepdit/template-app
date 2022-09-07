@@ -1,16 +1,13 @@
-﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Enfo.WebApp.Pages.Account
+namespace MyAppRoot.WebApp.Pages.Account;
+
+[AllowAnonymous]
+public class Unavailable : PageModel
 {
-    [AllowAnonymous]
-    public class Unavailable : PageModel
+    public static void OnGet()
     {
-        [UsedImplicitly]
-        public static void OnGet()
-        {
-            // Method intentionally left empty.
-        }
+        // Method intentionally left empty.
     }
 }

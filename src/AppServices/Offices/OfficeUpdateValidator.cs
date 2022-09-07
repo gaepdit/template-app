@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Entities;
+﻿using FluentValidation;
+using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Offices;
-using FluentValidation;
 
 namespace MyAppRoot.AppServices.Offices;
 

@@ -45,5 +45,4 @@ public class AppRole
         UserAdmin, "User Account Admin",
         "Can register and edit all users and roles."
     );
-
 }

@@ -22,7 +22,7 @@ internal static partial class Data
         // Add all roles to first user
         var user = GetUsers.First();
         _userRoles = GetIdentityRoles
-            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = user.Id, })
+            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = user.Id })
             .ToList();
     }
 

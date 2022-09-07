@@ -1,8 +1,8 @@
+using GaEpd.Library.ListItems;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.WebApp.Pages.Admin.Users;
-using GaEpd.Library.ListItems;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebAppTests.Pages.Admin.Users;
 
@@ -18,7 +18,7 @@ public class IndexTests
         staffService.Setup(l => l.GetListAsync(It.IsAny<StaffSearchDto>()))
             .ReturnsAsync(new List<StaffViewDto>());
         var page = new IndexModel(officeService.Object, staffService.Object)
-        { TempData = WebAppTestsGlobal.GetPageTempData() };
+            { TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnGetSearchAsync(new StaffSearchDto());
 
@@ -40,7 +40,7 @@ public class IndexTests
             .ReturnsAsync(new List<ListItem>());
         var staffService = new Mock<IStaffAppService>();
         var page = new IndexModel(officeService.Object, staffService.Object)
-        { TempData = WebAppTestsGlobal.GetPageTempData() };
+            { TempData = WebAppTestsGlobal.GetPageTempData() };
         page.ModelState.AddModelError("Error", "Sample error description");
 
         var result = await page.OnGetSearchAsync(new StaffSearchDto());

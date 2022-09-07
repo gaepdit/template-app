@@ -1,8 +1,8 @@
-﻿using MyAppRoot.AppServices.UserServices;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Infrastructure.Contexts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.Infrastructure.Identity;
 

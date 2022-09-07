@@ -1,7 +1,7 @@
-using MyAppRoot.Domain.Entities;
-using MyAppRoot.TestData.Offices;
 using GaEpd.Library.Domain.Repositories;
+using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Offices;
+using MyAppRoot.TestData.Offices;
 
 namespace IntegrationTests.BaseReadOnlyRepository;
 

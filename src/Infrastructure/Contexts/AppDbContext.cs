@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Domain.Entities;
 
 namespace MyAppRoot.Infrastructure.Contexts;
 

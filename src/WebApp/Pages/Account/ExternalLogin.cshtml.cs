@@ -1,4 +1,10 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Identity;
@@ -6,12 +12,6 @@ using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
 using MyAppRoot.WebApp.Platform.Settings;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
 namespace MyAppRoot.WebApp.Pages.Account;
@@ -59,7 +59,7 @@ public class ExternalLogin : PageModel
 #pragma warning disable 618
         const string provider = AzureADDefaults.AuthenticationScheme;
 #pragma warning restore 618
-        var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+        var redirectUrl = Url.Page("./ExternalLogin", "Callback", new { returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return new ChallengeResult(provider, properties);
 

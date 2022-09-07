@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using GaEpd.Library.Domain.Repositories;
+using Microsoft.AspNetCore.Identity;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Identity;
-using GaEpd.Library.Domain.Repositories;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.LocalRepository.Identity;
 
@@ -70,12 +70,8 @@ public sealed class LocalStaffAppService : IStaffAppService
         var appRoles = new List<AppRole>();
 
         foreach (var role in roles)
-        {
             if (AppRole.AllRoles.TryGetValue(role, out var appRole))
-            {
                 appRoles.Add(appRole);
-            }
-        }
 
         return appRoles;
     }

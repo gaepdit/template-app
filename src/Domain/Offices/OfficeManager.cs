@@ -12,7 +12,7 @@ public class OfficeManager : IOfficeManager
 
     public async Task<Office> CreateAsync(string name, CancellationToken token = default)
     {
-        await ThrowIfDuplicateName(name, ignoreId: null, token: token);
+        await ThrowIfDuplicateName(name, null, token);
         return new Office(Guid.NewGuid(), name);
     }
 

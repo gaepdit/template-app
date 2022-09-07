@@ -13,16 +13,6 @@ public class FindForUpdate
     public async Task WhenItemExists_ReturnsViewDto()
     {
         var office = new Office(Guid.Empty, TestConstants.ValidName);
-        var user = new ApplicationUser
-        {
-            Id = Guid.NewGuid().ToString(),
-            FirstName = "Local",
-            LastName = "User",
-            Email = "local.user@example.net",
-            UserName = "local.user@example.net",
-            NormalizedUserName = "local.user@example.net".ToUpperInvariant(),
-        };
-
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindAsync(office.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(office);

@@ -1,10 +1,10 @@
-﻿using MyAppRoot.Domain.Entities;
-using MyAppRoot.WebApp.Platform.Local;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+﻿using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyAppRoot.Domain.Entities;
+using MyAppRoot.WebApp.Platform.Local;
 
 namespace MyAppRoot.WebApp.Pages.Account;
 

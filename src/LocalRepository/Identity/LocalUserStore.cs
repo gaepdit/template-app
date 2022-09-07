@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.TestData.Identity;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.LocalRepository.Identity;
 

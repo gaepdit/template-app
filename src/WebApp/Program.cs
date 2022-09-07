@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.DataProtection;
 using MyAppRoot.AppServices.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.Program;
 using MyAppRoot.WebApp.Platform.Settings;
-using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 var isLocal = builder.Environment.IsLocalEnv();

@@ -1,4 +1,5 @@
-﻿using MyAppRoot.AppServices.UserServices;
+﻿using Microsoft.EntityFrameworkCore;
+using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Identity;
@@ -6,7 +7,6 @@ using MyAppRoot.Infrastructure.Repositories;
 using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.WebApp.Platform.Settings;
-using Microsoft.EntityFrameworkCore;
 
 namespace MyAppRoot.WebApp.Platform.Program;
 

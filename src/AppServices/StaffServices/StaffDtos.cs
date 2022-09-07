@@ -48,7 +48,7 @@ public class StaffViewDto
         string.Join(", ", new[] { LastName, FirstName }.Where(s => !string.IsNullOrEmpty(s)));
 
     public StaffUpdateDto AsUpdateDto() =>
-        new() { Id = Id, Phone = Phone, OfficeId = Office?.Id, Active = Active, };
+        new() { Id = Id, Phone = Phone, OfficeId = Office?.Id, Active = Active };
 }
 
 public class StaffUpdateDto

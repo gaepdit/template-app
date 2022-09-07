@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.Settings;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace MyAppRoot.WebApp.Platform.Program;
 

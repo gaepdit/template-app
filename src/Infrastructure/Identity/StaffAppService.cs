@@ -1,6 +1,6 @@
-﻿using MyAppRoot.AppServices.StaffServices;
+﻿using Microsoft.AspNetCore.Identity;
+using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Identity;
-using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.Infrastructure.Identity;
 

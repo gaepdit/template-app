@@ -1,8 +1,8 @@
-﻿using MyAppRoot.Infrastructure.Contexts;
-using GaEpd.Library.Domain.Entities;
+﻿using GaEpd.Library.Domain.Entities;
 using GaEpd.Library.Domain.Repositories;
 using GaEpd.Library.Pagination;
 using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Infrastructure.Contexts;
 
 namespace MyAppRoot.Infrastructure.Repositories;
 

@@ -12,15 +12,6 @@ public class GetList
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
         var office = new Office(Guid.Empty, TestConstants.ValidName);
-        var user = new ApplicationUser
-        {
-            Id = Guid.NewGuid().ToString(),
-            FirstName = "Local",
-            LastName = "User",
-            Email = "local.user@example.net",
-            UserName = "local.user@example.net",
-            NormalizedUserName = "local.user@example.net".ToUpperInvariant(),
-        };
         var itemList = new List<Office> { office };
 
         var repoMock = new Mock<IOfficeRepository>();

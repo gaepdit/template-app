@@ -64,34 +64,34 @@
     {
         <table class="table table-borderless">
             <thead class="thead-light">
-                <tr>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Filter.Name)</th>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Filter.Email)</th>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Filter.Office)</th>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Filter.Status)</th>
-                </tr>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(m => m.Filter.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Filter.Email)</th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Filter.Office)</th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Filter.Status)</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.SearchResults)
-                {
-                    <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
-                        <td>
-                            @if (item.Email.Equals(User.Identity?.Name))
-                            {
-                                <span class="badge badge-primary">YOU</span>
-                            }
-                            <a asp-page="./Details" asp-route-id="@item.Id">@item.DisplayName</a>
-                        </td>
-                        <td>@item.Email</td>
-                        <td>
-                            @{
-                                var name = item.Office?.Name;
-                            }
-                            @Html.DisplayFor(m => name, "StringOrNone")
-                        </td>
-                        <td>@Html.DisplayFor(m => item.Active)</td>
-                    </tr>
-                }
+            @foreach (var item in Model.SearchResults)
+            {
+                <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
+                    <td>
+                        @if (item.Email.Equals(User.Identity?.Name))
+                        {
+                            <span class="badge badge-primary">YOU</span>
+                        }
+                        <a asp-page="./Details" asp-route-id="@item.Id">@item.DisplayName</a>
+                    </td>
+                    <td>@item.Email</td>
+                    <td>
+                        @{
+                            var name = item.Office?.Name;
+                        }
+                        @Html.DisplayFor(m => name, "StringOrNone")
+                    </td>
+                    <td>@Html.DisplayFor(m => item.Active)</td>
+                </tr>
+            }
             </tbody>
         </table>
     }

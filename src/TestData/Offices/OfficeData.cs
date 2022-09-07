@@ -1,4 +1,5 @@
 ﻿using MyAppRoot.Domain.Entities;
+using MyAppRoot.TestData.Identity;
 
 namespace MyAppRoot.TestData.Offices;
 
@@ -23,7 +24,7 @@ internal static class OfficeData
 
             // Seed offices and user data.
             _offices = OfficeSeedItems();
-            Identity.Data.GetUsers.First().Office = _offices.First();
+            Data.GetUsers.First().Office = _offices.First();
 
             return _offices;
         }

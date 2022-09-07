@@ -2,7 +2,7 @@ using MyAppRoot.Domain.Entities;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
 
-namespace LocalRepositoryTests.BaseReadOnlyRepository;
+namespace LocalRepositoryTests.BaseRepository;
 
 public class Insert
 {

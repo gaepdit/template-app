@@ -1,14 +1,14 @@
+using FluentValidation;
+using FluentValidation.Results;
+using GaEpd.Library.ListItems;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Users;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
-using FluentValidation;
-using FluentValidation.Results;
-using GaEpd.Library.ListItems;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebAppTests.Pages.Admin.Users;
 
@@ -35,7 +35,7 @@ public class EditTests
             .ReturnsAsync(new List<ListItem>());
         var validator = new Mock<IValidator<StaffUpdateDto>>();
         var pageModel = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { TempData = WebAppTestsGlobal.GetPageTempData() };
+            { TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
 
@@ -55,7 +55,7 @@ public class EditTests
         var officeService = new Mock<IOfficeAppService>();
         var validator = new Mock<IValidator<StaffUpdateDto>>();
         var pageModel = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { TempData = WebAppTestsGlobal.GetPageTempData() };
+            { TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await pageModel.OnGetAsync(null);
 
@@ -71,7 +71,7 @@ public class EditTests
         var officeService = new Mock<IOfficeAppService>();
         var validator = new Mock<IValidator<StaffUpdateDto>>();
         var pageModel = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { TempData = WebAppTestsGlobal.GetPageTempData() };
+            { TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await pageModel.OnGetAsync(Guid.Empty);
 
@@ -94,7 +94,7 @@ public class EditTests
         validator.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
         var page = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -123,7 +123,7 @@ public class EditTests
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var page = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -148,7 +148,7 @@ public class EditTests
         validator.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult(validationFailures));
         var page = new Edit(staffService.Object, officeService.Object, validator.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await page.OnPostAsync();
 
