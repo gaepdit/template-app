@@ -1,0 +1,5 @@
+﻿global using MyAppRoot.Domain.ValueObjects;
+global using GaEpd.Library.Domain.Entities;
+global using GaEpd.Library.GuardClauses;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
