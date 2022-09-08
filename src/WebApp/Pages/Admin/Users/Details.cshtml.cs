@@ -9,7 +9,7 @@ using MyAppRoot.WebApp.Platform.RazorHelpers;
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
 [Authorize]
-public class Details : PageModel
+public class DetailsModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
     public string? OfficeName => DisplayStaff.Office?.Name;

@@ -7,7 +7,7 @@ using MyAppRoot.WebApp.Platform.RazorHelpers;
 namespace MyAppRoot.WebApp.Pages.Account;
 
 [AllowAnonymous]
-public class Login : PageModel
+public class LoginModel : PageModel
 {
     public string? ReturnUrl { get; private set; }
     public DisplayMessage? Message { get; private set; }
