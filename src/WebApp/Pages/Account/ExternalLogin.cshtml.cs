@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authorization;
@@ -27,23 +26,19 @@ public class ExternalLogin : PageModel
     private readonly IConfiguration _configuration;
     private readonly IWebHostEnvironment _environment;
     private readonly IStaffAppService _staffService;
-    private readonly IMapper _mapper;
-
 
     public ExternalLogin(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IConfiguration configuration,
         IWebHostEnvironment environment,
-        IStaffAppService staffService,
-        IMapper mapper)
+        IStaffAppService staffService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _configuration = configuration;
         _environment = environment;
         _staffService = staffService;
-        _mapper = mapper;
     }
 
     // Don't call the page directly
@@ -59,7 +54,7 @@ public class ExternalLogin : PageModel
 #pragma warning disable 618
         const string provider = AzureADDefaults.AuthenticationScheme;
 #pragma warning restore 618
-        var redirectUrl = Url.Page("./ExternalLogin", "Callback", new { returnUrl });
+        var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return new ChallengeResult(provider, properties);
 
@@ -67,15 +62,11 @@ public class ExternalLogin : PageModel
         {
             if (!ApplicationSettings.LocalDevSettings.AuthenticatedUser) return Forbid();
 
-            var staff = (await _staffService.GetListAsync(new StaffSearchDto { Name = "Local" })).First();
+            var staff = ApplicationSettings.LocalDevSettings.AuthenticatedUserIsAdmin
+                ? (await _staffService.GetListAsync(new StaffSearchDto { Name = "Admin" })).First()
+                : (await _staffService.GetListAsync(new StaffSearchDto { Name = "General" })).First();
 
             var user = await _userManager.FindByIdAsync(staff.Id.ToString());
-            if (user is null)
-            {
-                user = _mapper.Map<ApplicationUser>(staff);
-                await _userManager.CreateAsync(user);
-                foreach (var role in AppRole.AllRoles) await _userManager.AddToRoleAsync(user, role.Key);
-            }
 
             await _signInManager.SignInAsync(user, false);
             return LocalRedirect(returnUrl ?? "/");
@@ -86,32 +77,32 @@ public class ExternalLogin : PageModel
     public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
         if (remoteError is not null)
-            return RedirectToLoginPageWithError(returnUrl, $"Error from work account provider: {remoteError}");
+            return RedirectToLoginPageWithError($"Error from work account provider: {remoteError}", returnUrl);
 
         // Get information about the user from the external provider.
         var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
-
         if (externalLoginInfo is null
             || !externalLoginInfo.Principal.HasClaim(c => c.Type == ClaimTypes.NameIdentifier)
             || !externalLoginInfo.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-            return RedirectToLoginPageWithError(returnUrl, "Error loading work account information.");
+            return RedirectToLoginPageWithError("Error loading work account information.", returnUrl);
+
+        // Find user account if it exists and ensure it is Active.
+        var userEmail = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email);
+        var existingUser = await _userManager.FindByNameAsync(userEmail);
+        if (existingUser is not null && !existingUser.Active) return RedirectToPage("./Unavailable");
 
         // Sign in the user with the external provider.
         var signInResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider,
             externalLoginInfo.ProviderKey, true);
-
         if (signInResult.Succeeded) return LocalRedirect(returnUrl ?? "/");
-
         if (signInResult.IsLockedOut || signInResult.IsNotAllowed || signInResult.RequiresTwoFactor)
             return RedirectToPage("./Unavailable");
 
         // If ExternalLoginInfo successfully returned from external provider, but ExternalLoginSignInAsync
         // failed, local account may need to be configured. Start by checking if an account exists.
-        var userEmail = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email);
-        var existingUser = await _userManager.FindByNameAsync(userEmail);
-
         // If user account exists, add the external provider info to the user and sign in.
-        if (existingUser is not null) return await AddProviderAndSignInUserAsync(existingUser, externalLoginInfo);
+        if (existingUser is not null)
+            return await AddProviderAndSignInUserAsync(existingUser, externalLoginInfo, returnUrl);
 
         // If the user does not have an account, then create one and sign in.
         var newUser = new ApplicationUser
@@ -132,37 +123,40 @@ public class ExternalLogin : PageModel
                 await _userManager.AddToRoleAsync(newUser, role.Key);
 
         // Add the external provider info to the user and sign in.
-        return await AddProviderAndSignInUserAsync(newUser, externalLoginInfo);
+        return await AddProviderAndSignInUserAsync(newUser, externalLoginInfo, returnUrl);
+    }
 
-        // Local function: Add external provider info to user account, sign in user, and redirect
-        // to original requested URL.
-        async Task<IActionResult> AddProviderAndSignInUserAsync(ApplicationUser user, ExternalLoginInfo loginInfo)
-        {
-            var addLoginResult = await _userManager.AddLoginAsync(user, loginInfo);
-            if (!addLoginResult.Succeeded) return FailedLogin(addLoginResult, user);
+    // Add external provider info to user account, sign in user, and redirect
+    // to original requested URL.
+    private async Task<IActionResult> AddProviderAndSignInUserAsync(
+        ApplicationUser user,
+        ExternalLoginInfo loginInfo,
+        string? returnUrl)
+    {
+        var addLoginResult = await _userManager.AddLoginAsync(user, loginInfo);
+        if (!addLoginResult.Succeeded) return FailedLogin(addLoginResult, user);
 
-            // Include the access token in the properties.
-            var props = new AuthenticationProperties();
-            props.StoreTokens(loginInfo.AuthenticationTokens);
-            props.IsPersistent = true;
+        // Include the access token in the properties.
+        var props = new AuthenticationProperties();
+        props.StoreTokens(loginInfo.AuthenticationTokens);
+        props.IsPersistent = true;
 
-            await _signInManager.SignInAsync(user, true);
-            return LocalRedirect(returnUrl ?? "/");
-        }
+        await _signInManager.SignInAsync(user, true);
+        return LocalRedirect(returnUrl ?? "/");
+    }
 
-        // Local function: Add errors from failed login and return this Page.
-        IActionResult FailedLogin(IdentityResult result, ApplicationUser user)
-        {
-            DisplayFailedUser = user;
-            foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
-            return Page();
-        }
+    // Add errors from failed login and return this Page.
+    private IActionResult FailedLogin(IdentityResult result, ApplicationUser user)
+    {
+        DisplayFailedUser = user;
+        foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
+        return Page();
+    }
 
-        // Local function: Redirect to Login page with error message.
-        IActionResult RedirectToLoginPageWithError(string? rUrl, string message)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Danger, message);
-            return RedirectToPage("./Login", new { ReturnUrl = rUrl });
-        }
+    // Redirect to Login page with error message.
+    private IActionResult RedirectToLoginPageWithError(string message, string? returnUrl)
+    {
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Danger, message);
+        return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
     }
 }

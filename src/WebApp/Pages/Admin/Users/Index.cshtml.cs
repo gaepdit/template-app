@@ -1,4 +1,5 @@
 ﻿using GaEpd.Library.ListItems;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IOfficeAppService _officeService;
@@ -44,6 +46,8 @@ public class IndexModel : PageModel
     private async Task PopulateSelectListsAsync()
     {
         OfficeItems = (await _officeService.GetActiveListItemsAsync()).ToSelectList();
-        RoleItems = AppRole.AllRolesList().ToSelectList();
+        RoleItems = AppRole.AllRoles
+            .Select(r => new ListItem<string>(r.Key, r.Value.DisplayName))
+            .ToSelectList();
     }
 }

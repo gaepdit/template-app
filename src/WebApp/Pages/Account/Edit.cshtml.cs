@@ -7,21 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.StaffServices;
-using MyAppRoot.Domain.Identity;
+using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Users;
+namespace MyAppRoot.WebApp.Pages.Account;
 
-[Authorize(Roles = AppRole.UserAdmin)]
+[Authorize]
 public class Edit : PageModel
 {
+    private readonly IUserService _userService;
     private readonly IStaffAppService _staffService;
     private readonly IOfficeAppService _officeService;
     private readonly IValidator<StaffUpdateDto> _validator;
 
-    public Edit(IStaffAppService staffService, IOfficeAppService officeService, IValidator<StaffUpdateDto> validator)
+    public Edit(
+        IUserService userService,
+        IStaffAppService staffService,
+        IOfficeAppService officeService,
+        IValidator<StaffUpdateDto> validator)
     {
+        _userService = userService;
         _staffService = staffService;
         _officeService = officeService;
         _validator = validator;
@@ -34,11 +40,13 @@ public class Edit : PageModel
 
     public SelectList OfficeItems { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (id == null) return NotFound();
-        var staff = await _staffService.FindAsync(id.Value);
-        if (staff == null) return NotFound("ID not found.");
+        var currentUser = await _userService.GetCurrentUserAsync();
+        if (currentUser is null) return Forbid();
+
+        var staff = await _staffService.FindAsync(currentUser.IdAsGuid);
+        if (staff is not { Active: true }) return Forbid();
 
         DisplayStaff = staff;
         UpdateStaff = DisplayStaff.AsUpdateDto();
@@ -49,12 +57,17 @@ public class Edit : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var currentUser = await _userService.GetCurrentUserAsync();
+        if (currentUser is null) return Forbid();
+        if (currentUser.IdAsGuid != UpdateStaff.Id || !UpdateStaff.Active) return BadRequest();
+
         var validationResult = await _validator.ValidateAsync(UpdateStaff);
         if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(UpdateStaff));
+
         if (!ModelState.IsValid)
         {
             var staff = await _staffService.FindAsync(UpdateStaff.Id);
-            if (staff == null) return BadRequest();
+            if (staff is not { Active: true }) return Forbid();
 
             DisplayStaff = staff;
 
@@ -64,8 +77,8 @@ public class Edit : PageModel
 
         await _staffService.UpdateAsync(UpdateStaff);
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
-        return RedirectToPage("Details", new { id = UpdateStaff.Id });
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
+        return RedirectToPage("Index");
     }
 
     private async Task PopulateSelectListsAsync() =>

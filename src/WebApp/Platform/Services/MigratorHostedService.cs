@@ -44,7 +44,7 @@ public class MigratorHostedService : IHostedService
         // Initialize any new roles.
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         foreach (var role in AppRole.AllRoles.Keys)
-            if (!await context.Roles.AnyAsync(e => e.NormalizedName == role, cancellationToken))
+            if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
                 await roleManager.CreateAsync(new IdentityRole(role));
     }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.StaffServices;
 using MyAppRoot.Domain.Identity;
@@ -7,6 +8,7 @@ using MyAppRoot.WebApp.Platform.RazorHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
+[Authorize]
 public class Details : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;

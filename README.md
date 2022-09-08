@@ -80,9 +80,10 @@ There are two launch profiles:
 
     You can modify some development settings by creating an "appsettings.Local.json" file in the "WebApp" folder to test various scenarios:
 
-    - *AuthenticatedUser* — Simulates a successful login with the local user account when `true`. Simulates a failed login when `false`.
-    - *BuildLocalDb* — Uses LocalDB when `true`. Uses in-memory data when `false` (faster for development purposes).
-    - *UseEfMigrations* - Uses Entity Framework migrations when `true`. Deletes and recreates database when `false`. (Only used if *BuildLocalDb* is `true`.)
+    - *AuthenticatedUser* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`.
+    - *AuthenticatedUserIsAdmin* — Applies all App Roles to the logged in account when `true` or no roles when `false`. (Only applies if *AuthenticatedUser* is `true`.)
+    - *BuildLocalDb* — Uses LocalDB when `true`. Uses in-memory data when `false`.
+    - *UseEfMigrations* - Uses Entity Framework migrations when `true`. Deletes and recreates database when `false`. (Only applies if *BuildLocalDb* is `true`.)
 
 * **WebApp Dev Server** — This profile connects to a remote database server for data and requires an SOG account to log in. *To use this profile, you must add the "appsettings.Development.json" file from the "app-config" repo.*
 

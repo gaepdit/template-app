@@ -5,42 +5,32 @@ namespace MyAppRoot.TestData.Identity;
 
 internal static partial class Data
 {
-    private static IEnumerable<ApplicationUser> UserSeedItems(Office office) =>
-        new List<ApplicationUser>
+    private static readonly List<ApplicationUser> UserSeedItems = new()
+    {
+        new ApplicationUser
         {
-            new()
-            {
-                Id = Guid.NewGuid().ToString(),
-                FirstName = "Local",
-                LastName = "User",
-                Email = "local.user@example.net",
-                UserName = "local.user@example.net",
-                NormalizedUserName = "local.user@example.net".ToUpperInvariant(),
-                Phone = "123-456-7890",
-                Office = office,
-            },
-            new()
-            {
-                Id = Guid.NewGuid().ToString(),
-                FirstName = "Another",
-                LastName = "User",
-                Email = "another.user@example.net",
-                UserName = "another.user@example.net",
-                NormalizedUserName = "another.user@example.net".ToUpperInvariant(),
-                Office = office,
-            },
-            new()
-            {
-                Id = Guid.NewGuid().ToString(),
-                FirstName = "Inactive",
-                LastName = "User",
-                Email = "inactive.user@example.net",
-                UserName = "inactive.user@example.net",
-                NormalizedUserName = "inactive.user@example.net".ToUpperInvariant(),
-                Active = false,
-                Office = office,
-            },
-        };
+            Id = "00000000-0000-0000-0000-000000000001",
+            FirstName = "Admin",
+            LastName = "User",
+            Email = "admin.user@example.net",
+            Phone = "123-456-7890",
+        },
+        new ApplicationUser
+        {
+            Id = "00000000-0000-0000-0000-000000000002",
+            FirstName = "General",
+            LastName = "User",
+            Email = "general.user@example.net",
+        },
+        new ApplicationUser
+        {
+            Id = "00000000-0000-0000-0000-000000000003",
+            FirstName = "Inactive",
+            LastName = "User",
+            Email = "inactive.user@example.net",
+            Active = false,
+        },
+    };
 
     private static IEnumerable<ApplicationUser>? _users;
 
@@ -50,7 +40,14 @@ internal static partial class Data
         {
             if (_users is not null) return _users;
             var office = OfficeData.GetOffices.First();
-            _users = UserSeedItems(office);
+            UserSeedItems.ForEach(delegate(ApplicationUser user)
+            {
+                user.Office = office;
+                user.UserName = user.Email;
+                user.NormalizedEmail = user.Email.ToUpperInvariant();
+                user.NormalizedUserName = user.Email.ToUpperInvariant();
+            });
+            _users = UserSeedItems;
             return _users;
         }
     }

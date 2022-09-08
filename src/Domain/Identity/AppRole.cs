@@ -1,6 +1,4 @@
-﻿using GaEpd.Library.ListItems;
-
-namespace MyAppRoot.Domain.Identity;
+﻿namespace MyAppRoot.Domain.Identity;
 
 /// <summary>
 /// Authorization Roles for the application.
@@ -26,11 +24,9 @@ public class AppRole
     /// </summary>
     public static Dictionary<string, AppRole> AllRoles { get; } = new();
 
-    public static IEnumerable<ListItem<string>> AllRolesList() =>
-        AllRoles.Select(r => new ListItem<string>(r.Key, r.Value.DisplayName));
-
     // Roles
     // These are the strings that are stored in the database. Avoid modifying these once set!
+
     public const string Manager = nameof(Manager);
     public const string UserAdmin = nameof(UserAdmin);
 
