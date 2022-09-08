@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.DataProtection;
 using MyAppRoot.AppServices.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Local;
-using MyAppRoot.WebApp.Platform.Program;
+using MyAppRoot.WebApp.Platform.Services;
 using MyAppRoot.WebApp.Platform.Settings;
 
 var builder = WebApplication.CreateBuilder(args);

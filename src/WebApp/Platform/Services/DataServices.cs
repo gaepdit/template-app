@@ -8,7 +8,7 @@ using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Program;
+namespace MyAppRoot.WebApp.Platform.Services;
 
 public static class DataServices
 {

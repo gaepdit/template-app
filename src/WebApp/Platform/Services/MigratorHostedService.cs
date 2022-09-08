@@ -5,7 +5,7 @@ using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Program;
+namespace MyAppRoot.WebApp.Platform.Services;
 
 public class MigratorHostedService : IHostedService
 {

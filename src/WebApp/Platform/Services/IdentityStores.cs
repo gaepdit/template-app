@@ -6,7 +6,7 @@ using MyAppRoot.Infrastructure.Identity;
 using MyAppRoot.LocalRepository.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Program;
+namespace MyAppRoot.WebApp.Platform.Services;
 
 public static class IdentityStores
 {
