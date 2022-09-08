@@ -7,8 +7,8 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    # ↓ This makes sure the workflow is skipped without any alert. 
-    if: ${{ false }} 
+    # ↓ This makes sure the workflow is skipped without any alert.
+    if: ${{ false }}
     # ↑ TODO: Remove after configuring SonarCloud.
     name: Build
     runs-on: windows-latest
@@ -17,11 +17,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
       - name: Cache SonarCloud packages
@@ -43,6 +43,8 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Add GitHub Packages as NuGet source
+        run: dotnet nuget update source github --username ${{ secrets.GH_NUGET_AUTH_USERNAME }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
