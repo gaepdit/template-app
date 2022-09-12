@@ -3,7 +3,7 @@ using MyAppRoot.TestData.Offices;
 
 namespace MyAppRoot.TestData.Identity;
 
-internal static partial class Data
+internal static partial class IdentityData
 {
     private static readonly List<ApplicationUser> UserSeedItems = new()
     {

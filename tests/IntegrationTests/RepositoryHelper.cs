@@ -3,6 +3,7 @@ using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Repositories;
 using MyAppRoot.TestData.Offices;
+using MyAppRoot.TestData.SeedData;
 using TestSupport.EfHelpers;
 
 namespace IntegrationTests;
@@ -24,16 +25,9 @@ public sealed class RepositoryHelper : IDisposable
 
     public void ClearChangeTracker() => _context.ChangeTracker.Clear();
 
-    private void SeedOfficeData()
-    {
-        if (_context.Offices.Any()) return;
-        _context.Offices.AddRange(OfficeData.GetOffices);
-        _context.SaveChanges();
-    }
-
     public IOfficeRepository GetOfficeRepository()
     {
-        SeedOfficeData();
+        DbSeedDataHelpers.SeedOfficeData(_context);
         DbContext = new AppDbContext(_options);
         return new OfficeRepository(DbContext);
     }

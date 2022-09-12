@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Infrastructure.Contexts;
+using MyAppRoot.TestData.SeedData;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.Settings;
 
@@ -38,7 +39,7 @@ public class MigratorHostedService : IHostedService
 
         if (env.IsLocalEnv() && ApplicationSettings.LocalDevSettings.BuildLocalDb)
         {
-            // TODO: Seed data in LocalDB
+            DbSeedDataHelpers.SeedAllData(context);
         }
 
         // Initialize any new roles.

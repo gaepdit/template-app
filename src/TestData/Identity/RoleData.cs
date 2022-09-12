@@ -3,7 +3,7 @@ using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.TestData.Identity;
 
-internal static partial class Data
+internal static partial class IdentityData
 {
     private static IEnumerable<IdentityRole>? _roles;
 
