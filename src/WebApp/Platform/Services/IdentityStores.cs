@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.StaffServices;
+using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Identity;
@@ -28,5 +29,7 @@ public static class IdentityStores
             // Add Staff App Services
             services.AddTransient<IStaffAppService, StaffAppService>();
         }
+
+        services.AddScoped<IUserService, UserService>();
     }
 }

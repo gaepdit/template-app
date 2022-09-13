@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using MyAppRoot.AppServices.StaffServices;
+using MyAppRoot.AppServices.Staff;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.LocalRepository.Identity;
 

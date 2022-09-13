@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.StaffServices;
-using MyAppRoot.AppServices.UserServices;
+using MyAppRoot.AppServices.Staff;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
 
@@ -16,18 +15,15 @@ namespace MyAppRoot.WebApp.Pages.Account;
 [Authorize]
 public class EditModel : PageModel
 {
-    private readonly IUserService _userService;
     private readonly IStaffAppService _staffService;
     private readonly IOfficeAppService _officeService;
     private readonly IValidator<StaffUpdateDto> _validator;
 
     public EditModel(
-        IUserService userService,
         IStaffAppService staffService,
         IOfficeAppService officeService,
         IValidator<StaffUpdateDto> validator)
     {
-        _userService = userService;
         _staffService = staffService;
         _officeService = officeService;
         _validator = validator;
@@ -42,10 +38,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
-        if (currentUser is null) return Forbid();
-
-        var staff = await _staffService.FindAsync(currentUser.IdAsGuid);
+        var staff = await _staffService.GetCurrentUserAsync();
         if (staff is not { Active: true }) return Forbid();
 
         DisplayStaff = staff;
@@ -57,20 +50,16 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var currentUser = await _userService.GetCurrentUserAsync();
-        if (currentUser is null) return Forbid();
-        if (currentUser.IdAsGuid != UpdateStaff.Id || !UpdateStaff.Active) return BadRequest();
+        var staff = await _staffService.GetCurrentUserAsync();
+        if (staff is not { Active: true }) return Forbid();
+        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active) return BadRequest();
 
         var validationResult = await _validator.ValidateAsync(UpdateStaff);
         if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(UpdateStaff));
 
         if (!ModelState.IsValid)
         {
-            var staff = await _staffService.FindAsync(UpdateStaff.Id);
-            if (staff is not { Active: true }) return Forbid();
-
             DisplayStaff = staff;
-
             await PopulateSelectListsAsync();
             return Page();
         }

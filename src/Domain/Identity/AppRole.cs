@@ -24,6 +24,22 @@ public class AppRole
     /// </summary>
     public static Dictionary<string, AppRole> AllRoles { get; } = new();
 
+    /// <summary>
+    /// Converts a list of role strings to a list of <see cref="AppRole"/> objects.
+    /// </summary>
+    /// <param name="roles">A list of role strings.</param>
+    /// <returns>A list of AppRoles.</returns>
+    public static IList<AppRole> RolesAsAppRoles(IEnumerable<string> roles)
+    {
+        var appRoles = new List<AppRole>();
+
+        foreach (var role in roles)
+            if (AllRoles.TryGetValue(role, out var appRole))
+                appRoles.Add(appRole);
+
+        return appRoles;
+    }
+
     // Roles
     // These are the strings that are stored in the database. Avoid modifying these once set!
 

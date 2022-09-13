@@ -1,5 +1,5 @@
 ﻿using GaEpd.Library.ListItems;
-using MyAppRoot.AppServices.StaffServices;
+using MyAppRoot.AppServices.Staff;
 
 namespace MyAppRoot.AppServices.Offices;
 

@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.Infrastructure.Identity;
 using MyAppRoot.Infrastructure.Repositories;
-using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.WebApp.Platform.Settings;
 
@@ -22,7 +19,6 @@ public static class DataServices
                 opts.UseInMemoryDatabase("TEMP_DB"));
 
             // Uses static data if no database is built.
-            services.AddScoped<IUserService, LocalUserService>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
@@ -31,7 +27,6 @@ public static class DataServices
                 opts.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     x => x.MigrationsAssembly("Infrastructure")));
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }
     }
