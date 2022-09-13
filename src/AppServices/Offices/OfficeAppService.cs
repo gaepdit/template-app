@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GaEpd.Library.ListItems;
-using MyAppRoot.AppServices.StaffServices;
+using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Offices;
 

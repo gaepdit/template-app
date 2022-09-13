@@ -1,5 +1,5 @@
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.StaffServices;
+using MyAppRoot.AppServices.Staff;
 using MyAppRoot.Domain.Entities;
 
 namespace AppServicesTests.AutoMapper;

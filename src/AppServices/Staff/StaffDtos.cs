@@ -2,7 +2,7 @@
 using MyAppRoot.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyAppRoot.AppServices.StaffServices;
+namespace MyAppRoot.AppServices.Staff;
 
 public record StaffSearchDto
 {

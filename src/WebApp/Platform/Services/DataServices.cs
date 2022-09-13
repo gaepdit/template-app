@@ -22,7 +22,6 @@ public static class DataServices
                 opts.UseInMemoryDatabase("TEMP_DB"));
 
             // Uses static data if no database is built.
-            services.AddScoped<IUserService, LocalUserService>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
@@ -31,7 +30,6 @@ public static class DataServices
                 opts.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     x => x.MigrationsAssembly("Infrastructure")));
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }
     }
