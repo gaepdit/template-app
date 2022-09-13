@@ -528,3 +528,6 @@ appsettings.*.json
 
 # Build folders
 .artifacts/
+
+# Note: Remove the next line if you want to check in JetBrains configuration files.
+.idea/
