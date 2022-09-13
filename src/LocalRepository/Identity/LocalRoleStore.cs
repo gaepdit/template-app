@@ -9,13 +9,13 @@ namespace MyAppRoot.LocalRepository.Identity;
 public sealed class LocalRoleStore : IRoleStore<IdentityRole>
 {
     public Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        throw new NotImplementedException("Intentionally left unimplemented.");
 
     public Task<IdentityResult> UpdateAsync(IdentityRole role, CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        throw new NotImplementedException("Intentionally left unimplemented.");
 
     public Task<IdentityResult> DeleteAsync(IdentityRole role, CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        throw new NotImplementedException("Intentionally left unimplemented.");
 
     public Task<string> GetRoleIdAsync(IdentityRole role, CancellationToken cancellationToken) =>
         Task.FromResult(role.Id);
@@ -24,14 +24,14 @@ public sealed class LocalRoleStore : IRoleStore<IdentityRole>
         Task.FromResult(role.Name);
 
     public Task SetRoleNameAsync(IdentityRole role, string roleName, CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        throw new NotImplementedException("Intentionally left unimplemented.");
 
     public Task<string> GetNormalizedRoleNameAsync(IdentityRole role, CancellationToken cancellationToken) =>
         Task.FromResult(role.NormalizedName);
 
     public Task SetNormalizedRoleNameAsync(IdentityRole role, string normalizedName,
         CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        throw new NotImplementedException("Intentionally left unimplemented.");
 
     public Task<IdentityRole> FindByIdAsync(string roleId, CancellationToken cancellationToken) =>
         Task.FromResult(IdentityData.GetIdentityRoles.Single(r => r.Id == roleId));

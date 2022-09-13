@@ -9,28 +9,28 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    protected BaseRepository(AppDbContext dbContext) : base(dbContext) { }
+    protected BaseRepository(AppDbContext context) : base(context) { }
 
     public async Task InsertAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
     {
-        await DbContext.Set<TEntity>().AddAsync(entity, token);
-        if (autoSave) await DbContext.SaveChangesAsync(token);
+        await Context.Set<TEntity>().AddAsync(entity, token);
+        if (autoSave) await Context.SaveChangesAsync(token);
     }
 
     public async Task UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
     {
-        DbContext.Attach(entity);
-        DbContext.Update(entity);
+        Context.Attach(entity);
+        Context.Update(entity);
 
         if (!autoSave) return;
 
         try
         {
-            await DbContext.SaveChangesAsync(token);
+            await Context.SaveChangesAsync(token);
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!await DbContext.Set<TEntity>().AsNoTracking().AnyAsync(e => e.Id.Equals(entity.Id), token))
+            if (!await Context.Set<TEntity>().AsNoTracking().AnyAsync(e => e.Id.Equals(entity.Id), token))
                 throw new EntityNotFoundException(typeof(TEntity), entity.Id);
             throw;
         }
@@ -38,7 +38,7 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
 
     public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
     {
-        DbContext.Set<TEntity>().Remove(entity);
-        if (autoSave) await DbContext.SaveChangesAsync(token);
+        Context.Set<TEntity>().Remove(entity);
+        if (autoSave) await Context.SaveChangesAsync(token);
     }
 }

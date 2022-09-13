@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Domain.Entities.BaseEntities;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Repositories;
-using MyAppRoot.TestData.Offices;
 using MyAppRoot.TestData.SeedData;
 using TestSupport.EfHelpers;
 
@@ -10,7 +10,7 @@ namespace IntegrationTests;
 
 public sealed class RepositoryHelper : IDisposable
 {
-    public AppDbContext DbContext { get; set; } = null!;
+    private AppDbContext Context { get; set; } = null!;
 
     private readonly DbContextOptions<AppDbContext> _options = SqliteInMemory.CreateOptions<AppDbContext>();
     private readonly AppDbContext _context;
@@ -25,12 +25,23 @@ public sealed class RepositoryHelper : IDisposable
 
     public void ClearChangeTracker() => _context.ChangeTracker.Clear();
 
+    public async Task ClearTableAsync<TEntity>() where TEntity : AuditableEntity
+    {
+        _context.RemoveRange(_context.Set<TEntity>());
+        await _context.SaveChangesAsync();
+        ClearChangeTracker();
+    }
+
     public IOfficeRepository GetOfficeRepository()
     {
         DbSeedDataHelpers.SeedOfficeData(_context);
-        DbContext = new AppDbContext(_options);
-        return new OfficeRepository(DbContext);
+        Context = new AppDbContext(_options);
+        return new OfficeRepository(Context);
     }
 
-    public void Dispose() => _context.Dispose();
+    public void Dispose()
+    {
+        _context.Dispose();
+        Context.Dispose();
+    }
 }

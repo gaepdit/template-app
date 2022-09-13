@@ -10,8 +10,7 @@ public class Get
     private IOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() =>
-        _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

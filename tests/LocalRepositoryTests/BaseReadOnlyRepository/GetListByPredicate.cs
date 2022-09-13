@@ -17,13 +17,11 @@ public class GetListByPredicate
     public async Task WhenItemsExist_ReturnsList()
     {
         var item = _repository.Items.First();
-
         var result = await _repository.GetListAsync(e => e.Name == item.Name);
-
         Assert.Multiple(() =>
         {
             result.Count.Should().Be(1);
-            result[0].Should().BeEquivalentTo(item);
+            result.First().Should().BeEquivalentTo(item);
         });
     }
 
