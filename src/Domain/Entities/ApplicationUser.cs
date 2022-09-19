@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyAppRoot.Domain.Entities;
 
@@ -24,6 +24,4 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     public Office? Office { get; set; }
 
     public bool Active { get; set; } = true;
-
-    public Guid IdAsGuid => new(Id);
 }

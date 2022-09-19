@@ -5,19 +5,25 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace MyAppRoot.WebApp.Platform.RazorHelpers;
 
 /// <summary>
-/// <see cref="ITagHelper"/> implementation targeting &lt;label&gt; elements with an <c>asp-for</c> attribute.
+/// <see cref="ITagHelper"/> implementation targeting <c>&lt;label&gt;</c> elements with an <c>asp-for</c> attribute.
 /// </summary>
 [HtmlTargetElement("label", Attributes = ForAttributeName)]
 public class LabelTagHelper : TagHelper
 {
     private const string ForAttributeName = "asp-for";
 
+    private ModelExpression? _model;
+
     /// <summary>
     /// An expression to be evaluated against the current model.
     /// </summary>
     [UsedImplicitly]
     [HtmlAttributeName(ForAttributeName)]
-    public ModelExpression Model { get; set; } = default!;
+    public ModelExpression Model
+    {
+        set => _model = value;
+        get => _model ?? throw new InvalidOperationException("Uninitialized Model.");
+    }
 
     /// <inheritdoc />
     /// <remarks>Adds text indicating the field is required if the property has the RequiredAttribute.</remarks>
