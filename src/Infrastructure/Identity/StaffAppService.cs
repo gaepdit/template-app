@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GaEpd.Library.Domain.Repositories;
+using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.AppServices.Staff;

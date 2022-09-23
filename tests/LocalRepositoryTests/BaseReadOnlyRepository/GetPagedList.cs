@@ -1,4 +1,4 @@
-using GaEpd.Library.Pagination;
+using GaEpd.AppLibrary.Pagination;
 using MyAppRoot.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.BaseReadOnlyRepository;

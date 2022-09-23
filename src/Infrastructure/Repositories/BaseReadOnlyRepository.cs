@@ -1,6 +1,6 @@
-﻿using GaEpd.Library.Domain.Entities;
-using GaEpd.Library.Domain.Repositories;
-using GaEpd.Library.Pagination;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Domain.Repositories;
+using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Infrastructure.Contexts;
 using System.Linq.Expressions;

@@ -1,4 +1,4 @@
-using GaEpd.Library.Domain.Repositories;
+using GaEpd.AppLibrary.Domain.Repositories;
 using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Offices;

@@ -1,4 +1,4 @@
-using GaEpd.Library.Pagination;
+using GaEpd.AppLibrary.Pagination;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.TestData.Offices;
