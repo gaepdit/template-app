@@ -43,16 +43,16 @@ public class AppRole
     // Roles
     // These are the strings that are stored in the database. Avoid modifying these once set!
 
-    public const string Manager = nameof(Manager);
+    public const string SiteMaintenance = nameof(SiteMaintenance);
     public const string UserAdmin = nameof(UserAdmin);
 
     // These static Role objects are used for displaying role information in the UI.
 
-    public static AppRole ManagerRole { get; } = new(
-        Manager, "Manager",
-        "Can manage things."
+    public static AppRole SiteMaintenanceRole { get; } = new(
+        SiteMaintenance, "Site Maintenance",
+        "Can update values in lookup tables (drop-down lists)."
     );
-
+    
     public static AppRole UserAdminRole { get; } = new(
         UserAdmin, "User Account Admin",
         "Can register and edit all users and roles."

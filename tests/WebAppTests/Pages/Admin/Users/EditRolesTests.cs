@@ -44,14 +44,14 @@ public class EditRolesTests
                 Name = r.Key,
                 DisplayName = r.Value.DisplayName,
                 Description = r.Value.Description,
-                IsSelected = r.Key == AppRole.Manager,
+                IsSelected = r.Key == AppRole.SiteMaintenance,
             }).ToList();
 
         var staffService = new Mock<IStaffAppService>();
         staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
             .ReturnsAsync(StaffViewTest);
         staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new List<string> { AppRole.Manager });
+            .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var pageModel = new EditRolesModel(staffService.Object) { TempData = WebAppTestsGlobal.GetPageTempData() };
 
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
@@ -104,7 +104,7 @@ public class EditRolesTests
         staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<Guid>(), It.IsAny<Dictionary<string, bool>>()))
             .ReturnsAsync(IdentityResult.Success);
         staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new List<string> { AppRole.Manager });
+            .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var page = new EditRolesModel(staffService.Object)
             { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
 
@@ -145,7 +145,7 @@ public class EditRolesTests
         staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
             .ReturnsAsync(StaffViewTest);
         staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new List<string> { AppRole.Manager });
+            .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var page = new EditRolesModel(staffService.Object)
             { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
 
