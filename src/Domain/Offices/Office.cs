@@ -1,7 +1,8 @@
-﻿using MyAppRoot.Domain.Entities.BaseEntities;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using MyAppRoot.Domain.Entities.BaseEntities;
+using MyAppRoot.Domain.Identity;
 
-namespace MyAppRoot.Domain.Entities;
+namespace MyAppRoot.Domain.Offices;
 
 public class Office : AuditableEntity
 {

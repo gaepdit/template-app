@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Identity;
+using MyAppRoot.Domain.Offices;
 
 namespace MyAppRoot.AppServices.AutoMapper;
 

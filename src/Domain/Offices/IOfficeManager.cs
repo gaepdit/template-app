@@ -1,4 +1,3 @@
-using MyAppRoot.Domain.Entities;
 using System.Runtime.Serialization;
 
 namespace MyAppRoot.Domain.Offices;

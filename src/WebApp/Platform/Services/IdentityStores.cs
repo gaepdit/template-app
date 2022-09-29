@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Identity;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Identity;
 using MyAppRoot.LocalRepository.ServiceCollectionExtensions;

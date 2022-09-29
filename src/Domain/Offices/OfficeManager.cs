@@ -1,14 +1,10 @@
-﻿using MyAppRoot.Domain.Entities;
-
-namespace MyAppRoot.Domain.Offices;
+﻿namespace MyAppRoot.Domain.Offices;
 
 /// <inheritdoc />
 public class OfficeManager : IOfficeManager
 {
     private readonly IOfficeRepository _repository;
-
-    public OfficeManager(IOfficeRepository repository) =>
-        _repository = repository;
+    public OfficeManager(IOfficeRepository repository) => _repository = repository;
 
     public async Task<Office> CreateAsync(string name, CancellationToken token = default)
     {

@@ -1,4 +1,6 @@
-﻿namespace MyAppRoot.Domain.Entities.BaseEntities;
+namespace MyAppRoot.Domain.Entities.BaseEntities;
+
+// These classes will be moved to GaEpd.AppLibrary in the next release.
 
 // This file contains slightly more specific implementations of AuditableEntity and AuditableSoftDeleteEntity
 // with default data types for Entity and User primary keys.

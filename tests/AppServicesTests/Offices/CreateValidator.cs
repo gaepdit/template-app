@@ -1,6 +1,5 @@
 ﻿using FluentValidation.TestHelper;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 

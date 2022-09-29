@@ -1,4 +1,4 @@
-using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
 

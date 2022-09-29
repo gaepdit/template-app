@@ -1,5 +1,5 @@
-﻿using MyAppRoot.Domain.Entities;
-using FluentValidation;
+﻿using FluentValidation;
+using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.AppServices.Staff;
 

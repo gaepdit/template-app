@@ -1,4 +1,4 @@
-﻿using MyAppRoot.Domain.Entities;
+﻿using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.AppServices.UserServices;
 

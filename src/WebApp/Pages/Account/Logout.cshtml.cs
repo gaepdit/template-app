@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Identity;
 using MyAppRoot.WebApp.Platform.Local;
 
 namespace MyAppRoot.WebApp.Pages.Account;

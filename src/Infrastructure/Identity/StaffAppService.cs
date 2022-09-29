@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;

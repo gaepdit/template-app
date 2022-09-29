@@ -1,5 +1,5 @@
 ﻿using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Entities;
+using MyAppRoot.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyAppRoot.AppServices.Staff;
