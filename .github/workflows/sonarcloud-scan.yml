@@ -7,9 +7,9 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    # ↓ This makes sure the workflow is skipped without any alert.
-    if: ${{ false }}
-    # ↑ TODO: Remove after configuring SonarCloud.
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ true }}
+    # ↑ Change to "true" to enable the workflow.
     name: Build
     runs-on: windows-latest
     steps:
@@ -49,6 +49,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"gaepdit_GITHUB_REPO_NAME" /o:"gaepdit" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"gaepdit_template-app" /o:"gaepdit" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
