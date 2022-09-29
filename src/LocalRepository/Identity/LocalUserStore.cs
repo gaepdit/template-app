@@ -26,7 +26,7 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
         Task.FromResult(user.UserName);
 
     public Task SetUserNameAsync(ApplicationUser user, string userName, CancellationToken cancellationToken) =>
-        throw new NotImplementedException("Intentionally left unimplemented.");
+        Task.CompletedTask; // Intentionally left unimplemented.
 
     public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken) =>
         Task.FromResult(user.NormalizedUserName);
@@ -36,7 +36,7 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
         Task.CompletedTask;
 
     public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken) =>
-        throw new NotImplementedException("Intentionally left unimplemented.");
+        Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
 
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
@@ -47,7 +47,7 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
     }
 
     public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken) =>
-        throw new NotImplementedException("Intentionally left unimplemented.");
+        Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
 
     public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken) =>
         Task.FromResult(Users.Single(u => u.Id == userId));
