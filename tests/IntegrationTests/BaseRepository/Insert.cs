@@ -28,7 +28,7 @@ public class Insert
     {
         var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
-        await _repository.InsertAsync(item, true);
+        await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
         var getResult = await _repository.GetAsync(item.Id);

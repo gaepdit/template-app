@@ -11,13 +11,13 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
 {
     protected BaseRepository(AppDbContext context) : base(context) { }
 
-    public async Task InsertAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
+    public async Task InsertAsync(TEntity entity, bool autoSave = true, CancellationToken token = default)
     {
         await Context.Set<TEntity>().AddAsync(entity, token);
         if (autoSave) await Context.SaveChangesAsync(token);
     }
 
-    public async Task UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
+    public async Task UpdateAsync(TEntity entity, bool autoSave = true, CancellationToken token = default)
     {
         Context.Attach(entity);
         Context.Update(entity);
@@ -36,10 +36,10 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
         }
     }
 
-    public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
+    public async Task DeleteAsync(TEntity entity, bool autoSave = true, CancellationToken token = default)
     {
         Context.Set<TEntity>().Remove(entity);
-        
+
         try
         {
             if (autoSave) await Context.SaveChangesAsync(token);

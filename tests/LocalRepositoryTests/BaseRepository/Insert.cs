@@ -20,7 +20,7 @@ public class Insert
         var initialCount = _repository.Items.Count;
         var newItem = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
-        await _repository.InsertAsync(newItem, true);
+        await _repository.InsertAsync(newItem);
 
         var getResult = await _repository.GetAsync(newItem.Id);
         Assert.Multiple(() =>

@@ -28,7 +28,7 @@ public class Delete
     {
         // Arrange
         var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
-        await _repository.InsertAsync(item, true);
+        await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
         // (Still part of arrange...)
@@ -36,20 +36,20 @@ public class Delete
         getResult.Should().BeEquivalentTo(item);
 
         // Act
-        await _repository.DeleteAsync(item, true);
+        await _repository.DeleteAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
         // Assert
         var result = await _repository.FindAsync(item.Id);
         result.Should().BeNull();
     }
-    
+
     [Test]
     public async Task WhenAutoSaveIsFalse_NothingIsDeleted()
     {
         // Arrange
         var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
-        await _repository.InsertAsync(item, true);
+        await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
         // Act
@@ -59,14 +59,13 @@ public class Delete
         // Assert
         var getResult = await _repository.GetAsync(item.Id);
         getResult.Should().BeEquivalentTo(item);
-
     }
 
     [Test]
     public async Task WhenItemDoesNotExist_Throws()
     {
         var item = new Office(Guid.Empty, TestConstants.ValidName);
-        var action = async () => await _repository.DeleteAsync(item, true);
+        var action = async () => await _repository.DeleteAsync(item);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");
     }

@@ -9,19 +9,19 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
 {
     protected BaseRepository(IEnumerable<TEntity> items) : base(items) { }
 
-    public Task InsertAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
+    public Task InsertAsync(TEntity entity, bool autoSave = true, CancellationToken token = default)
     {
         Items.Add(entity);
         return Task.CompletedTask;
     }
 
-    public async Task UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
+    public async Task UpdateAsync(TEntity entity, bool autoSave = true, CancellationToken token = default)
     {
         var item = await GetAsync(entity.Id, token);
         Items.Remove(item);
         Items.Add(entity);
     }
 
-    public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken token = default) =>
+    public async Task DeleteAsync(TEntity entity, bool autoSave = true, CancellationToken token = default) =>
         Items.Remove(await GetAsync(entity.Id, token));
 }

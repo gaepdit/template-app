@@ -22,7 +22,7 @@ public class Update
         item.ChangeName(TestConstants.ValidName);
         item.Active = !item.Active;
 
-        await _repository.UpdateAsync(item, true);
+        await _repository.UpdateAsync(item);
 
         var getResult = await _repository.GetAsync(item.Id);
         getResult.Should().BeEquivalentTo(item);
@@ -32,7 +32,7 @@ public class Update
     public async Task WhenItemDoesNotExist_Throws()
     {
         var item = new Office(Guid.Empty, TestConstants.ValidName);
-        var action = async () => await _repository.UpdateAsync(item, true);
+        var action = async () => await _repository.UpdateAsync(item);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");
     }

@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using MyAppRoot.Domain.Entities.BaseEntities;
 using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.Domain.Offices;

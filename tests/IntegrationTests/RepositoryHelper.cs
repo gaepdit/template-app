@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Entities.BaseEntities;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Repositories;
