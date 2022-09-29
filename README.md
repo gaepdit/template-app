@@ -12,9 +12,9 @@ Do the following steps to customize the app:
 
 * Rename or search and replace the following terms:
 
-    - *MyAppRoot* - Replace with the root namespace for the app.
-    - *MY_APP_NAME* - Replace with the readable name of the app.
-    - *GITHUB_REPO_NAME* - Replace with the "Repository name" shown on the GitHub repo settings page.
+    - *MyAppRoot* - Search and replace with the root namespace for the app.
+    - *MY_APP_NAME* - Search and replace with the readable display name of the app.
+    - Change the LocalDB database name from `template-local` in the "appsettings.json" and "AppDbContextFactory" files.
     - Replace `gaepdit_template-app` in the "sonarcloud-scan.yml" workflow file with the correct SonarCloud project key.
 
 * Update the "docs/Site map.md" file.
