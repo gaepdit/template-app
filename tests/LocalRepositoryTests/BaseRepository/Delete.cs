@@ -21,7 +21,7 @@ public class Delete
         var initialCount = _repository.Items.Count;
         var item = _repository.Items.First();
 
-        await _repository.DeleteAsync(item);
+        await _repository.DeleteAsync(item, true);
         var result = await _repository.FindAsync(item.Id);
 
         Assert.Multiple(() =>
@@ -35,8 +35,8 @@ public class Delete
     public async Task WhenItemDoesNotExist_Throws()
     {
         var item = new Office(Guid.Empty, TestConstants.ValidName);
-        var action = async () => await _repository.DeleteAsync(item);
+        var action = async () => await _repository.DeleteAsync(item, true);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
-            .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {Guid.Empty}");
+            .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");
     }
 }

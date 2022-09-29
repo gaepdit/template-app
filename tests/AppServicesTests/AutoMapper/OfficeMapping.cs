@@ -1,5 +1,6 @@
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.Domain.Offices;
+using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;
 
@@ -8,7 +9,7 @@ public class OfficeMapping
     [Test]
     public void OfficeViewMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), "Name");
+        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
         var result = AppServicesTestsGlobal.Mapper!.Map<OfficeViewDto>(item);
 
@@ -23,7 +24,7 @@ public class OfficeMapping
     [Test]
     public void OfficeUpdateMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), "Name");
+        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
         var result = AppServicesTestsGlobal.Mapper!.Map<OfficeUpdateDto>(item);
 

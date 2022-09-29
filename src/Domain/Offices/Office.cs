@@ -19,10 +19,7 @@ public class Office : AuditableEntity
     [UsedImplicitly] // Used by ORM.
     private Office() { }
 
-    internal Office(Guid id, string name) : base(id)
-    {
-        SetName(name);
-    }
+    internal Office(Guid id, string name) : base(id) => SetName(name);
 
     internal void ChangeName(string name) => SetName(name);
 

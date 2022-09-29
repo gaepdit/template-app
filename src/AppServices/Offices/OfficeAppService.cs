@@ -45,7 +45,7 @@ public sealed class OfficeAppService : IOfficeAppService
     {
         var office = await _manager.CreateAsync(resource.Name, token);
         office.SetCreator((await _userService.GetCurrentUserAsync())?.Id);
-        await _repository.InsertAsync(office, token: token);
+        await _repository.InsertAsync(office, true, token: token);
         return office.Id;
     }
 

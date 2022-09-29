@@ -38,6 +38,23 @@ public class Update
         getResult.Should().BeEquivalentTo(item);
     }
 
+
+    [Test]
+    public async Task WhenAutoSaveIsFalse_UpdateIsNotCommitted()
+    {
+        var item = OfficeData.GetOffices.First(e => e.Active);
+        var originalItem = new Office(item.Id, item.Name);
+
+        item.ChangeName(TestConstants.ValidName);
+        item.Active = !item.Active;
+
+        await _repository.UpdateAsync(item, false);
+        _repositoryHelper.ClearChangeTracker();
+
+        var getResult = await _repository.GetAsync(item.Id);
+        getResult.Should().BeEquivalentTo(originalItem);
+    }
+
     [Test]
     public async Task WhenItemDoesNotExist_Throws()
     {

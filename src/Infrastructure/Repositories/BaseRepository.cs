@@ -39,6 +39,16 @@ public abstract class BaseRepository<TEntity, TKey> : BaseReadOnlyRepository<TEn
     public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken token = default)
     {
         Context.Set<TEntity>().Remove(entity);
-        if (autoSave) await Context.SaveChangesAsync(token);
+        
+        try
+        {
+            if (autoSave) await Context.SaveChangesAsync(token);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!await Context.Set<TEntity>().AsNoTracking().AnyAsync(e => e.Id.Equals(entity.Id), token))
+                throw new EntityNotFoundException(typeof(TEntity), entity.Id);
+            throw;
+        }
     }
 }
