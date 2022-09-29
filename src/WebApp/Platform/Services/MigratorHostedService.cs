@@ -16,37 +16,47 @@ public class MigratorHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // Create a new scope to retrieve scoped services.
+        // Retrieve scoped services.
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-        // Initialize database if used.
-        if (!env.IsLocalEnv() || ApplicationSettings.LocalDevSettings.BuildLocalDb)
+        // If running on server, update the database.
+        if (!env.IsLocalEnv())
         {
-            if (!env.IsLocalEnv() || ApplicationSettings.LocalDevSettings.UseEfMigrations)
-            {
-                // Run any database migrations.
-                await context.Database.MigrateAsync(cancellationToken);
-            }
-            else
-            {
-                // Delete and re-create the database.
-                await context.Database.EnsureDeletedAsync(cancellationToken);
-                await context.Database.EnsureCreatedAsync(cancellationToken);
-            }
+            // Run database migrations and add any new roles.
+            await context.Database.MigrateAsync(cancellationToken);
+            await AddNewRolesAsync(scope);
+            return;
         }
 
-        if (env.IsLocalEnv() && ApplicationSettings.LocalDevSettings.BuildLocalDb)
+        // If using in-memory data, no further action required.
+        if (!ApplicationSettings.LocalDevSettings.BuildLocalDb) return;
+
+        if (ApplicationSettings.LocalDevSettings.UseEfMigrations)
         {
-            DbSeedDataHelpers.SeedAllData(context);
+            // Run any database migrations if used.
+            await context.Database.MigrateAsync(cancellationToken);
+            await AddNewRolesAsync(scope);
+        }
+        else
+        {
+            // Otherwise, delete and re-create the database.
+            await context.Database.EnsureDeletedAsync(cancellationToken);
+            await context.Database.EnsureCreatedAsync(cancellationToken);
         }
 
-        // Initialize any new roles.
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        foreach (var role in AppRole.AllRoles.Keys)
-            if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
-                await roleManager.CreateAsync(new IdentityRole(role));
+        // Add seed data to database.
+        DbSeedDataHelpers.SeedAllData(context);
+
+        async Task AddNewRolesAsync(IServiceScope serviceScope)
+        {
+            // Initialize any new roles.
+            var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            foreach (var role in AppRole.AllRoles.Keys)
+                if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+        }
     }
 
     // noop

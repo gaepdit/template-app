@@ -19,7 +19,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    public static void SeedIdentityData(AppDbContext context)
+    private static void SeedIdentityData(AppDbContext context)
     {
         if (!context.Roles.Any()) context.Roles.AddRange(IdentityData.GetIdentityRoles);
         if (!context.Users.Any()) context.Users.AddRange(IdentityData.GetUsers);
