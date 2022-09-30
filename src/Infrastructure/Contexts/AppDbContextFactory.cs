@@ -12,7 +12,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     public AppDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=template-local;");
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=template-app;");
         return new AppDbContext(optionsBuilder.Options);
     }
 }

@@ -12,10 +12,12 @@ Do the following steps to customize the app:
 
 * Rename or search and replace the following terms:
 
-    - *MyAppRoot* - Search and replace with the root namespace for the app.
     - *MY_APP_NAME* - Search and replace with the readable display name of the app.
-    - Change the LocalDB database name from `template-local` in the "appsettings.json" and "AppDbContextFactory" files.
-    - Replace `gaepdit_template-app` in the "sonarcloud-scan.yml" workflow file with the correct SonarCloud project key.
+    - `MyAppRoot` - Rename with the root namespace for the app. Also, update the `<RootNamespace>` element in each csproj file.
+    - "template-app" - Search and replace with the repository name. This will affect the following:
+      - The LocalDB database name in the "appsettings.json" and "AppDbContextFactory" files.
+      - The project key in the "sonarcloud-scan.yml" workflow file.
+      - The URLs in the GitHub and SonarCloud badges below.
 
 * Update the "docs/Site map.md" file.
 
@@ -28,20 +30,20 @@ Do the following steps to customize the app:
 
 The following external services can be configured for new applications:
 
-* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication.
-* [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring.
-* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring.
-* [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning.
+* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. (Add configuration settings in the "AzureAd" app settings section.)
+* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. (Add the API key to the "RaygunSettings" app settings section.)
+* [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. (Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges below.)
+* [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. (No app configuration needed.)
 
 
 ## Automated testing badges
 
 The SonarCloud badges require a SonarCloud project to be configured.
 
-[![.NET Test](https://github.com/gaepdit/GITHUB_REPO_NAME/actions/workflows/dotnet.yml/badge.svg)](https://github.com/gaepdit/GITHUB_REPO_NAME/actions/workflows/dotnet.yml)
-[![CodeQL](https://github.com/gaepdit/GITHUB_REPO_NAME/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/GITHUB_REPO_NAME/actions/workflows/codeql-analysis.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_GITHUB_REPO_NAME&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_GITHUB_REPO_NAME&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
+[![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
+[![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
 
 
 ## Background and project requirements
