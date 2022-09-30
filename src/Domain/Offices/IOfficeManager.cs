@@ -9,21 +9,20 @@ public interface IOfficeManager
 {
     /// <summary>
     /// Creates a new <see cref="Office"/>.
-    /// Throws <see cref="OfficeNameAlreadyExistsException"/> if an Office already exists with the given name.
     /// </summary>
     /// <param name="name">The name of the Office to create.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <exception cref="OfficeNameAlreadyExistsException">Thrown if an Office already exists with the given name.</exception>
     /// <returns>The Office that was created.</returns>
     Task<Office> CreateAsync(string name, CancellationToken token = default);
 
     /// <summary>
     /// Changes the name of an <see cref="Office"/>.
-    /// Throws <see cref="OfficeNameAlreadyExistsException"/> if another Office already exists with the
-    /// given name.
     /// </summary>
     /// <param name="office">The Office to modify.</param>
     /// <param name="name">The new name for the Office.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <exception cref="OfficeNameAlreadyExistsException">Thrown if an Office already exists with the given name.</exception>
     Task ChangeNameAsync(Office office, string name, CancellationToken token = default);
 }
 

@@ -77,7 +77,7 @@ app.UseAuthorization();
 
 // Map endpoints.
 app.MapRazorPages();
-// MapControllers is only needed if an API is implemented.
+// MapControllers is only needed if an API is implemented. Delete if unused.
 // app.MapControllers();
 
 // Make it so.
