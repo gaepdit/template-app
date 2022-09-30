@@ -14,6 +14,8 @@ builder.Configuration.GetSection(nameof(ApplicationSettings.LocalDevSettings))
     .Bind(ApplicationSettings.LocalDevSettings);
 builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
     .Bind(ApplicationSettings.RaygunSettings);
+var raygunApiKeySet =
+    !string.IsNullOrEmpty(builder.Configuration[$"{nameof(ApplicationSettings.RaygunSettings)}:ApiKey"]);
 
 // Configure Identity.
 builder.Services.AddIdentityStores(isLocal);
@@ -38,10 +40,13 @@ builder.Services.AddRazorPages();
 if (!isLocal) builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromMinutes(300));
 
 // Configure application monitoring
-builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
-builder.Services.AddRaygun(builder.Configuration,
-    new RaygunMiddlewareSettings { ClientProvider = new RaygunClientProvider() });
-builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
+if (raygunApiKeySet)
+{
+    builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
+    builder.Services.AddRaygun(builder.Configuration,
+        new RaygunMiddlewareSettings { ClientProvider = new RaygunClientProvider() });
+    builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
+}
 
 // Add App and data services.
 builder.Services.AddAppServices();
@@ -64,7 +69,7 @@ else
     // Production or Staging
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    app.UseRaygun();
+    if (raygunApiKeySet) app.UseRaygun();
 }
 
 // Configure the application
