@@ -19,6 +19,6 @@ public static class ApplicationSettings
 
     public class RaygunClientSettings
     {
-        public string ApiKey { get; [UsedImplicitly] init; }
+        public string? ApiKey { get; [UsedImplicitly] init; }
     }
 }

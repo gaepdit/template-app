@@ -15,8 +15,7 @@ builder.Configuration.GetSection(nameof(ApplicationSettings.LocalDevSettings))
     .Bind(ApplicationSettings.LocalDevSettings);
 builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
     .Bind(ApplicationSettings.RaygunSettings);
-var raygunApiKeySet =
-    !string.IsNullOrEmpty(builder.Configuration[$"{nameof(ApplicationSettings.RaygunSettings)}:ApiKey"]);
+var raygunApiKeySet = !string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey);
 
 // Configure Identity.
 builder.Services.AddIdentityStores(isLocal);
