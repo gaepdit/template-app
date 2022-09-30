@@ -25,6 +25,12 @@ public sealed class OfficeAppService : IOfficeAppService
         _userService = userService;
     }
 
+    public async Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default)
+    {
+        var office = await _repository.FindAsync(id, token);
+        return _mapper.Map<OfficeViewDto>(office);
+    }
+
     public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
     {
         var office = await _repository.FindAsync(id, token);

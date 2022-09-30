@@ -5,6 +5,7 @@ namespace MyAppRoot.AppServices.Offices;
 
 public interface IOfficeAppService : IDisposable
 {
+    Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
     Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default);
     Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default);
