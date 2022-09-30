@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.DataProtection;
+using Mindscape.Raygun4Net.AspNetCore;
 using MyAppRoot.AppServices.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Local;
+using MyAppRoot.WebApp.Platform.Raygun;
 using MyAppRoot.WebApp.Platform.Services;
 using MyAppRoot.WebApp.Platform.Settings;
 
@@ -10,6 +12,8 @@ var isLocal = builder.Environment.IsLocalEnv();
 // Bind application settings.
 builder.Configuration.GetSection(nameof(ApplicationSettings.LocalDevSettings))
     .Bind(ApplicationSettings.LocalDevSettings);
+builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
+    .Bind(ApplicationSettings.RaygunSettings);
 
 // Configure Identity.
 builder.Services.AddIdentityStores(isLocal);
@@ -27,10 +31,17 @@ builder.Services.AddAuthorization();
 
 // Configure UI services.
 builder.Services.AddRazorPages();
+
 // Starting value for HSTS max age is five minutes to allow for debugging.
 // For more info on updating HSTS max age value for production, see:
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
 if (!isLocal) builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromMinutes(300));
+
+// Configure application monitoring
+builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
+builder.Services.AddRaygun(builder.Configuration,
+    new RaygunMiddlewareSettings { ClientProvider = new RaygunClientProvider() });
+builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
 
 // Add App and data services.
 builder.Services.AddAppServices();
@@ -53,6 +64,7 @@ else
     // Production or Staging
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseRaygun();
 }
 
 // Configure the application

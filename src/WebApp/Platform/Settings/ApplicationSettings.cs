@@ -13,4 +13,12 @@ public static class ApplicationSettings
         public bool BuildLocalDb { get; [UsedImplicitly] init; }
         public bool UseEfMigrations { get; [UsedImplicitly] init; }
     }
+
+    // Raygun client settings
+    public static RaygunClientSettings RaygunSettings { get; } = new();
+
+    public class RaygunClientSettings
+    {
+        public string ApiKey { get; [UsedImplicitly] init; }
+    }
 }
