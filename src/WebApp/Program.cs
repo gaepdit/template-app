@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
 using MyAppRoot.AppServices.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Local;
@@ -55,6 +56,22 @@ builder.Services.AddDataServices(builder.Configuration, isLocal);
 // Initialize database
 builder.Services.AddHostedService<MigratorHostedService>();
 
+// Add API documentation
+builder.Services.AddMvcCore().AddApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "MY_APP_NAME API",
+        Contact = new OpenApiContact
+        {
+            Name = "MY_APP_NAME Support",
+            Email = builder.Configuration["SupportEmail"],
+        },
+    });
+});
+
 // Build the application
 var app = builder.Build();
 var env = app.Environment;
@@ -80,10 +97,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Configure API documentation
+app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/api-docs/v1/openapi.json", "MY_APP_NAME API v1");
+    c.RoutePrefix = "api-docs";
+    c.DocumentTitle = "MY_APP_NAME API";
+});
+
 // Map endpoints.
 app.MapRazorPages();
-// MapControllers is only needed if an API is implemented. Delete if unused.
-app.MapControllers();
+app.MapControllers(); // This is only needed if an API is implemented. Delete if unused.
 
 // Make it so.
 app.Run();
