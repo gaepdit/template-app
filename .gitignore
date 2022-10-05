@@ -531,3 +531,6 @@ appsettings.*.json
 
 # Note: Remove the next line if you want to check in JetBrains configuration files.
 .idea/
+
+# Code Coverage from reportgenerator
+coveragereport/
