@@ -2,7 +2,17 @@
 
 This repository contains a template for use in creating new web applications.
 
-## Setup
+[![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
+[![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
+
+*[The SonarCloud badges require a SonarCloud project to be configured.]*
+
+
+---
+
+## Template use and setup
 
 Do the following steps to customize the app:
 
@@ -13,11 +23,11 @@ Do the following steps to customize the app:
 * Rename or search and replace the following terms:
 
     - *MY_APP_NAME* - Search and replace with the readable display name of the app.
-    - `MyAppRoot` - Rename with the root namespace for the app. Also, update the `<RootNamespace>` element in each csproj file.
+    - `MyAppRoot` - Rename with the root namespace for the app. Also, update the `<RootNamespace>` element in each csproj file and update the coverlet commands in the "sonarcloud-scan.yml" file.
     - "template-app" - Search and replace with the repository name. This will affect the following:
-      - The LocalDB database name in the "appsettings.json" and "AppDbContextFactory" files.
-      - The project key in the "sonarcloud-scan.yml" workflow file.
-      - The URLs in the GitHub and SonarCloud badges below.
+        - The LocalDB database name in the "appsettings.json" and "AppDbContextFactory" files.
+        - The project key in the "sonarcloud-scan.yml" workflow file.
+        - The URLs in the GitHub and SonarCloud badges above.
 
 * Update the "docs/Site map.md" file.
 
@@ -26,43 +36,35 @@ Do the following steps to customize the app:
 * Put copies of "appsettings.*.json" and "web.config" files in the "app-config" repository.
 
 
-## External developer services
+## External services
 
 The following external services can be configured for new applications:
 
-* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. (Add configuration settings in the "AzureAd" app settings section.)
-* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. (Add the API key to the "RaygunSettings" app settings section.)
-* [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. (Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges below.)
-* [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. (No app configuration needed.)
+* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in app settings.)*
+* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in app settings.)*
+* [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
+* [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
 
 
-## Automated testing badges
-
-The SonarCloud badges require a SonarCloud project to be configured.
-
-[![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
-[![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
-
+---
 
 ## Background and project requirements
 
 TODO
 
 
-# Info for developers
+## Info for developers
 
 This is an ASP.NET 6 web application.
 
 
-## Prerequisites for development
+### Prerequisites for development
 
 + [Visual Studio](https://www.visualstudio.com/vs/) or similar
 + [.NET 6.0 SDK](https://dotnet.microsoft.com/download)
 
 
-## Project organization
+### Project organization
 
 The solution contains the following projects:
 
