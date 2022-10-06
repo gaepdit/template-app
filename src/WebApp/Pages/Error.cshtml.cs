@@ -6,7 +6,9 @@ using System.Diagnostics;
 namespace MyAppRoot.WebApp.Pages;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+#pragma warning disable S4502 // Make sure disabling CSRF protection is safe here. 
 [IgnoreAntiforgeryToken]
+#pragma warning restore S4502 // Make sure disabling CSRF protection is safe here. 
 [AllowAnonymous]
 public class ErrorModel : PageModel
 {
@@ -17,4 +19,5 @@ public class ErrorModel : PageModel
     public ErrorModel(ILogger<ErrorModel> logger) => _logger = logger;
 
     public void OnGet() => RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+    public void OnPost() => RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 }
