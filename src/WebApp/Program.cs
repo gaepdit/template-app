@@ -79,16 +79,17 @@ var app = builder.Build();
 var env = app.Environment;
 
 // Configure the HTTP request pipeline.
-if (env.IsDevelopment() || env.IsLocalEnv())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
+if (env.IsProduction() && env.IsStaging())
 {
     // Production or Staging
     app.UseExceptionHandler("/Error");
     app.UseHsts();
     if (raygunApiKeySet) app.UseRaygun();
+}
+else
+{
+    // Development or Local
+    app.UseDeveloperExceptionPage();
 }
 
 // Configure the application pipeline.
