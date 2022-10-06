@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>MyAppRoot.WebApp</RootNamespace>
+        <AssemblyVersion>2022.10.6</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>
