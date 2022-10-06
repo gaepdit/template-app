@@ -23,7 +23,10 @@ Do the following steps to customize the app:
 * Rename or search and replace the following terms:
 
     - *MY_APP_NAME* - Search and replace with the readable display name of the app.
-    - `MyAppRoot` - Rename with the root namespace for the app. Also, update the `<RootNamespace>` element in each csproj file and update the coverlet commands in the "sonarcloud-scan.yml" file.
+    - `MyAppRoot` - Rename with the root namespace for the app.
+        - Update the `<RootNamespace>` element in each csproj file.
+        - Update the coverlet commands in the "sonarcloud-scan.yml" file.
+        - Update the exclusions in the "finecodecoverage-settings.xml" file.
     - "template-app" - Search and replace with the repository name. This will affect the following:
         - The LocalDB database name in the "appsettings.json" and "AppDbContextFactory" files.
         - The project key in the "sonarcloud-scan.yml" workflow file.
