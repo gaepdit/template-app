@@ -40,7 +40,7 @@ builder.Services.AddRazorPages();
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
 if (!isLocal) builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromMinutes(300));
 
-// Configure application monitoring
+// Configure application monitoring.
 if (raygunApiKeySet)
 {
     builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
@@ -53,10 +53,10 @@ if (raygunApiKeySet)
 builder.Services.AddAppServices();
 builder.Services.AddDataServices(builder.Configuration, isLocal);
 
-// Initialize database
+// Initialize database.
 builder.Services.AddHostedService<MigratorHostedService>();
 
-// Add API documentation
+// Add API documentation.
 builder.Services.AddMvcCore().AddApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -72,7 +72,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Build the application
+// Configure bundling and minification.
+builder.Services.AddWebOptimizer();
+
+// Build the application.
 var app = builder.Build();
 var env = app.Environment;
 
@@ -89,15 +92,16 @@ else
     if (raygunApiKeySet) app.UseRaygun();
 }
 
-// Configure the application
+// Configure the application pipeline.
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
+app.UseWebOptimizer();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Configure API documentation
+// Configure API documentation.
 app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
 app.UseSwaggerUI(c =>
 {

@@ -55,7 +55,8 @@ public class StaffUpdateDto
 {
     public Guid Id { get; init; }
 
-    [StringLength(ApplicationUser.MaxPhoneLength)]
+    [StringLength(ApplicationUser.MaxPhoneLength,
+        ErrorMessage = "The Phone Number must not be longer than {1} characters.")]
     public string? Phone { get; init; }
 
     [Required]
