@@ -1,8 +1,7 @@
 ﻿@using MyAppRoot.WebApp.Platform.Settings
-@inject IConfiguration Configuration
 @inject IHttpContextAccessor ContextAccessor
 @{
-    var apiKey = Configuration[$"{nameof(ApplicationSettings.RaygunSettings)}:ApiKey"];
+    var apiKey = ApplicationSettings.RaygunSettings.ApiKey;
     if (string.IsNullOrEmpty(apiKey)) return;
     var identity = ContextAccessor.HttpContext?.User.Identity;
     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";

@@ -15,8 +15,7 @@ builder.Configuration.GetSection(nameof(ApplicationSettings.LocalDevSettings))
     .Bind(ApplicationSettings.LocalDevSettings);
 builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
     .Bind(ApplicationSettings.RaygunSettings);
-var raygunApiKeySet =
-    !string.IsNullOrEmpty(builder.Configuration[$"{nameof(ApplicationSettings.RaygunSettings)}:ApiKey"]);
+var raygunApiKeySet = !string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey);
 
 // Configure Identity.
 builder.Services.AddIdentityStores(isLocal);
@@ -80,16 +79,17 @@ var app = builder.Build();
 var env = app.Environment;
 
 // Configure the HTTP request pipeline.
-if (env.IsDevelopment() || env.IsLocalEnv())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
+if (env.IsProduction() && env.IsStaging())
 {
     // Production or Staging
     app.UseExceptionHandler("/Error");
     app.UseHsts();
     if (raygunApiKeySet) app.UseRaygun();
+}
+else
+{
+    // Development or Local
+    app.UseDeveloperExceptionPage();
 }
 
 // Configure the application pipeline.

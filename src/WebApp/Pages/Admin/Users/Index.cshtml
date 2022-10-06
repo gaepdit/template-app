@@ -62,8 +62,8 @@
 
     @if (Model.SearchResults is { Count: > 0 })
     {
-        <table class="table table-borderless">
-            <thead class="thead-light">
+        <table class="table" aria-label="User search results">
+            <thead>
             <tr>
                 <th scope="col">@Html.DisplayNameFor(m => m.Filter.Name)</th>
                 <th scope="col">@Html.DisplayNameFor(m => m.Filter.Email)</th>

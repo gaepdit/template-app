@@ -25,7 +25,7 @@
     </p>
 }
 
-<p>
+<p id="table-description">
     The &ldquo;@AppRole.SiteMaintenanceRole.DisplayName&rdquo; role is needed to add or edit @IndexModel.ThisOption.PluralName.
     @if (User.IsInRole(AppRole.SiteMaintenance))
     {
@@ -40,10 +40,12 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" aria-describedby="table-description">
         <thead>
-        <th scope="col">Name</th>
-        <th scope="col">Active</th>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Active</th>
+        </tr>
         </thead>
         <tbody>
         @foreach (var item in Model.Items)
