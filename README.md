@@ -4,11 +4,10 @@ This repository contains a template for use in creating new web applications.
 
 [![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
 [![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_GITHUB_REPO_NAME)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
 
 *[The SonarCloud badges require a SonarCloud project to be configured.]*
-
 
 ---
 
@@ -23,9 +22,11 @@ Do the following steps to customize the app:
 * Rename or search and replace the following terms:
 
     - *MY_APP_NAME* - Search and replace with the readable display name of the app.
-    - `MyAppRoot` - Rename with the root namespace for the app.
+    - `MyAppRoot`:
+        - Rename the root namespace for the app.
         - Update the `<RootNamespace>` element in each csproj file.
-        - Update the coverlet commands in the "sonarcloud-scan.yml" file.
+        - Update the namespace in the "_ViewImports.cshtml" file.
+        - Update the exclusions in the coverlet commands in the "sonarcloud-scan.yml" file.
         - Update the exclusions in the "finecodecoverage-settings.xml" file.
     - "template-app" - Search and replace with the repository name. This will affect the following:
         - The LocalDB database name in the "appsettings.json" and "AppDbContextFactory" files.
@@ -38,16 +39,14 @@ Do the following steps to customize the app:
 
 * Put copies of "appsettings.*.json" and "web.config" files in the "app-config" repository.
 
-
 ## External services
 
 The following external services can be configured for new applications:
 
-* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in app settings.)*
-* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in app settings.)*
+* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
+* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
 * [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
 * [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
-
 
 ---
 
@@ -55,17 +54,14 @@ The following external services can be configured for new applications:
 
 TODO
 
-
 ## Info for developers
 
 This is an ASP.NET 6 web application.
-
 
 ### Prerequisites for development
 
 + [Visual Studio](https://www.visualstudio.com/vs/) or similar
 + [.NET 6.0 SDK](https://dotnet.microsoft.com/download)
-
 
 ### Project organization
 
@@ -78,7 +74,6 @@ The solution contains the following projects:
 * **WebApp** — The front end web application.
 
 There are also corresponding unit test projects for each, plus a **TestData** project containing test data for development and testing.
-
 
 ### Launch profiles
 
