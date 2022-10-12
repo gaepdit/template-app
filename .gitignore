@@ -1,4 +1,4 @@
-### NOTE: Project-specific rules are at the bottom of this file.
+### NOTE: Project-specific rules are at the end of this file.
 
 ### Generic rules ###
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,jetbrains
@@ -538,6 +538,7 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,jetbrains
 
+
 ########################
 ### Project-specific ###
 
@@ -550,11 +551,16 @@ FodyWeavers.xsd
 # Environment settings files
 appsettings.*.json
 
-# Build folders
+## Build artifacts
+# MSBuild
 .artifacts/
-
-# Library files (if managed by Microsoft Library Manager)
+# Library Manager
 **/wwwroot/lib/
+# Webpack
+**/wwwroot/dist/
+
+# SonarLint Rider plugin
+.idea/**/sonarlint-state.xml
 
 # Code coverage report from ReportGenerator
 coveragereport/
