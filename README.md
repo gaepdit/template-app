@@ -37,7 +37,9 @@ Do the following steps to customize the app:
 
 * Change branding colors in "src\WebApp\wwwroot\css\site.css".
 
-* Put copies of "appsettings.*.json" and "web.config" files in the "app-config" repository.
+* Make copies of the settings and config files in the "app-config" repository and update with correct values.
+
+* Create new Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
 
 ## External services
 
