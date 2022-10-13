@@ -105,7 +105,7 @@ app.UseAuthorization();
 app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/api-docs/v1/openapi.json", "MY_APP_NAME API v1");
+    c.SwaggerEndpoint("v1/openapi.json", "MY_APP_NAME API v1");
     c.RoutePrefix = "api-docs";
     c.DocumentTitle = "MY_APP_NAME API";
 });
