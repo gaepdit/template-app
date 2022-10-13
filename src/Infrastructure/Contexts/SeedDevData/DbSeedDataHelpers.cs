@@ -1,8 +1,7 @@
-﻿using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.TestData.Identity;
+﻿using MyAppRoot.TestData.Identity;
 using MyAppRoot.TestData.Offices;
 
-namespace MyAppRoot.TestData.SeedData;
+namespace MyAppRoot.Infrastructure.Contexts.SeedDevData;
 
 public static class DbSeedDataHelpers
 {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.TestData.SeedData;
+using MyAppRoot.Infrastructure.Contexts.SeedDevData;
 using MyAppRoot.WebApp.Platform.Local;
 using MyAppRoot.WebApp.Platform.Settings;
 

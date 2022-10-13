@@ -91,3 +91,62 @@ There are two launch profiles:
 * **WebApp Dev Server** — This profile connects to a remote database server for data and requires an SOG account to log in. *To use this profile, you must add the "appsettings.Development.json" file from the "app-config" repo.*
 
     Most development should be done using the Local profile. The Dev Server profile is only needed when specifically troubleshooting issues with the database server or SOG account.
+
+Here's a visualization of how each launch profile (plus the `BuildLocalDb` setting) configures the application at runtime.
+
+```mermaid
+flowchart LR
+    subgraph SPL["'Local' launch profile"]
+        direction LR
+        D[Domain]
+        T["Test Data (in memory)"]
+        R[Local Repository]
+        A[App Services]
+        W([Web App])
+
+        W --> A
+        A --> D
+        A --> R
+        R --> T
+        T --> D
+    end
+```
+
+```mermaid
+flowchart LR
+    subgraph SPB["'Local' launch profile + 'BuildLocalDb' setting"]
+        direction LR
+        D[Domain]
+        T[Test Data]
+        R[Infrastructure]
+        A[App Services]
+        W([Web App])
+        B[(LocalDB)]
+
+        W --> A
+        A --> D
+        R --> B
+        A --> R
+        T -->|Seed| B
+        B -.-> D
+    end
+```
+
+```mermaid
+flowchart LR
+    subgraph SPD["'Dev Server' launch profile (or Production)"]
+        direction LR
+        D[Domain]
+        R[Infrastructure]
+        A[App Services]
+        W([Web App])
+        B[(DB Server)]
+        Z[[Azure AD]]
+
+        W --> A
+        A --> D
+        A --> R
+        R ==>|VPN| B -.-> D
+        W ==>|SOG| Z
+    end
+```

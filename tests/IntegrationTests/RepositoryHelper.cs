@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
+using MyAppRoot.Infrastructure.Contexts.SeedDevData;
 using MyAppRoot.Infrastructure.Repositories;
-using MyAppRoot.TestData.SeedData;
 using TestSupport.EfHelpers;
 
 namespace IntegrationTests;
