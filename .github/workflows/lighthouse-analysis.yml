@@ -9,40 +9,39 @@ jobs:
   lighthouse-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-    
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
+          dotnet-version: 6.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Build
+        run: dotnet build --no-restore
 
-    - name: Run
-      run: |
-        mkdir -p ${{ github.workspace }}/tmp/artifacts
-        cd src/WebApp
-        dotnet run
+      - name: Run
+        run: |
+          mkdir -p ${{ github.workspace }}/tmp/artifacts
+          cd src/WebApp
+          dotnet run
 
-    - name: Run Lighthouse
-      uses: ../../
-      with:
-        device: all
-        gitAuthor: ${{ github.actor }}
-        gitBranch: ${{ github.ref }}
-        gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
-        maxRetries: 1
-        outputDirectory: ${{ github.workspace }}/tmp/artifacts
-        urls: 'https://localhost:7229/'
-        sha: ${{ github.sha }}
-    - name: Upload artifacts
-      uses: actions/upload-artifact@master
-      with:
-        name: Lighthouse reports
-        path: ${{ github.workspace }}/tmp/artifacts
+      - name: Run Lighthouse
+        uses: ../../
+        with:
+          device: all
+          gitAuthor: ${{ github.actor }}
+          gitBranch: ${{ github.ref }}
+          gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+          maxRetries: 1
+          outputDirectory: ${{ github.workspace }}/tmp/artifacts
+          urls: 'https://localhost:7229/'
+          sha: ${{ github.sha }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: Lighthouse reports
+          path: ${{ github.workspace }}/tmp/artifacts
