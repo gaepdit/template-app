@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: mkdir -p ${{ github.workspace }}/tmp/artifacts
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
     
     - name: Set up .NET
       uses: actions/setup-dotnet@v2
@@ -25,6 +26,7 @@ jobs:
 
     - name: Run
       run: |
+        mkdir -p ${{ github.workspace }}/tmp/artifacts
         cd src/WebApp
         dotnet run
 
