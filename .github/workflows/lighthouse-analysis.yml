@@ -1,47 +1,25 @@
-name: Lighthouse Check
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+name: Test Lighthouse Check
+on: [pull_request]
 
 jobs:
   lighthouse-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Run
-        run: |
-          mkdir -p ${{ github.workspace }}/tmp/artifacts
-          cd src/WebApp
-          dotnet run
-
-      - name: Run Lighthouse
-        uses: ../../
-        with:
-          device: all
-          gitAuthor: ${{ github.actor }}
-          gitBranch: ${{ github.ref }}
-          gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
-          maxRetries: 1
-          outputDirectory: ${{ github.workspace }}/tmp/artifacts
-          urls: 'https://localhost:7229/'
-          sha: ${{ github.sha }}
-      - name: Upload artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: Lighthouse reports
-          path: ${{ github.workspace }}/tmp/artifacts
+    - uses: actions/checkout@master
+    - run: mkdir -p ${{ github.workspace }}/tmp/artifacts
+    - name: Run Lighthouse
+      uses: ./
+      with:
+        device: all
+        gitAuthor: ${{ github.actor }}
+        gitBranch: ${{ github.ref }}
+        gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+        maxRetries: 1
+        outputDirectory: ${{ github.workspace }}/tmp/artifacts
+        urls: 'https://localhost:7229'
+        sha: ${{ github.sha }}
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: Lighthouse reports
+        path: ${{ github.workspace }}/tmp/artifacts
