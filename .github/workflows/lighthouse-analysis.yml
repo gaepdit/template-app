@@ -14,10 +14,10 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Set up Node.js 12.x (npm)
-      uses: actions/setup-node@v1
+    - name: Set up Node.js (npm)
+      uses: actions/setup-node@v3
       with:
-        node-version: 12.x
+        node-version: 16
 
     - name: Restore dependencies
       run: dotnet restore
@@ -29,4 +29,5 @@ jobs:
       run: |
         cd src/WebApp
         npm install -g @lhci/cli@0.8.x
-        lhci autorun
+        lhci healthcheck --fatal
+        lhci autorun --collect.headful
