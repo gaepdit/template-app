@@ -2,33 +2,26 @@ name: Test Lighthouse Check
 on: [pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Run
-        run: |
-          cd src/WebApp
-          dotnet run
-  
   lighthouse-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - run: mkdir -p ${{ github.workspace }}/tmp/artifacts
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Run
+      run: |
+        cd src/WebApp
+        dotnet run
     - name: Run Lighthouse
       uses: ./
       with:
