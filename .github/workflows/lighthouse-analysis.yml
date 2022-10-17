@@ -29,5 +29,4 @@ jobs:
       run: |
         cd src/WebApp
         npm install -g @lhci/cli@0.8.x
-        lhci healthcheck --fatal
-        lhci autorun --collect.headful
+        lhci autorun
