@@ -26,6 +26,8 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Run Lighthouse CI
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
       run: |
         cd src/WebApp
         npm install -g @lhci/cli@0.8.x
