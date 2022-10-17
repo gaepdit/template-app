@@ -28,6 +28,7 @@ jobs:
     - name: Run Lighthouse CI
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
       run: |
         cd src/WebApp
         npm install -g @lhci/cli@0.8.x
