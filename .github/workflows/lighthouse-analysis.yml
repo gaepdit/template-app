@@ -1,16 +1,23 @@
-name: Test Lighthouse Check
-on: [pull_request]
-
+name: Lighthouse Check
+on: 
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 jobs:
   lighthouse-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - run: mkdir -p ${{ github.workspace }}/tmp/artifacts
+    - uses: actions/checkout@v3
     - name: Set up .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+
+    - name: Set up Node.js 12.x (npm)
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -18,23 +25,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Run
+    - name: Run Lighthouse CI
       run: |
         cd src/WebApp
-        dotnet run
-    - name: Run Lighthouse
-      uses: ./
-      with:
-        device: all
-        gitAuthor: ${{ github.actor }}
-        gitBranch: ${{ github.ref }}
-        gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
-        maxRetries: 1
-        outputDirectory: ${{ github.workspace }}/tmp/artifacts
-        urls: 'https://localhost:7229'
-        sha: ${{ github.sha }}
-    - name: Upload artifacts
-      uses: actions/upload-artifact@master
-      with:
-        name: Lighthouse reports
-        path: ${{ github.workspace }}/tmp/artifacts
+        npm install -g @lhci/cli@0.8.x
+        lhci autorun
