@@ -8,6 +8,9 @@ module.exports = {
             "chromeFlags": "--ignore-certificate-errors --no-sandbox"
         },
       },
+      assert: {
+        preset: 'lighthouse:no-pwa',
+      },
       upload: {
         target: 'temporary-public-storage',
       },
