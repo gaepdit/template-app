@@ -33,5 +33,5 @@ jobs:
         cd src/WebApp
         dotnet run &
 
-      - name: Build
-      run: curl https://localhost:7229
+    - name: Curl testing
+    run: curl https://localhost:7229
