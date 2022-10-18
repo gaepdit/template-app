@@ -34,4 +34,4 @@ jobs:
         dotnet run &
 
     - name: Curl testing
-    run: curl https://localhost:7229
+      run: curl https://localhost:7229
