@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Run Lighthouse CI
+    - name: Run Web Server
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
@@ -33,5 +33,14 @@ jobs:
         cd src/WebApp
         dotnet run &
 
-    - name: Curl testing
-      run: curl https://localhost:7229
+    - run: mkdir /tmp/artifacts
+    - name: Run Lighthouse
+      uses: foo-software/lighthouse-check-action@master
+      with:
+        outputDirectory: /tmp/artifacts
+        urls: 'https://localhost:7229'
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: Lighthouse reports
+        path: /tmp/artifacts
