@@ -46,7 +46,7 @@ jobs:
         outputDirectory: /tmp/artifacts # Used to upload artifacts.
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all' # Run LightHouse against "mobile", "desktop", or "all" devices
-        overridesJsonFile: './lighthouse-config.json'
+       
     
     - name: Upload artifacts
       uses: actions/upload-artifact@master
