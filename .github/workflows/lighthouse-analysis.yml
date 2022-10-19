@@ -20,20 +20,17 @@ jobs:
       with:
         node-version: 16
 
-    - name: Restore dependencies
-      run: dotnet restore
-
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build
 
     - name: Run Web Server in the background
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
       run: |
         cd src/WebApp
         dotnet run &
-    - run: mkdir /tmp/artifacts
+
+    - name: Create temporary folder for artifacts storage
+      run: mkdir /tmp/lighthouse-artifacts
+      
     - name: Run Lighthouse
       uses: foo-software/lighthouse-check-action@master
       with:
@@ -42,19 +39,13 @@ jobs:
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all'
         overridesJsonFile: './lighthouse-config.json'
-    
-    - name: Upload artifacts
-      uses: actions/upload-artifact@master
-      with:
-        name: Lighthouse reports
-        path: /tmp/artifacts
 
     # Using a pre-build action to make the action fail if your score is too low. It can be really interesting to track a low score on a commit
     # You can remove this action IF you don't want lighthouse to be a blocking point in your CI
     # This default values so you need to change them by your own criteria
     # Official documentation: https://github.com/foo-software/lighthouse-check-status-action
     - name: Handle Lighthouse Check results
-      uses: ./tmp/artifacts
+      uses: ./
       with:
         lighthouseCheckResults: ${{ steps.lighthouseCheck.outputs.lighthouseCheckResults }}
         minAccessibilityScore: "50"
@@ -62,3 +53,9 @@ jobs:
         minPerformanceScore: "95"
         minProgressiveWebAppScore: "50"
         minSeoScore: "50"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: Lighthouse reports
+        path: /tmp/artifacts
