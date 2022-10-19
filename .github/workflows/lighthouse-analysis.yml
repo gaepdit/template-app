@@ -39,6 +39,7 @@ jobs:
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all'
         overridesJsonFile: './lighthouse-config.json'
+        timeout: "5" # timeout after 5 minutes
 
     # Using a pre-build action to make the action fail if your score is too low. It can be really interesting to track a low score on a commit
     # You can remove this action IF you don't want lighthouse to be a blocking point in your CI
@@ -50,9 +51,7 @@ jobs:
         lighthouseCheckResults: ${{ steps.lighthouseCheck.outputs.lighthouseCheckResults }}
         minAccessibilityScore: "50"
         minBestPracticesScore: "50"
-        minPerformanceScore: "95"
-        minProgressiveWebAppScore: "50"
-        minSeoScore: "50"
+        minPerformanceScore: "50"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@master
