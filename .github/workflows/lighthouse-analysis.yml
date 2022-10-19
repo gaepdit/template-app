@@ -30,12 +30,12 @@ jobs:
 
     - name: Create temporary folder for artifacts storage
       run: mkdir /tmp/lighthouse-artifacts
-      
+
     - name: Run Lighthouse
       uses: foo-software/lighthouse-check-action@master
       with:
         accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
-        outputDirectory: /tmp/artifacts
+        outputDirectory: /tmp/lighthouse-artifacts
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all'
         overridesJsonFile: './lighthouse-config.json'
@@ -58,4 +58,4 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: Lighthouse reports
-        path: /tmp/artifacts
+        path: /tmp/lighthouse-artifacts
