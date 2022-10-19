@@ -19,9 +19,6 @@ jobs:
       with:
         node-version: 16
 
-    - name: Install foo-software Lighthouse
-      run: npm install @foo-software/lighthouse-check
-
     - name: Restore dependencies
       run: dotnet restore
 
@@ -33,6 +30,9 @@ jobs:
         cd src/WebApp
         dotnet run &
 
+    - name: Install foo-software Lighthouse
+      run: npm install @foo-software/lighthouse-check
+      
     - name: Run Lighthouse
       run: |
         lighthouse-check \
