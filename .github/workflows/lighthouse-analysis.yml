@@ -38,11 +38,8 @@ jobs:
       uses: foo-software/lighthouse-check-action@master
       with:
         accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
-        author: ${{ github.actor }}
-        branch: ${{ github.ref }}
         outputDirectory: /tmp/artifacts
         urls: 'https://localhost:7229'
-        sha: ${{ github.sha }}
         emulatedFormFactor: 'all'
         overridesJsonFile: './lighthouse-config.json'
     
