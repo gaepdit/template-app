@@ -32,10 +32,10 @@ jobs:
 
     - name: Install foo-software Lighthouse
       run: npm install @foo-software/lighthouse-check
-      
+
     - name: Run Lighthouse
       run: |
-        lighthouse-check \
+        node ./dist/bin/lighthouse-check.js \
         --urls 'https://localhost:7229' \
         --outputDirectory /tmp/artifacts \
         --emulatedFormFactor all \
