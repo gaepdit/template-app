@@ -41,7 +41,8 @@ jobs:
     - name: Run Lighthouse
       uses: foo-software/lighthouse-check-action@master
       with:
-        prCommentAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+        accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+        prCommentEnabled: true
         outputDirectory: /tmp/artifacts # Used to upload artifacts.
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all' # Run LightHouse against "mobile", "desktop", or "all" devices
