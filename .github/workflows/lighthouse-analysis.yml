@@ -33,6 +33,7 @@ jobs:
 
     - name: Run Lighthouse
       uses: foo-software/lighthouse-check-action@master
+      id: lighthouseCheck
       with:
         accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
         outputDirectory: /tmp/lighthouse-artifacts
