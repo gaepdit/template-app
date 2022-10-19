@@ -1,7 +1,7 @@
 {
     "config": {
       "settings": {
-        "onlyCategories": ["Performance", "Accessibility", "BestPractices"]
+        "onlyCategories": ["performance", "accessibility", "bestpractices"]
       }
     }
 }
