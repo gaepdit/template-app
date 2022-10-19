@@ -19,6 +19,9 @@ jobs:
       with:
         node-version: 16
 
+    - name: Install foo-software Lighthouse
+      run: npm install @foo-software/lighthouse-check
+
     - name: Restore dependencies
       run: dotnet restore
 
@@ -30,18 +33,19 @@ jobs:
         cd src/WebApp
         dotnet run &
 
-    - name: Install foo-software Lighthouse
-      run: npm install @foo-software/lighthouse-check
-
+    - run: mkdir /tmp/artifacts
     - name: Run Lighthouse
-      run: |
-        node ./dist/bin/lighthouse-check.js \
-        --urls 'https://localhost:7229' \
-        --outputDirectory /tmp/artifacts \
-        --emulatedFormFactor all \
-        --isGitHubAction true \
-        --tag lighthouse-check \
-        --prCommentAccessToken "${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}" \
-        --prCommentEnabled \
-        --prCommentUrl "https://api.github.com/repos/foo-software/lighthouse-check/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews" \
-        --overridesJsonFile "./lighthouse-config.json"
+      uses: foo-software/lighthouse-check-action@master
+      with:
+        prCommentAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+        prCommentUrl: "https://api.github.com/repos/gaepdit/template-app/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews"
+        outputDirectory: /tmp/artifacts
+        urls: 'https://localhost:7229'
+        emulatedFormFactor: 'all'
+        overridesJsonFile: './lighthouse-config.json'
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: Lighthouse reports
+        path: /tmp/artifacts
