@@ -1,0 +1,12 @@
+{
+    "config": {
+      "settings": {
+        "onlyCategories": ["performance", "accessibility"]
+      }
+    },
+    "options": {
+      "chromeFlags": [
+        "--ignore-certificate-errors"
+      ]
+    }
+  }

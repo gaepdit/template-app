@@ -44,6 +44,7 @@ jobs:
         urls: 'https://localhost:7229'
         sha: ${{ github.sha }}
         emulatedFormFactor: 'all'
+        overridesJsonFile: './lighthouse-config.json'
     
     - name: Upload artifacts
       uses: actions/upload-artifact@master
