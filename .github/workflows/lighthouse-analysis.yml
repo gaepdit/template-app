@@ -29,6 +29,10 @@ jobs:
         cd src/WebApp
         dotnet run &
 
+    - name: Installing Lighthouse through NPM
+      run: |
+        ls
+
     - name: Create temporary folder for artifacts storage
       run: mkdir /tmp/lighthouse-artifacts
 
