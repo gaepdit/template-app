@@ -36,7 +36,7 @@ jobs:
       uses: foo-software/lighthouse-check-action@v9.0.0
       id: lighthouseCheck
       with:
-        accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+        gitHubAccessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
         outputDirectory: /tmp/lighthouse-artifacts
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all'
