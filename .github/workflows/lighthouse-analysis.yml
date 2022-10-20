@@ -35,6 +35,6 @@ jobs:
       
     - name: Run Lighthouse Check
       run: |
-        lighthouse-check --v
+        lighthouse-check --version
 
     
