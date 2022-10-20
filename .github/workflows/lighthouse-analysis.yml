@@ -39,8 +39,19 @@ jobs:
         --verbose \
         --prCommentEnabled \
         --emulatedFormFactor "all" \
-        --urls "https://www.foo.software,https://www.automated-lighthouse-check.com/" \
         --prCommentAccessToken "${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}" \
-        --prCommentUrl "https://api.github.com/repos/foo-software/lighthouse-check/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews"
+        --prCommentUrl "https://api.github.com/repos/gaepdit/template-app/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews" \
+        --timeout "5" \
+        --overridesJsonFile: ".github/workflows/lighthouse-config.json" \
+        --urls "https://localhost:7229" \
+        --outputDirectory /tmp/artifacts
+
+    - name: Handle Lighthouse Check results
+      run: |
+        lighthouse-check-status --outputDirectory /tmp/artifacts \
+        --minAccessibilityScore 40 \
+        --minBestPracticesScore 40 \
+        --minPerformanceScore 40 \
+        --minSeoScore 40
 
     
