@@ -1,4 +1,4 @@
-name: Build and scan with SonarCloud
+name: Scan with SonarCloud
 on:
   push:
     branches:
@@ -8,8 +8,9 @@ on:
 jobs:
   build:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ true }}
+    if: ${{ false }}
     # ↑ Change to "true" to enable the workflow.
+
     name: Build
     runs-on: windows-latest
     steps:
