@@ -40,7 +40,7 @@ jobs:
         outputDirectory: /tmp/lighthouse-artifacts
         urls: 'https://localhost:7229'
         emulatedFormFactor: 'all'
-        overridesJsonFile: '.lighthouse/lighthouse-config.json'
+        overridesJsonFile: '.github/workflows/.lighthouse/lighthouse-config.json'
         timeout: "5" # timeout after 5 minutes
 
     # Using a pre-build action to make the action fail if your score is too low. It can be really interesting to track a low score on a commit
