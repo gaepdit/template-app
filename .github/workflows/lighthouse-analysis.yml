@@ -31,7 +31,7 @@ jobs:
 
     - name: Installing Lighthouse through NPM
       run: |
-        npm install @foo-software/lighthouse-check
+        npm install -g @foo-software/lighthouse-check
       
     - name: Run Lighthouse Check
       run: |
