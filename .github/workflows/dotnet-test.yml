@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ false }}
+    if: ${{ true }}
     # ↑ Change to "true" (or delete) to enable the workflow.
 
 #    if: github.event.pull_request.draft == false

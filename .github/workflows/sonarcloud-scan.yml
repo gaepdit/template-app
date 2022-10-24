@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ false }}
+    if: ${{ true }}
     # ↑ Change to "true" to enable the workflow.
 
     name: Build
