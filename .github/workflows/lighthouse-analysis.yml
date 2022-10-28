@@ -1,13 +1,15 @@
-
 name: Lighthouse Check
+
 on: 
-  push:
-    branches: ["main"]
   pull_request:
-    branches: ["main"]
-  workflow_dispatch:
+
 jobs:
-  lighthouse-check:
+  lighthouse-analysis:
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ true }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
+    name: Analyze with Lighthouse
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
