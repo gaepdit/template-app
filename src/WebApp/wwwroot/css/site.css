@@ -1,3 +1,17 @@
+/* Branding colors
+-------------------------------------------------- */
+.bg-brand {
+    background-color: #671010;
+}
+
+.bg-brand a {
+    color: #ffd5d5;
+}
+
+.bg-brand a:hover, .bg-brand a:focus {
+    color: #ffb6b6;
+}
+
 /* Adjust font sizing
 -------------------------------------------------- */
 html {
@@ -22,7 +36,7 @@ a {
     border-color: #1861ac;
 }
 
-.text-warning{
+.text-warning {
     color: rgb(150, 113, 0) !important;
 }
 
@@ -143,27 +157,12 @@ a:focus:not(.btn) {
     background-color: #343a40;
 }
 
-/* Branding
+/* Header and nav bar
 -------------------------------------------------- */
-.bg-brand {
-    background-color: #671010;
-}
-
-.bg-brand a {
-    color: #ffd5d5;
-}
-
-.bg-brand a:hover, .bg-brand a:focus {
-    color: #ffb6b6;
-}
-
-/* Header logo */
 .img-logo {
     height: 60px;
 }
 
-/* Nav bar text
--------------------------------------------------- */
 .nav-link:hover, .nav-link:focus {
     text-decoration: underline;
 }
