@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentAssertions.Execution;
+using Microsoft.AspNetCore.Mvc;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Api;
@@ -34,13 +35,13 @@ public class OfficeApiTests
 
         var response = await apiController.GetOfficeAsync(Guid.Empty);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             response.Result.Should().BeOfType<OkObjectResult>();
             var result = response.Result as OkObjectResult;
             result.Should().NotBeNull();
             result?.Value.Should().Be(item);
-        });
+        }
     }
 
     [Test]
@@ -53,11 +54,11 @@ public class OfficeApiTests
 
         var response = await apiController.GetOfficeAsync(Guid.Empty);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             response.Result.Should().BeOfType<ObjectResult>();
             var result = response.Result as ObjectResult;
             result?.StatusCode.Should().Be(404);
-        });
+        }
     }
 }
