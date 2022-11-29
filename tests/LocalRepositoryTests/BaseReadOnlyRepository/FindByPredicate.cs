@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
 
@@ -19,6 +20,23 @@ public class FindByPredicate
         var item = _repository.Items.First();
         var result = await _repository.FindAsync(e => e.Name == item.Name);
         result.Should().BeEquivalentTo(item);
+    }
+
+    [Test]
+    public async Task LocalRepositoryIsCaseSensitive()
+    {
+        var item = _repository.Items.First();
+
+        var resultIgnoreCase = await _repository.FindAsync(e =>
+            e.Name.Equals(item.Name.ToLower(), StringComparison.CurrentCultureIgnoreCase));
+        var resultCaseSensitive = await _repository.FindAsync(e =>
+            e.Name.Equals(item.Name.ToLower(), StringComparison.CurrentCulture));
+
+        using (new AssertionScope())
+        {
+            resultIgnoreCase.Should().BeEquivalentTo(item);
+            resultCaseSensitive.Should().BeNull();
+        }
     }
 
     [Test]

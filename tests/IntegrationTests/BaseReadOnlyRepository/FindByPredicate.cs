@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.TestData.Offices;
@@ -20,6 +21,23 @@ public class FindByPredicate
         var item = OfficeData.GetOffices.First(e => e.Active);
         var result = await _repository.FindAsync(e => e.Name == item.Name);
         result.Should().BeEquivalentTo(item);
+    }
+
+    [Test]
+    public async Task SqliteDatabaseIsCaseSensitive()
+    {
+        var item = OfficeData.GetOffices.First(e => e.Active);
+
+        var resultIgnoreCase = await _repository.FindAsync(e =>
+            e.Name.ToLower().Equals(item.Name.ToLower()));
+        var resultCaseSensitive = await _repository.FindAsync(e =>
+            e.Name.Equals(item.Name.ToLower()));
+
+        using (new AssertionScope())
+        {
+            resultIgnoreCase.Should().BeEquivalentTo(item);
+            resultCaseSensitive.Should().BeNull();
+        }
     }
 
     [Test]
