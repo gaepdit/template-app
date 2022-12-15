@@ -27,7 +27,7 @@ public class OfficeApiTests
     [Test]
     public async Task GetOffice_ReturnsOfficeView()
     {
-        var item = new OfficeViewDto { Id = Guid.Empty, Name = TestConstants.ValidName };
+        var item = Mock.Of<OfficeViewDto>();
         var service = new Mock<IOfficeAppService>();
         service.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
             .ReturnsAsync(item);

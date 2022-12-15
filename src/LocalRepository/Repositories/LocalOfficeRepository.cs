@@ -1,6 +1,6 @@
 ﻿using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Offices;
+using MyAppRoot.TestData;
 
 namespace MyAppRoot.LocalRepository.Repositories;
 

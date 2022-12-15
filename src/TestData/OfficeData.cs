@@ -1,6 +1,6 @@
 ﻿using MyAppRoot.Domain.Offices;
 
-namespace MyAppRoot.TestData.Offices;
+namespace MyAppRoot.TestData;
 
 internal static class OfficeData
 {

@@ -1,5 +1,5 @@
-﻿using MyAppRoot.TestData.Identity;
-using MyAppRoot.TestData.Offices;
+﻿using MyAppRoot.TestData;
+using MyAppRoot.TestData.Identity;
 
 namespace MyAppRoot.Infrastructure.Contexts.SeedDevData;
 

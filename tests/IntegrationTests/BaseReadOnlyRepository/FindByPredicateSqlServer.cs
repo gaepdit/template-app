@@ -1,4 +1,4 @@
-using MyAppRoot.TestData.Offices;
+using MyAppRoot.TestData;
 
 namespace IntegrationTests.BaseReadOnlyRepository;
 
