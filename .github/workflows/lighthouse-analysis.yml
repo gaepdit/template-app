@@ -54,9 +54,9 @@ jobs:
     - name: Handle Lighthouse Check results
       run: |
         lighthouse-check-status --outputDirectory /tmp/lighthouse-artifacts \
-        --minAccessibilityScore 40 \
-        --minBestPracticesScore 40 \
-        --minPerformanceScore 40 \
-        --minSeoScore 40
+        --minAccessibilityScore 10 \
+        --minBestPracticesScore 10 \
+        --minPerformanceScore 10 \
+        --minSeoScore 10
 
     
