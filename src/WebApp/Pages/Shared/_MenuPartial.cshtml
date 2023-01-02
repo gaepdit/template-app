@@ -11,15 +11,6 @@
                     <a class="nav-link text-white" asp-page="/Index">Home</a>
                 </li>
             </ul>
-            <!-- LIGHT SWITCH -->
-            <div class="col-md-4 text-center">
-                <div class="w-100 d-flex justify-content-center">
-                    <div class="checkbox">
-                        <input type="checkbox" id="lightSwitch" style="display:none"/>
-                        <label for="lightSwitch" class="light-switch-label"><span></span></label>
-                    </div>
-                </div>
-            </div>
             <ul class="navbar-nav">
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
@@ -36,13 +27,34 @@
                             </form>
                         </div>
                     </li>
-
+                    <!-- LIGHT SWITCH -->
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <div class="w-100 d-flex justify-content-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="lightSwitch" style="display:none"/>
+                                    <label for="lightSwitch" class="light-switch-label"><span></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
                 else
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Account/Login">Sign in</a>
                     </li>
+                    <!-- LIGHT SWITCH -->
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <div class="w-100 d-flex justify-content-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="lightSwitch" style="display:none"/>
+                                    <label for="lightSwitch" class="light-switch-label"><span></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </ul>
         </div>
