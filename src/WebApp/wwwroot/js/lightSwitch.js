@@ -9,15 +9,16 @@
   }
 
   /**
-   * @function darkmode
-   * @summary: changes the theme to 'dark mode' and save settings to local stroage.
+   * @function darkMode
+   * @summary: changes the theme to 'dark mode' and save settings to local storage.
    * Basically, replaces/toggles every CSS class that has '-light' class with '-dark'
    */
   function darkMode() {
     document.querySelectorAll('.bg-light').forEach((element) => {
+      console.log(element.className)
       element.className = element.className.replace(/-light/g, '-dark');
     });
-
+    
     document.body.classList.add('bg-dark');
 
     if (document.body.classList.contains('text-dark')) {
@@ -37,12 +38,12 @@
     if (!lightSwitch.checked) {
       lightSwitch.checked = true;
     }
-    localStorage.setItem('lightSwitch', 'dark');
+    localStorage.setItem('theme', 'dark');
   }
 
   /**
    * @function lightmode
-   * @summary: changes the theme to 'light mode' and save settings to local stroage.
+   * @summary: changes the theme to 'light mode' and save settings to local storage.
    */
   function lightMode() {
     document.querySelectorAll('.bg-dark').forEach((element) => {
@@ -68,7 +69,7 @@
     if (lightSwitch.checked) {
       lightSwitch.checked = false;
     }
-    localStorage.setItem('lightSwitch', 'light');
+    localStorage.setItem('theme', 'light');
   }
 
   /**
@@ -78,34 +79,65 @@
   function onToggleMode() {
     if (lightSwitch.checked) {
       darkMode();
+      document.documentElement.setAttribute('data-bs-theme', 'dark')
     } else {
       lightMode();
+      document.documentElement.setAttribute('data-bs-theme', 'light')
     }
   }
 
   /**
-   * @function getSystemDefaultTheme
+   * @function getTheme
    * @summary: get system default theme by media query
    */
-  function getSystemDefaultTheme() {
-    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
-    if (darkThemeMq.matches) {
-      return 'dark';
+  function getTheme() {
+    const storedTheme = localStorage.getItem('theme')
+    if (storedTheme) {
+      return storedTheme
     }
-    return 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 
-  function setup() {
-    var settings = localStorage.getItem('lightSwitch');
-    if (settings == null) {
-      settings = getSystemDefaultTheme();
-    }
+  const showActiveTheme = theme => {
+    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+    const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
 
-    if (settings == 'dark') {
+    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+      element.classList.remove('active')
+    })
+
+    btnToActive.classList.add('active')
+    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+  }
+  
+  function setup() {
+    let settings = localStorage.getItem('theme');
+    if (settings == null) {
+      settings = getTheme();
+    }
+    console.log(settings)
+    if (settings === 'dark') {
       lightSwitch.checked = true;
     }
 
     lightSwitch.addEventListener('change', onToggleMode);
+    
+    // Change the default theme on launch of page
+    window.addEventListener('DOMContentLoaded', () => {
+      onToggleMode()
+
+      document.querySelectorAll('[data-bs-theme-value]')
+          .forEach(toggle => {
+            toggle.addEventListener('click', () => {
+              const theme = toggle.getAttribute('data-bs-theme-value')
+              localStorage.setItem('theme', theme)
+              document.documentElement.setAttribute('data-bs-theme', theme)
+              showActiveTheme(theme)
+            })
+          })
+    })
+    
     onToggleMode();
   }
 
