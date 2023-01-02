@@ -15,16 +15,18 @@
    */
   function darkMode() {
     document.querySelectorAll('.bg-light').forEach((element) => {
-      console.log(element.className)
       element.className = element.className.replace(/-light/g, '-dark');
     });
     
     document.body.classList.add('bg-dark');
+    // flip the color of text in the body
+    document.body.classList.remove('text-dark');
+    document.body.classList.add('text-light');
 
-    if (document.body.classList.contains('text-dark')) {
-      document.body.classList.replace('text-dark', 'text-light');
-    } else {
-      document.body.classList.add('text-light');
+    // iterate through all elements that have dropdown-item
+    for (const element of document.getElementsByClassName("dropdown-item")) {
+      element.classList.remove('text-dark');
+      element.classList.add('text-light');
     }
 
     // Tables
@@ -51,11 +53,14 @@
     });
 
     document.body.classList.add('bg-light');
-
-    if (document.body.classList.contains('text-light')) {
-      document.body.classList.replace('text-light', 'text-dark');
-    } else {
-      document.body.classList.add('text-dark');
+    // flip the color of text in the body
+    document.body.classList.remove('text-light');
+    document.body.classList.add('text-dark');
+    
+    // iterate through all elements that have dropdown-item
+    for (const element of document.getElementsByClassName("dropdown-item")) {
+      element.classList.remove('text-light');
+      element.classList.add('text-dark');
     }
 
     // Tables
@@ -116,7 +121,6 @@
     if (settings == null) {
       settings = getTheme();
     }
-    console.log(settings)
     if (settings === 'dark') {
       lightSwitch.checked = true;
     }
@@ -128,14 +132,14 @@
       onToggleMode()
 
       document.querySelectorAll('[data-bs-theme-value]')
-          .forEach(toggle => {
-            toggle.addEventListener('click', () => {
-              const theme = toggle.getAttribute('data-bs-theme-value')
-              localStorage.setItem('theme', theme)
-              document.documentElement.setAttribute('data-bs-theme', theme)
-              showActiveTheme(theme)
-            })
+        .forEach(toggle => {
+          toggle.addEventListener('click', () => {
+            const theme = toggle.getAttribute('data-bs-theme-value')
+            localStorage.setItem('theme', theme)
+            document.documentElement.setAttribute('data-bs-theme', theme)
+            showActiveTheme(theme)
           })
+        })
     })
     
     onToggleMode();
