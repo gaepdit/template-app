@@ -298,7 +298,7 @@ a[target]::after {
 }
 
 .light-switch-label span:before {
-    font-family: "Font Awesome 5 Brands","Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Brands","Font Awesome 5 Free", sans-serif;
     content: '\f186';
     font-weight: 900;
     position: absolute;
@@ -339,7 +339,7 @@ a[target]::after {
     -webkit-transition: all .4s ease;
     -o-transition: all .4s ease;
     transition: all .4s ease;
-    font-family: "Font Awesome 5 Brands","Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Brands","Font Awesome 5 Free", sans-serif;
     content: '\f185';
     font-weight: 900;
     background: #f1bc31;

@@ -27,10 +27,8 @@
     }
 
     // Tables
-    const tables = document.querySelectorAll('table');
-    for (let i = 0; i < tables.length; i++) {
-      // add table-dark class to each table
-      tables[i].classList.add('table-dark');
+    for (let table of document.querySelectorAll('table')) {
+      table.classList.add('table-dark');
     }
 
     // set light switch input to dark
@@ -62,10 +60,9 @@
     }
 
     // Tables
-    var tables = document.querySelectorAll('table');
-    for (var i = 0; i < tables.length; i++) {
-      if (tables[i].classList.contains('table-dark')) {
-        tables[i].classList.remove('table-dark');
+    for (let table of document.querySelectorAll('table')) {
+      if (table.classList.contains('table-dark')) {
+        table.classList.remove('table-dark');
       }
     }
 
