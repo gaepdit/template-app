@@ -33,9 +33,9 @@
       tables[i].classList.add('table-dark');
     }
 
-    // set light switch input to true
-    if (!lightSwitch.checked) {
-      lightSwitch.checked = true;
+    // set light switch input to dark
+    if (lightSwitch.checked) {
+      lightSwitch.checked = false;
     }
     localStorage.setItem('theme', 'dark');
   }
@@ -69,8 +69,9 @@
       }
     }
 
-    if (lightSwitch.checked) {
-      lightSwitch.checked = false;
+    // set light switch input to light
+    if (!lightSwitch.checked) {
+      lightSwitch.checked = true;
     }
     localStorage.setItem('theme', 'light');
   }
@@ -80,7 +81,7 @@
    * @summary: calling @darkMode or @lightMode depending on the checked state.
    */
   function setTheme() {
-    if (lightSwitch.checked) {
+    if (!lightSwitch.checked) {
       darkMode();
       document.documentElement.setAttribute('data-bs-theme', 'dark')
     } else {
@@ -126,7 +127,7 @@
     if (settings == null) {
       settings = getTheme();
     }
-    if (settings === 'dark') {
+    if (settings === 'light') {
       lightSwitch.checked = true;
     }
 
