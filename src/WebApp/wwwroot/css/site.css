@@ -247,6 +247,6 @@ a[target]::after {
     }
 
     .banner-test-site::after {
-        content: "—Not for public distribution";
+        content: "— Not for public distribution";
     }
 }
