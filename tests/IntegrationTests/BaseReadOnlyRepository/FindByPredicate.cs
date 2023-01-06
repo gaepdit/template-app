@@ -24,26 +24,29 @@ public class FindByPredicate
     }
 
     [Test]
-    public async Task SqliteDatabaseIsCaseSensitive()
-    {
-        var item = OfficeData.GetOffices.First(e => e.Active);
-
-        var resultIgnoreCase = await _repository.FindAsync(e =>
-            e.Name.ToLower().Equals(item.Name.ToLower()));
-        var resultCaseSensitive = await _repository.FindAsync(e =>
-            e.Name.Equals(item.Name.ToLower()));
-
-        using (new AssertionScope())
-        {
-            resultIgnoreCase.Should().BeEquivalentTo(item);
-            resultCaseSensitive.Should().BeNull();
-        }
-    }
-
-    [Test]
     public async Task WhenDoesNotExist_ReturnsNull()
     {
         var result = await _repository.FindAsync(e => e.Name == TestConstants.NonExistentName);
         result.Should().BeNull();
+    }
+
+    [Test]
+    public async Task SqliteDatabaseIsCaseSensitive()
+    {
+        var item = OfficeData.GetOffices.First(e => e.Active);
+
+        // Test using a predicate that compares uppercase names.
+        var resultSameCase = await _repository.FindAsync(e =>
+            e.Name.ToUpper().Equals(item.Name.ToUpper()));
+
+        // Test using a predicate that compares an uppercase name to a lowercase name.
+        var resultDifferentCase = await _repository.FindAsync(e =>
+            e.Name.ToUpper().Equals(item.Name.ToLower()));
+
+        using (new AssertionScope())
+        {
+            resultSameCase.Should().BeEquivalentTo(item);
+            resultDifferentCase.Should().BeNull();
+        }
     }
 }

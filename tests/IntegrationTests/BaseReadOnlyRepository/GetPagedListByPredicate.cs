@@ -38,7 +38,7 @@ public class GetPagedListByPredicate
         var item = OfficeData.GetOffices.First();
         var paging = new PaginatedRequest(1, itemsCount);
 
-        var result = await _repository.GetPagedListAsync(e => e.Name == item.Name, paging);
+        var result = await _repository.GetPagedListAsync(e => e.Id == item.Id, paging);
 
         using (new AssertionScope())
         {
