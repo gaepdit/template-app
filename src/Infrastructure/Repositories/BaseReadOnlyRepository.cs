@@ -1,4 +1,4 @@
-using GaEpd.AppLibrary.Domain.Entities;
+﻿using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
@@ -42,12 +42,14 @@ public abstract class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepositor
         PaginatedRequest paging,
         CancellationToken token = default) =>
         await Context.Set<TEntity>().AsNoTracking().Where(predicate)
+            .OrderByIf(paging.Sorting)
             .Skip(paging.Skip).Take(paging.Take).ToListAsync(token);
 
     public async Task<IReadOnlyCollection<TEntity>> GetPagedListAsync(
         PaginatedRequest paging,
         CancellationToken token = default) =>
         await Context.Set<TEntity>().AsNoTracking()
+            .OrderByIf(paging.Sorting)
             .Skip(paging.Skip).Take(paging.Take).ToListAsync(token);
 
     public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default) =>
