@@ -1,4 +1,4 @@
-﻿using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +50,8 @@ public abstract class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepositor
         await Context.Set<TEntity>().AsNoTracking()
             .Skip(paging.Skip).Take(paging.Take).ToListAsync(token);
 
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default) =>
+        Context.Set<TEntity>().AsNoTracking().CountAsync(predicate, token);
 
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
