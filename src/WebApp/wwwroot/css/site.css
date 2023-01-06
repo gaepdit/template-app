@@ -155,6 +155,12 @@ a[target]::after {
     padding: 1px 0;
 }
 
+:target {
+    /* Prevent banner from covering up link target elements. 
+       See: https://www.bram.us/2020/03/01/prevent-content-from-being-hidden-underneath-a-fixed-header-by-using-scroll-margin-top/ */
+    scroll-margin-top: 1.5rem;
+}
+
 /* Print styles
 -------------------------------------------------- */
 @media print {
@@ -179,4 +185,11 @@ a[target]::after {
 
 *:hover > .anchorjs-link {
     margin-left: -1.125em !important;
+}
+
+.anchorjs-link:focus {
+    /* See https://github.com/bryanbraun/anchorjs/pull/192 */
+    margin-left: -1.375em !important;
+    padding-left: .25em;
+    padding-right: .25em !important;
 }
