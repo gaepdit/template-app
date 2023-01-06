@@ -33,7 +33,8 @@ public class UserMapping
             result.Phone.Should().Be(_item.Phone);
             result.Office.Should().BeEquivalentTo(_item.Office);
             result.Active.Should().BeTrue();
-        }}
+        }
+    }
 
     [Test]
     public void StaffViewReverseMappingWorks()
