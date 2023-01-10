@@ -99,7 +99,7 @@ public sealed class RepositoryHelper : IDisposable
     /// Stops tracking all currently tracked entities.
     /// See https://github.com/JonPSmith/EfCore.TestSupport/wiki/Using-SQLite-in-memory-databases#1-best-approach-one-instance-and-use-changetrackerclear
     /// </summary>
-    public void ClearChangeTracker() => _context.ChangeTracker.Clear();
+    public void ClearChangeTracker() => Context.ChangeTracker.Clear();
 
     /// <summary>
     /// Deletes all data from the EF database table for the specified entity.
@@ -107,8 +107,8 @@ public sealed class RepositoryHelper : IDisposable
     /// <typeparam name="TEntity">The entity whose data is to be deleted.</typeparam>
     public async Task ClearTableAsync<TEntity>() where TEntity : AuditableEntity
     {
-        _context.RemoveRange(_context.Set<TEntity>());
-        await _context.SaveChangesAsync();
+        Context.RemoveRange(Context.Set<TEntity>());
+        await Context.SaveChangesAsync();
         ClearChangeTracker();
     }
 

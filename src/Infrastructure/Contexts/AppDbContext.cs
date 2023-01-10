@@ -11,4 +11,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     // Add domain entities here.
     public DbSet<Office> Offices => Set<Office>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution);
+    }
 }
