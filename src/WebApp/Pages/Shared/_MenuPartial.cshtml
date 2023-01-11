@@ -4,6 +4,7 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
         </button>
+
         <div class="navbar-collapse collapse d-sm-inline-flex">
             <ul class="navbar-nav flex-grow-1 mr-auto">
                 <li class="nav-item">
@@ -13,25 +14,47 @@
             <ul class="navbar-nav">
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    <li class="nav-item dropdown text-white">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="accountDropdownMenuLink" role="button"
+                    <li class="nav-item dropdown text-light">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="accountDropdownMenuLink" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="View account menu">
                             Account
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
-                            <a class="nav-link text-dark dropdown-item" asp-page="/Account/Index">Your profile</a>
+                            <a class="nav-link dropdown-item" asp-page="/Account/Index">Your profile</a>
                             <hr class="dropdown-divider">
                             <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
                                 <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
                             </form>
                         </div>
                     </li>
+                    <!-- LIGHT SWITCH -->
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <div class="w-100 d-flex justify-content-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="lightSwitch" style="display:none"/>
+                                    <label for="lightSwitch" class="light-switch-label"><span></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
                 else
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Account/Login">Sign in</a>
                     </li>
+                    <!-- LIGHT SWITCH -->
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <div class="w-100 d-flex justify-content-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="lightSwitch" style="display:none"/>
+                                    <label for="lightSwitch" class="light-switch-label"><span></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </ul>
         </div>

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - MY_APP_NAME</title>
     <partial name="_FaviconPartial" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/font-awesome-all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <partial name="_RaygunScriptsPartial" />
 </head>
@@ -21,7 +22,7 @@
 <header role="banner">
     <div class="container h3 my-2">
         <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo" />
-        <a href="/" aria-label="Home" class="nav-link text-dark d-inline-block">MY_APP_NAME</a>
+        <a href="/" aria-label="Home" class="nav-link d-inline-block">MY_APP_NAME</a>
     </div>
     <partial name="_MenuPartial" />
 </header>
@@ -54,6 +55,7 @@
 <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/anchor-js/anchor.min.js"></script>
 <script src="~/js/site.js"></script>
+<script src="~/js/lightSwitch.js"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
