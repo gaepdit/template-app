@@ -19,7 +19,7 @@ The following steps describe how to use the template for a new application.
 
 ### Initialize the template files
 
-* Run the "create-sln.bat" file to create a new solution file.
+* Run the "create-sln.ps1" file to create a new solution file.
 * Rename or search and replace the following terms. *(Caution: not all of these will be visible in the Visual Studio solution view.)*
     - "MY_APP_NAME" - Replace with the readable display name of the app.
     - `MyAppRoot`:
