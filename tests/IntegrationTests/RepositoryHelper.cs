@@ -4,6 +4,8 @@ using MyAppRoot.Domain.Offices;
 using MyAppRoot.Infrastructure.Contexts;
 using MyAppRoot.Infrastructure.Contexts.SeedDevData;
 using MyAppRoot.Infrastructure.Repositories;
+using MyAppRoot.TestData;
+using MyAppRoot.TestData.Identity;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -112,12 +114,19 @@ public sealed class RepositoryHelper : IDisposable
         ClearChangeTracker();
     }
 
+    private static void ClearAllStaticData()
+    {
+        OfficeData.ClearData();
+        IdentityData.ClearData();
+    }
+
     /// <summary>
     /// Seeds data for the Office entity and returns an instance of OfficeRepository.
     /// </summary>
     /// <returns>An <see cref="OfficeRepository"/>.</returns>
     public IOfficeRepository GetOfficeRepository()
     {
+        ClearAllStaticData();
         DbSeedDataHelpers.SeedOfficeData(_context);
         Context = new AppDbContext(_options);
         return new OfficeRepository(Context);

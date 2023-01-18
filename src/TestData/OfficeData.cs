@@ -4,12 +4,12 @@ namespace MyAppRoot.TestData;
 
 internal static class OfficeData
 {
-    private static readonly List<Office> OfficeSeedItems = new()
+    private static IEnumerable<Office> OfficeSeedItems => new List<Office>
     {
-        new Office(new Guid("00000000-0000-0000-0000-000000000004"), "Branch"),
-        new Office(new Guid("00000000-0000-0000-0000-000000000005"), "District"),
-        new Office(new Guid("00000000-0000-0000-0000-000000000006"), "Region"),
-        new Office(new Guid("00000000-0000-0000-0000-000000000007"), "Closed Office") { Active = false },
+        new(new Guid("00000000-0000-0000-0000-000000000004"), "Branch"),
+        new(new Guid("00000000-0000-0000-0000-000000000005"), "District"),
+        new(new Guid("00000000-0000-0000-0000-000000000006"), "Region"),
+        new(new Guid("00000000-0000-0000-0000-000000000007"), "Closed Office") { Active = false },
     };
 
     private static IEnumerable<Office>? _offices;
@@ -23,4 +23,6 @@ internal static class OfficeData
             return _offices;
         }
     }
+
+    public static void ClearData() => _offices = null;
 }

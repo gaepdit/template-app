@@ -4,7 +4,7 @@ namespace MyAppRoot.TestData.Identity;
 
 internal static partial class IdentityData
 {
-    private static readonly List<ApplicationUser> UserSeedItems = new()
+    private static List<ApplicationUser> UserSeedItems => new()
     {
         new ApplicationUser
         {
@@ -42,15 +42,17 @@ internal static partial class IdentityData
         {
             if (_users is not null) return _users;
 
-            UserSeedItems.ForEach(delegate(ApplicationUser user)
+            _users = UserSeedItems;
+            foreach (var user in _users)
             {
                 user.UserName = user.Email;
                 user.NormalizedEmail = user.Email.ToUpperInvariant();
                 user.NormalizedUserName = user.Email.ToUpperInvariant();
-            });
+            }
 
-            _users = UserSeedItems;
             return _users;
         }
     }
+
+    public static void ClearData() => _users = null;
 }
