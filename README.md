@@ -1,7 +1,7 @@
 # Template Application
 
 This repository contains a template for use in creating new web applications.
-(Current template version [v2022.10.28](https://github.com/gaepdit/template-app/tree/v2022.10.28).)
+(Current template version [v2023.1.20](https://github.com/gaepdit/template-app/tree/v2023.1.20).)
 
 
 [![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
