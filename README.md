@@ -1,8 +1,7 @@
 # Template Application
 
 This repository contains a template for use in creating new web applications.
-(Current template version [v2023.1.20](https://github.com/gaepdit/template-app/tree/v2023.1.20).)
-
+(Current template version [v2023.1.20](https://github.com/gaepdit/template-app/releases/tag/v2023.1.20).)
 
 [![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
 [![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
@@ -39,21 +38,13 @@ The following steps describe how to use the template for a new application.
 * Update this README file with information about the new application.
 * Change the branding colors in "src\WebApp\wwwroot\css\site.css".
 
-### Prepare for deployment
-
-* Create server-specific settings and config files and add copies to the "app-config" repository.
-* Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
-* Configure the following external services as needed:
-    - [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
-    - [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
-    - [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
-    - [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
-
 ---
 
 ## Background and project requirements
 
-TODO
+TODO: Complete this section for each new application.
+
+---
 
 ## Info for developers
 
@@ -63,6 +54,18 @@ This is an ASP.NET 6 web application.
 
 + [Visual Studio](https://www.visualstudio.com/vs/) or similar
 + [.NET 6.0 SDK](https://dotnet.microsoft.com/download)
+
+### Preparing for deployment
+
+Complete the following tasks when the application is ready for deployment.
+
+* Create server-specific settings and config files and add copies to the "app-config" repository.
+* Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
+* Configure the following external services as needed:
+    - [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
+    - [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
+    - [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
+    - [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
 
 ### Project organization
 
