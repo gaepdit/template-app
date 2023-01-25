@@ -1,4 +1,4 @@
-using MyAppRoot.Domain.Identity;
+﻿using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.TestData.Identity;
 
@@ -45,7 +45,7 @@ internal static partial class IdentityData
             _users = UserSeedItems;
             foreach (var user in _users)
             {
-                user.UserName = user.Email;
+                user.UserName = user.Email.ToLowerInvariant();
                 user.NormalizedEmail = user.Email.ToUpperInvariant();
                 user.NormalizedUserName = user.Email.ToUpperInvariant();
             }
