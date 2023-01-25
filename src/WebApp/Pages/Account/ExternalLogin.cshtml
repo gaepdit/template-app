@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model ExternalLoginModel
 @{
     ViewData["Title"] = "Account Error";
@@ -26,11 +26,11 @@
             <dt class="col-sm-3">@Html.DisplayNameFor(m => Model.DisplayFailedUser.Active)</dt>
             <dd class="col-sm-9">@Html.DisplayFor(m => Model.DisplayFailedUser.Active)</dd>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(m => Model.DisplayFailedUser.LastName)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(m => Model.DisplayFailedUser.LastName)</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => Model.DisplayFailedUser.FamilyName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => Model.DisplayFailedUser.FamilyName, "StringOrNone")</dd>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(m => Model.DisplayFailedUser.FirstName)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(m => Model.DisplayFailedUser.FirstName)</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => Model.DisplayFailedUser.GivenName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => Model.DisplayFailedUser.GivenName, "StringOrNone")</dd>
         </dl>
     </div>
 }

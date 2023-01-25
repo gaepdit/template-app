@@ -110,8 +110,8 @@ public class ExternalLoginModel : PageModel
         var newUser = new ApplicationUser
         {
             Email = userEmail,
-            LastName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.GivenName),
-            FirstName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Surname),
+            GivenName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.GivenName),
+            FamilyName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Surname),
         };
 
         // Create the user in the backing store.

@@ -5,15 +5,16 @@ namespace MyAppRoot.Domain.Identity;
 
 public class ApplicationUser : IdentityUser, IEntity<string>
 {
-    // Properties from external login provider (email is part of IdentityUser)
+    // IdentityUser includes Id, Email, UserName, and PhoneNumber properties.
+
+    // Properties from external login provider
     [ProtectedPersonalData]
     [StringLength(150)]
-    public string FirstName { get; init; } = string.Empty;
+    public string GivenName { get; set; } = string.Empty;
 
     [ProtectedPersonalData]
     [StringLength(150)]
-    public string LastName { get; init; } = string.Empty;
-
+    public string FamilyName { get; set; } = string.Empty;
 
     // Editable user/staff properties
     public const int MaxPhoneLength = 25;
