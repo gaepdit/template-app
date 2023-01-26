@@ -12,7 +12,7 @@ public static class DataServices
     public static void AddDataServices(this IServiceCollection services,
         ConfigurationManager configuration, bool isLocal)
     {
-        // When running locally, you have the option to use in-memory data or build the database using LocalDB.
+        // When running locally, you have the option to use in-memory data or a database.
         if (isLocal && ApplicationSettings.LocalDevSettings.UseInMemoryData)
         {
             services.AddDbContext<AppDbContext>(opts =>

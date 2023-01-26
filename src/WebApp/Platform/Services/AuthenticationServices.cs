@@ -13,8 +13,7 @@ public static class AuthenticationServices
         var authenticationBuilder = services.AddAuthentication();
 
         // An Azure AD app must be registered and configured in the settings file.
-        // (Currently not compatible with in-memory data.)
-        if (!isLocal || ApplicationSettings.LocalDevSettings is { UseAzureAd: true, UseInMemoryData: false })
+        if (!isLocal || ApplicationSettings.LocalDevSettings.UseAzureAd)
             authenticationBuilder.AddMicrosoftIdentityWebApp(configuration, cookieScheme: null);
         // Note: `cookieScheme: null` is mandatory. See https://github.com/AzureAD/microsoft-identity-web/issues/133#issuecomment-739550416
     }

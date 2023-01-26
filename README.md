@@ -84,13 +84,13 @@ There are also corresponding unit test projects for each, plus a **TestData** pr
 
 There are two launch profiles:
 
-* **WebApp Local** — This profile uses data in the "TestData" project and does not connect to a remote database. A local user account can be used to simulate authentication, or an Azure AD account can be configured.
+* **WebApp Local** — This profile uses data in the "TestData" project and either uses the data in-memory or builds and seeds a database. A local user account can be used to simulate authentication, or an Azure AD account can be configured.
 
-    You can modify some development settings by creating an "appsettings.Local.json" file in the "WebApp" folder to test various scenarios:
+    You can configure various development scenarios by creating an "appsettings.Local.json" file in the "WebApp" folder with the following settings:
 
     - *UseInMemoryData* — Uses in-memory data when `true`. Connects to a SQL Server database when `false`.
     - *UseEfMigrations* - Uses Entity Framework migrations when `true`. When set to `false`, the database is deleted and recreated on each run. (Only applies if *UseInMemoryData* is `false`.)
-    - *UseAzureAd* — If `true`, the app must be registered in the Azure portal, and configuration settings added in the "AzureAd" settings section. If `false`, authentication is simulated using test user data. (*Note:* At the moment, `UseAzureAd` is not compatible with in-memory data. If `UseInMemoryData` is `true`, then `UseAzureAd` must be `false`.)
+    - *UseAzureAd* — If `true`, the app must be registered in the Azure portal, and configuration settings added in the "AzureAd" settings section. If `false`, authentication is simulated using test user data.
     - *LocalUserIsAuthenticated* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`. (Only applies if *UseAzureAd* is `false`.)
     - *LocalUserIsAdmin* — Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)
 
