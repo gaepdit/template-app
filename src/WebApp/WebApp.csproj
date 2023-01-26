@@ -13,7 +13,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
         <PackageReference Include="Microsoft.Identity.Web" />
-        <PackageReference Include="Microsoft.Identity.Web.UI" />
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
         <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
         <PackageReference Include="SonarAnalyzer.CSharp">

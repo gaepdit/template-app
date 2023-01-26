@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Identity.Web.UI;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
 using MyAppRoot.AppServices.ServiceCollectionExtensions;
