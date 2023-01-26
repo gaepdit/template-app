@@ -126,7 +126,8 @@ public class ExternalLoginModel : PageModel
 
         // If ExternalLoginInfo successfully returned from external provider, and the user exists, but
         // ExternalLoginSignInAsync failed, then add the external provider info to the user and sign in.
-        return await AddProviderAndSignInUserAsync(user, externalLoginInfo);
+        var addLoginResult = await AddLoginProviderAndSignInAsync(user, externalLoginInfo);
+        return addLoginResult.Succeeded ? LocalRedirect(ReturnUrl) : FailedLogin(addLoginResult, user);
     }
 
     // Redirect to Login page with error message.
@@ -140,7 +141,7 @@ public class ExternalLoginModel : PageModel
     // Create a new user account and sign in.
     private async Task<IActionResult> CreateUserAndSignInAsync(ExternalLoginInfo info)
     {
-        var newUser = new ApplicationUser
+        var user = new ApplicationUser
         {
             UserName = info.Principal.FindFirstValue(ClaimConstants.PreferredUserName),
             Email = info.Principal.FindFirstValue(ClaimTypes.Email),
@@ -149,26 +150,31 @@ public class ExternalLoginModel : PageModel
         };
 
         // Create the user in the backing store.
-        var createUserResult = await _userManager.CreateAsync(newUser);
+        var createUserResult = await _userManager.CreateAsync(user);
         if (!createUserResult.Succeeded)
         {
-            _logger.LogWarning("Failed to create new user {UserName}", newUser.UserName);
-            return FailedLogin(createUserResult, newUser);
+            _logger.LogWarning("Failed to create new user {UserName}", user.UserName);
+            return FailedLogin(createUserResult, user);
         }
 
-        _logger.LogInformation("Created new user {UserName}", newUser.UserName);
+        _logger.LogInformation("Created new user {UserName}", user.UserName);
 
         // Add new user to application Roles if seeded in app settings (or running locally as local admin user).
         var seedUsers = _configuration.GetSection("SeedAdminUsers").Get<string[]>();
         if ((_environment.IsLocalEnv() && ApplicationSettings.LocalDevSettings.LocalUserIsAdmin) ||
-            (seedUsers != null && seedUsers.Contains(newUser.Email, StringComparer.InvariantCultureIgnoreCase)))
+            (seedUsers != null && seedUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
         {
-            _logger.LogInformation("Seeding roles for new user {UserName}", newUser.UserName);
-            foreach (var role in AppRole.AllRoles) await _userManager.AddToRoleAsync(newUser, role.Key);
+            _logger.LogInformation("Seeding roles for new user {UserName}", user.UserName);
+            foreach (var role in AppRole.AllRoles) await _userManager.AddToRoleAsync(user, role.Key);
         }
 
         // Add the external provider info to the user and sign in.
-        return await AddProviderAndSignInUserAsync(newUser, info);
+        var addLoginResult = await AddLoginProviderAndSignInAsync(user, info);
+        if (!addLoginResult.Succeeded) return FailedLogin(addLoginResult, user);
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+            "Your account has successfully been created. Select “Edit Profile” to update your info.");
+        return RedirectToPage("./Index");
     }
 
     // Update local store with from external provider. 
@@ -184,27 +190,30 @@ public class ExternalLoginModel : PageModel
         return LocalRedirect(ReturnUrl);
     }
 
-    // Add external provider info to user account, sign in user, and redirect to the originally requested URL.
-    private async Task<IActionResult> AddProviderAndSignInUserAsync(ApplicationUser user, ExternalLoginInfo info)
+    // Add external login provider to user account and sign in user.
+    private async Task<IdentityResult> AddLoginProviderAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
     {
         var addLoginResult = await _userManager.AddLoginAsync(user, info);
-        if (!addLoginResult.Succeeded)
+
+        if (addLoginResult.Succeeded)
+        {
+            _logger.LogInformation("Login provider {LoginProvider} added for user {UserName}",
+                info.LoginProvider, user.UserName);
+
+            // Include the access token in the properties.
+            var props = new AuthenticationProperties();
+            props.StoreTokens(info.AuthenticationTokens);
+            props.IsPersistent = true;
+
+            await _signInManager.SignInAsync(user, props, info.LoginProvider);
+        }
+        else
         {
             _logger.LogWarning("Failed to add login provider {LoginProvider} for user {UserName}",
                 info.LoginProvider, user.UserName);
-            return FailedLogin(addLoginResult, user);
         }
 
-        _logger.LogInformation("Login provider {LoginProvider} added for user {UserName}",
-            info.LoginProvider, user.UserName);
-
-        // Include the access token in the properties.
-        var props = new AuthenticationProperties();
-        props.StoreTokens(info.AuthenticationTokens);
-        props.IsPersistent = true;
-
-        await _signInManager.SignInAsync(user, props, info.LoginProvider);
-        return LocalRedirect(ReturnUrl);
+        return addLoginResult;
     }
 
     // Add error info and return this Page.
