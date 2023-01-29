@@ -1,6 +1,6 @@
 name: Lighthouse Check
 
-on: 
+on:
   pull_request:
 
 jobs:
@@ -58,5 +58,3 @@ jobs:
         --minBestPracticesScore 40 \
         --minPerformanceScore 40 \
         --minSeoScore 40
-
-    

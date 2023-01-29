@@ -18,7 +18,7 @@ public class EditRolesTests
 
     private static readonly StaffViewDto StaffViewTest = new()
     {
-        Id = Guid.Empty,
+        Id = Guid.Empty.ToString(),
         Email = TestConstants.ValidEmail,
         FirstName = TestConstants.ValidName,
         LastName = TestConstants.ValidName,
@@ -49,9 +49,9 @@ public class EditRolesTests
             }).ToList();
 
         var staffService = new Mock<IStaffAppService>();
-        staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync(StaffViewTest);
-        staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.GetRolesAsync(It.IsAny<string>()))
             .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var pageModel = new EditRolesModel(staffService.Object) { TempData = WebAppTestsGlobal.GetPageTempData() };
 
@@ -62,7 +62,7 @@ public class EditRolesTests
             result.Should().BeOfType<PageResult>();
             pageModel.DisplayStaff.Should().Be(StaffViewTest);
             pageModel.OfficeName.Should().Be(TestConstants.ValidName);
-            pageModel.UserId.Should().Be(Guid.Empty);
+            pageModel.UserId.Should().Be(Guid.Empty.ToString());
             pageModel.RoleSettings.Should().BeEquivalentTo(expectedRoleSettings);
         }
     }
@@ -75,24 +75,24 @@ public class EditRolesTests
 
         var result = await pageModel.OnGetAsync(null);
 
-        result.Should().BeOfType<NotFoundResult>();
+        using (new AssertionScope())
+        {
+            result.Should().BeOfType<RedirectToPageResult>();
+            ((RedirectToPageResult)result).PageName.Should().Be("Index");
+        }
     }
 
     [Test]
     public async Task OnGet_NonexistentIdReturnsNotFound()
     {
         var staffService = new Mock<IStaffAppService>();
-        staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync((StaffViewDto?)null);
         var pageModel = new EditRolesModel(staffService.Object) { TempData = WebAppTestsGlobal.GetPageTempData() };
 
-        var result = await pageModel.OnGetAsync(Guid.Empty);
+        var result = await pageModel.OnGetAsync(Guid.Empty.ToString());
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<NotFoundObjectResult>();
-            ((NotFoundObjectResult)result).Value.Should().Be("ID not found.");
-        }
+        result.Should().BeOfType<NotFoundResult>();
     }
 
     [Test]
@@ -102,12 +102,16 @@ public class EditRolesTests
             new DisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.");
 
         var staffService = new Mock<IStaffAppService>();
-        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<Guid>(), It.IsAny<Dictionary<string, bool>>()))
+        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, bool>>()))
             .ReturnsAsync(IdentityResult.Success);
-        staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.GetRolesAsync(It.IsAny<string>()))
             .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var page = new EditRolesModel(staffService.Object)
-            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+        {
+            RoleSettings = RoleSettingsTest,
+            UserId = Guid.Empty.ToString(),
+            TempData = WebAppTestsGlobal.GetPageTempData(),
+        };
 
         var result = await page.OnPostAsync();
 
@@ -116,7 +120,7 @@ public class EditRolesTests
             page.ModelState.IsValid.Should().BeTrue();
             result.Should().BeOfType<RedirectToPageResult>();
             ((RedirectToPageResult)result).PageName.Should().Be("Details");
-            ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty);
+            ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty.ToString());
             page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
         }
     }
@@ -125,12 +129,16 @@ public class EditRolesTests
     public async Task OnPost_GivenMissingUser_ReturnsBadRequest()
     {
         var staffService = new Mock<IStaffAppService>();
-        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<Guid>(), It.IsAny<Dictionary<string, bool>>()))
+        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, bool>>()))
             .ReturnsAsync(IdentityResult.Failed());
-        staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync((StaffViewDto?)null);
         var page = new EditRolesModel(staffService.Object)
-            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+        {
+            RoleSettings = RoleSettingsTest,
+            UserId = Guid.Empty.ToString(),
+            TempData = WebAppTestsGlobal.GetPageTempData(),
+        };
 
         var result = await page.OnPostAsync();
 
@@ -141,14 +149,18 @@ public class EditRolesTests
     public async Task OnPost_GivenUpdateFailure_ReturnsPageWithInvalidModelState()
     {
         var staffService = new Mock<IStaffAppService>();
-        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<Guid>(), It.IsAny<Dictionary<string, bool>>()))
+        staffService.Setup(l => l.UpdateRolesAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, bool>>()))
             .ReturnsAsync(IdentityResult.Failed(new IdentityError { Code = "CODE", Description = "DESCRIPTION" }));
-        staffService.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync(StaffViewTest);
-        staffService.Setup(l => l.GetRolesAsync(It.IsAny<Guid>()))
+        staffService.Setup(l => l.GetRolesAsync(It.IsAny<string>()))
             .ReturnsAsync(new List<string> { AppRole.SiteMaintenance });
         var page = new EditRolesModel(staffService.Object)
-            { RoleSettings = RoleSettingsTest, UserId = Guid.Empty, TempData = WebAppTestsGlobal.GetPageTempData() };
+        {
+            RoleSettings = RoleSettingsTest,
+            UserId = Guid.Empty.ToString(),
+            TempData = WebAppTestsGlobal.GetPageTempData(),
+        };
 
         var result = await page.OnPostAsync();
 
@@ -158,7 +170,7 @@ public class EditRolesTests
             page.ModelState.IsValid.Should().BeFalse();
             page.ModelState[string.Empty]!.Errors[0].ErrorMessage.Should().Be("CODE: DESCRIPTION");
             page.DisplayStaff.Should().Be(StaffViewTest);
-            page.UserId.Should().Be(Guid.Empty);
+            page.UserId.Should().Be(Guid.Empty.ToString());
             page.RoleSettings.Should().BeEquivalentTo(RoleSettingsTest);
         }
     }

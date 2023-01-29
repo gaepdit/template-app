@@ -1,6 +1,5 @@
 using FluentAssertions.Execution;
 using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.TestData.Constants;
 
 namespace LocalRepositoryTests.BaseReadOnlyRepository;
 
@@ -18,7 +17,7 @@ public class GetListByPredicate
     public async Task WhenItemsExist_ReturnsList()
     {
         var item = _repository.Items.First();
-        var result = await _repository.GetListAsync(e => e.Name == item.Name);
+        var result = await _repository.GetListAsync(e => e.Id == item.Id);
         using (new AssertionScope())
         {
             result.Count.Should().Be(1);
@@ -29,7 +28,7 @@ public class GetListByPredicate
     [Test]
     public async Task WhenDoesNotExist_ReturnsEmptyList()
     {
-        var result = await _repository.GetListAsync(e => e.Name == TestConstants.NonExistentName);
+        var result = await _repository.GetListAsync(e => e.Id == Guid.Empty);
         result.Should().BeEmpty();
     }
 }

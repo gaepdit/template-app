@@ -15,15 +15,15 @@ public class DetailsTests
     {
         var staffView = new StaffViewDto
         {
-            Id = Guid.Empty,
+            Id = Guid.Empty.ToString(),
             Email = TestConstants.ValidEmail,
             FirstName = TestConstants.ValidName,
             LastName = TestConstants.ValidName,
         };
         var service = new Mock<IStaffAppService>();
-        service.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        service.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync(staffView);
-        service.Setup(l => l.GetAppRolesAsync(It.IsAny<Guid>()))
+        service.Setup(l => l.GetAppRolesAsync(It.IsAny<string>()))
             .ReturnsAsync(new List<AppRole>());
         var pageModel = new DetailsModel { TempData = WebAppTestsGlobal.GetPageTempData() };
 
@@ -46,23 +46,23 @@ public class DetailsTests
 
         var result = await pageModel.OnGetAsync(service.Object, null);
 
-        result.Should().BeOfType<NotFoundResult>();
+        using (new AssertionScope())
+        {
+            result.Should().BeOfType<RedirectToPageResult>();
+            ((RedirectToPageResult)result).PageName.Should().Be("Index");
+        }
     }
 
     [Test]
     public async Task OnGet_NonexistentIdReturnsNotFound()
     {
         var service = new Mock<IStaffAppService>();
-        service.Setup(l => l.FindAsync(It.IsAny<Guid>()))
+        service.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync((StaffViewDto?)null);
         var pageModel = new DetailsModel { TempData = WebAppTestsGlobal.GetPageTempData() };
 
-        var result = await pageModel.OnGetAsync(service.Object, Guid.Empty);
+        var result = await pageModel.OnGetAsync(service.Object, Guid.Empty.ToString());
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<NotFoundObjectResult>();
-            ((NotFoundObjectResult)result).Value.Should().Be("ID not found.");
-        }
+        result.Should().BeOfType<NotFoundResult>();
     }
 }
