@@ -147,6 +147,7 @@ public class ExternalLoginModel : PageModel
             Email = info.Principal.FindFirstValue(ClaimTypes.Email),
             GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
             FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+            AzureAdObjectId = info.Principal.FindFirstValue(ClaimConstants.ObjectId),
         };
 
         // Create the user in the backing store.
@@ -174,7 +175,7 @@ public class ExternalLoginModel : PageModel
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
             "Your account has successfully been created. Select “Edit Profile” to update your info.");
-        return RedirectToPage("./Index");
+        return RedirectToPage("/Account/Index");
     }
 
     // Update local store with from external provider. 
