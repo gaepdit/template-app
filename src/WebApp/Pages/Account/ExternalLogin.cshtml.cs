@@ -126,8 +126,7 @@ public class ExternalLoginModel : PageModel
 
         // If ExternalLoginInfo successfully returned from external provider, and the user exists, but
         // ExternalLoginSignInAsync failed, then add the external provider info to the user and sign in.
-        var addLoginResult = await AddLoginProviderAndSignInAsync(user, externalLoginInfo);
-        return addLoginResult.Succeeded ? LocalRedirect(ReturnUrl) : FailedLogin(addLoginResult, user);
+        return await AddLoginProviderAndSignInAsync(user, externalLoginInfo);
     }
 
     // Redirect to Login page with error message.
@@ -170,12 +169,10 @@ public class ExternalLoginModel : PageModel
         }
 
         // Add the external provider info to the user and sign in.
-        var addLoginResult = await AddLoginProviderAndSignInAsync(user, info);
-        if (!addLoginResult.Succeeded) return FailedLogin(addLoginResult, user);
-
+        ReturnUrl = "/Account/Index";
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
             "Your account has successfully been created. Select “Edit Profile” to update your info.");
-        return RedirectToPage("/Account/Index");
+        return await AddLoginProviderAndSignInAsync(user, info);
     }
 
     // Update local store with from external provider. 
@@ -192,29 +189,27 @@ public class ExternalLoginModel : PageModel
     }
 
     // Add external login provider to user account and sign in user.
-    private async Task<IdentityResult> AddLoginProviderAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
+    private async Task<IActionResult> AddLoginProviderAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
     {
         var addLoginResult = await _userManager.AddLoginAsync(user, info);
 
-        if (addLoginResult.Succeeded)
-        {
-            _logger.LogInformation("Login provider {LoginProvider} added for user {UserName}",
-                info.LoginProvider, user.UserName);
-
-            // Include the access token in the properties.
-            var props = new AuthenticationProperties();
-            props.StoreTokens(info.AuthenticationTokens);
-            props.IsPersistent = true;
-
-            await _signInManager.SignInAsync(user, props, info.LoginProvider);
-        }
-        else
+        if (!addLoginResult.Succeeded)
         {
             _logger.LogWarning("Failed to add login provider {LoginProvider} for user {UserName}",
                 info.LoginProvider, user.UserName);
+            return FailedLogin(addLoginResult, user);
         }
 
-        return addLoginResult;
+        _logger.LogInformation("Login provider {LoginProvider} added for user {UserName}",
+            info.LoginProvider, user.UserName);
+
+        // Include the access token in the properties.
+        var props = new AuthenticationProperties();
+        props.StoreTokens(info.AuthenticationTokens);
+        props.IsPersistent = true;
+
+        await _signInManager.SignInAsync(user, props, info.LoginProvider);
+        return LocalRedirect(ReturnUrl);
     }
 
     // Add error info and return this Page.
