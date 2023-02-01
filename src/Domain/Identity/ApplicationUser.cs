@@ -5,13 +5,20 @@ namespace MyAppRoot.Domain.Identity;
 
 public class ApplicationUser : IdentityUser, IEntity<string>
 {
-    // IdentityUser includes Id, Email, UserName, and PhoneNumber properties.
+    // IdentityUser includes Id, Email, and UserName properties.
 
     // Properties from external login provider
+   
+    /// <summary>
+    /// A claim that specifies the given name of an entity, http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
+    /// </summary>
     [ProtectedPersonalData]
     [StringLength(150)]
     public string GivenName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// A claim that specifies the surname of an entity, http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
+    /// </summary>
     [ProtectedPersonalData]
     [StringLength(150)]
     public string FamilyName { get; set; } = string.Empty;

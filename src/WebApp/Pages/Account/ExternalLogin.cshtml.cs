@@ -93,7 +93,7 @@ public class ExternalLoginModel : PageModel
 
         // Get information about the user from the external provider.
         var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
-        if (externalLoginInfo is null)
+        if (externalLoginInfo?.Principal is null)
             return RedirectToLoginPageWithError("Error loading work account information.");
 
         var preferredUserName = externalLoginInfo.Principal.FindFirstValue(ClaimConstants.PreferredUserName);
@@ -116,7 +116,7 @@ public class ExternalLoginModel : PageModel
 
         // Sign in the user locally with the external provider key.
         var signInResult = await _signInManager.ExternalLoginSignInAsync(externalLoginInfo.LoginProvider,
-            externalLoginInfo.ProviderKey, true);
+            externalLoginInfo.ProviderKey, true, true);
 
         if (signInResult.Succeeded)
             return await RefreshUserInfoAndSignInAsync(user, externalLoginInfo);
