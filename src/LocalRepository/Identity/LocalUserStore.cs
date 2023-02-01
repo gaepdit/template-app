@@ -7,19 +7,22 @@ namespace MyAppRoot.LocalRepository.Identity;
 public sealed class
     LocalUserStore :
         IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
-        IUserLoginStore<ApplicationUser>
+        IUserLoginStore<ApplicationUser>,
+        IQueryableUserStore<ApplicationUser>
 {
-    internal ICollection<ApplicationUser> Users { get; }
+    public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
+
+    internal ICollection<ApplicationUser> UserStore { get; }
     internal ICollection<IdentityRole> Roles { get; }
     private ICollection<IdentityUserRole<string>> UserRoles { get; }
     private ICollection<UserLogin> UserLogins { get; }
 
     public LocalUserStore()
     {
-        Users = IdentityData.GetUsers.ToList();
+        UserStore = IdentityData.GetUsers.ToList();
         Roles = IdentityData.GetRoles.ToList();
         UserRoles = Roles
-            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = Users.First().Id })
+            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = UserStore.First().Id })
             .ToList();
         UserLogins = new List<UserLogin>();
     }
@@ -49,35 +52,35 @@ public sealed class
 
     public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        Users.Add(user);
+        UserStore.Add(user);
         return Task.FromResult(IdentityResult.Success);
     }
 
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken);
-        Users.Remove(existingUser);
-        Users.Add(user);
+        UserStore.Remove(existingUser);
+        UserStore.Add(user);
         return IdentityResult.Success;
     }
 
     public async Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken);
-        Users.Remove(existingUser);
+        UserStore.Remove(existingUser);
         return IdentityResult.Success;
     }
 
     public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken) =>
-        Task.FromResult(Users.Single(u => u.Id == userId));
+        Task.FromResult(UserStore.Single(u => u.Id == userId));
 
 #nullable disable // Reevaluate this after updating to .NET 7.
     public Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken) =>
         // Nullability warning is incorrect because IUserStore.FindByNameAsync can return null.
-        Task.FromResult(Users.SingleOrDefault(u =>
+        Task.FromResult(UserStore.SingleOrDefault(u =>
             string.Equals(u.NormalizedUserName, normalizedUserName, StringComparison.InvariantCultureIgnoreCase)));
 #nullable restore
-    
+
     // IUserRoleStore
     public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
     {
@@ -128,7 +131,7 @@ public sealed class
         var userIdsInRole = UserRoles
             .Where(e => e.RoleId == roleId)
             .Select(e => e.UserId);
-        var usersInRole = Users
+        var usersInRole = UserStore
             .Where(u => userIdsInRole.Contains(u.Id)).ToList();
         return Task.FromResult<IList<ApplicationUser>>(usersInRole);
     }
@@ -137,7 +140,7 @@ public sealed class
     {
         // Method intentionally left empty.
     }
-    
+
 #nullable disable // Reevaluate this after updating to .NET 7.
     public Task AddLoginAsync(ApplicationUser user, UserLoginInfo login, CancellationToken cancellationToken)
     {
@@ -171,7 +174,7 @@ public sealed class
     {
         var userId = UserLogins
             .SingleOrDefault(ul => ul.LoginProvider == loginProvider && ul.ProviderKey == providerKey)?.UserId;
-        return Task.FromResult(Users.SingleOrDefault(user => user.Id == userId));
+        return Task.FromResult(UserStore.SingleOrDefault(user => user.Id == userId));
     }
 
     private sealed class UserLogin
@@ -182,5 +185,4 @@ public sealed class
         public string UserId { get; init; }
     }
 #nullable restore
-    
 }
