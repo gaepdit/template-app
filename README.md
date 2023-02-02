@@ -63,6 +63,7 @@ Complete the following tasks when the application is ready for deployment.
 * Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
 * Configure the following external services as needed:
     - [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
+      When configuring the app in the Azure Portal, add optional claims for "email", "family_name", and "given_name" under "Token configuration".
     - [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
     - [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
     - [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
@@ -83,16 +84,17 @@ There are also corresponding unit test projects for each, plus a **TestData** pr
 
 There are two launch profiles:
 
-* **WebApp Local** — This profile uses data in the "TestData" project and does not connect to any external server. A local user account is used to simulate authentication.
+* **WebApp Local** — This profile uses data in the "TestData" project and either uses the data in-memory or builds and seeds a database. A local user account can be used to simulate authentication, or an Azure AD account can be configured.
 
-    You can modify some development settings by creating an "appsettings.Local.json" file in the "WebApp" folder to test various scenarios:
+    You can configure various development scenarios by creating an "appsettings.Local.json" file in the "WebApp" folder with the following settings:
 
-    - *AuthenticatedUser* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`.
-    - *AuthenticatedUserIsAdmin* — Applies all App Roles to the logged in account when `true` or no roles when `false`. (Only applies if *AuthenticatedUser* is `true`.)
-    - *BuildLocalDb* — Uses LocalDB when `true`. Uses in-memory data when `false`.
-    - *UseEfMigrations* - Uses Entity Framework migrations when `true`. Deletes and recreates database when `false`. (Only applies if *BuildLocalDb* is `true`.)
+    - *UseInMemoryData* — Uses in-memory data when `true`. Connects to a SQL Server database when `false`.
+    - *UseEfMigrations* - Uses Entity Framework migrations when `true`. When set to `false`, the database is deleted and recreated on each run. (Only applies if *UseInMemoryData* is `false`.)
+    - *UseAzureAd* — If `true`, the app must be registered in the Azure portal, and configuration settings added in the "AzureAd" settings section. If `false`, authentication is simulated using test user data.
+    - *LocalUserIsAuthenticated* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`. (Only applies if *UseAzureAd* is `false`.)
+    - *LocalUserIsAdmin* — Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)
 
-* **WebApp Dev Server** — This profile connects to a remote database server for data and requires an SOG account to log in. *To use this profile, you must add the "appsettings.Development.json" file from the "app-config" repo.*
+* **WebApp Dev Server** — This profile connects to a remote database server for data. *To use this profile, you must add the "appsettings.Development.json" file from the "app-config" repo.*
 
     Most development should be done using the Local profile. The Dev Server profile is only needed when specifically troubleshooting issues with the database server or SOG account.
 

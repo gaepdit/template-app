@@ -12,8 +12,8 @@ public static class DataServices
     public static void AddDataServices(this IServiceCollection services,
         ConfigurationManager configuration, bool isLocal)
     {
-        // When running locally, you have the option to use in-memory data or build the database using LocalDB.
-        if (isLocal && !ApplicationSettings.LocalDevSettings.BuildLocalDb)
+        // When running locally, you have the option to use in-memory data or a database.
+        if (isLocal && ApplicationSettings.LocalDevSettings.UseInMemoryData)
         {
             services.AddDbContext<AppDbContext>(opts =>
                 opts.UseInMemoryDatabase("TEMP_DB"));
