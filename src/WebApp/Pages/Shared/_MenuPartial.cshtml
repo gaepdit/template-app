@@ -19,13 +19,19 @@
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="View account menu">
                             Account
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
-                            <a class="nav-link dropdown-item" asp-page="/Account/Index">Your profile</a>
-                            <hr class="dropdown-divider">
-                            <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
-                                <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
-                            </form>
-                        </div>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item text-dark" asp-page="/Account/Index">Your profile</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                     <!-- LIGHT SWITCH -->
                     <div class="row justify-content-center">

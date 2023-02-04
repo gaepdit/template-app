@@ -19,12 +19,12 @@ public class StaffFilters
     [Test]
     public void NameFilter_ReturnsMatches()
     {
-        var name = IdentityData.GetUsers.First(e => e.Active).FirstName;
+        var name = IdentityData.GetUsers.First(e => e.Active).GivenName;
         var filter = new StaffSearchDto { Name = name };
         var expected = IdentityData.GetUsers
             .Where(e => e.Active &&
-                (string.Equals(e.FirstName, name, StringComparison.CurrentCultureIgnoreCase) ||
-                    string.Equals(e.LastName, name, StringComparison.CurrentCultureIgnoreCase)));
+                (string.Equals(e.GivenName, name, StringComparison.CurrentCultureIgnoreCase) ||
+                    string.Equals(e.FamilyName, name, StringComparison.CurrentCultureIgnoreCase)));
 
         var result = IdentityData.GetUsers.AsQueryable().ApplyFilter(filter);
 
@@ -47,7 +47,7 @@ public class StaffFilters
     [Test]
     public void OfficeFilter_ReturnsMatches()
     {
-        var office = IdentityData.GetUsers.First(e => e.Active && e.Office != null).Office;
+        var office = IdentityData.GetUsers.First(e => e is { Active: true, Office: { } }).Office;
         var filter = new StaffSearchDto { Office = office!.Id };
         var expected = IdentityData.GetUsers
             .Where(e => e.Active && e.Office == office);

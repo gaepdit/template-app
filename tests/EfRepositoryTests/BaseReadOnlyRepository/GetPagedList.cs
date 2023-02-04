@@ -2,6 +2,7 @@ using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
+using System.Globalization;
 
 namespace EfRepositoryTests.BaseReadOnlyRepository;
 
@@ -60,7 +61,7 @@ public class GetPagedList
     }
 
     [Test]
-    public async Task GivenSorting_ReturnsSortedList()
+    public async Task GivenSorting_SqliteDatabaseIsCaseSensitive_ReturnsSortedList()
     {
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(1, itemsCount, "Name desc");
@@ -71,7 +72,28 @@ public class GetPagedList
         {
             result.Count.Should().Be(itemsCount);
             result.Should().BeEquivalentTo(OfficeData.GetOffices);
-            result.Should().BeInDescendingOrder(e => e.Name);
+            var comparer = CultureInfo.InvariantCulture.CompareInfo.GetStringComparer(CompareOptions.Ordinal);
+            result.Should().BeInDescendingOrder(e => e.Name, comparer);
+        }
+    }
+
+    [Test]
+    public async Task GivenSorting_SqlServerDatabaseIsNotCaseSensitive_ReturnsSortedList()
+    {
+        using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
+        using var repository = repositoryHelper.GetOfficeRepository();
+
+        var itemsCount = OfficeData.GetOffices.Count();
+        var paging = new PaginatedRequest(1, itemsCount, "Name desc");
+
+        var result = await repository.GetPagedListAsync(paging);
+
+        using (new AssertionScope())
+        {
+            result.Count.Should().Be(itemsCount);
+            result.Should().BeEquivalentTo(OfficeData.GetOffices);
+            var comparer = CultureInfo.InvariantCulture.CompareInfo.GetStringComparer(CompareOptions.IgnoreCase);
+            result.Should().BeInDescendingOrder(e => e.Name, comparer);
         }
     }
 }
