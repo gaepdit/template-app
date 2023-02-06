@@ -7,30 +7,9 @@
   /**
    * @function darkMode
    * @summary: changes the theme to 'dark mode' and save settings to local storage.
-   * Basically, replaces/toggles every CSS class that has '-light' class with '-dark'
    */
   function darkMode() {
-    // set background color
-    document.querySelectorAll('.bg-light').forEach((element) => {
-      element.className = element.className.replace(/-light/g, '-dark');
-    });
-    document.body.classList.add('bg-dark');
-    
-    // flip the color of text in the body
-    document.body.classList.remove('text-dark');
-    document.body.classList.add('text-light');
-
-    // dropdown-item (did not change text color in v5.3.0-alpha1)
-    for (const element of document.getElementsByClassName("dropdown-item")) {
-      element.classList.remove('text-dark');
-      element.classList.add('text-light');
-    }
-
-    // Tables
-    for (let table of document.querySelectorAll('table')) {
-      table.classList.add('table-dark');
-    }
-
+    document.documentElement.setAttribute('data-bs-theme', 'dark')
     // set light switch input to dark
     if (lightSwitch.checked) {
       lightSwitch.checked = false;
@@ -43,29 +22,7 @@
    * @summary: changes the theme to 'light mode' and save settings to local storage.
    */
   function lightMode() {
-    // set background color
-    document.querySelectorAll('.bg-dark').forEach((element) => {
-      element.className = element.className.replace(/-dark/g, '-light');
-    });
-    document.body.classList.add('bg-light');
-    
-    // flip the color of text in the body
-    document.body.classList.remove('text-light');
-    document.body.classList.add('text-dark');
-    
-    // dropdown-item (did not change text color in v5.3.0-alpha1)
-    for (const element of document.getElementsByClassName("dropdown-item")) {
-      element.classList.remove('text-light');
-      element.classList.add('text-dark');
-    }
-
-    // Tables
-    for (let table of document.querySelectorAll('table')) {
-      if (table.classList.contains('table-dark')) {
-        table.classList.remove('table-dark');
-      }
-    }
-
+    document.documentElement.setAttribute('data-bs-theme', 'light')
     // set light switch input to light
     if (!lightSwitch.checked) {
       lightSwitch.checked = true;
@@ -80,10 +37,8 @@
   function setTheme() {
     if (!lightSwitch.checked) {
       darkMode();
-      document.documentElement.setAttribute('data-bs-theme', 'dark')
     } else {
       lightMode();
-      document.documentElement.setAttribute('data-bs-theme', 'light')
     }
   }
 
