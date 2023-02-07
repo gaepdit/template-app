@@ -98,11 +98,11 @@ There are two launch profiles:
 
     Most development should be done using the Local profile. The Dev Server profile is only needed when specifically troubleshooting issues with the database server or SOG account.
 
-Here's a visualization of how each launch profile (plus the `BuildLocalDb` setting) configures the application at runtime.
+Here's a visualization of how each launch profile (plus the `UseInMemoryData` setting) configures the data storage at runtime.
 
 ```mermaid
 flowchart LR
-    subgraph SPL["'Local' launch profile"]
+    subgraph SPL["'Local' launch profile & UseInMemoryData = true"]
         direction LR
         D[Domain]
         T["Test Data (in memory)"]
@@ -120,7 +120,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    subgraph SPB["'Local' launch profile + 'BuildLocalDb' setting"]
+    subgraph SPB["'Local' launch profile & UseInMemoryData = false"]
         direction LR
         D[Domain]
         T[Test Data]
@@ -140,19 +140,17 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    subgraph SPD["'Dev Server' launch profile (or Production)"]
+    subgraph SPD["'Dev Server' launch profile"]
         direction LR
         D[Domain]
         R[EfRepository]
         A[App Services]
         W([Web App])
         B[(DB Server)]
-        Z[[Azure AD]]
 
         W --> A
         A --> D
         A --> R
         R ==>|VPN| B -.-> D
-        W ==>|SOG| Z
     end
 ```
