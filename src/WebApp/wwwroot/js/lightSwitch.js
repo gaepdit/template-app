@@ -17,10 +17,26 @@
     }
 
     const setTheme = function (theme) {
+        // deal with 'auto' + 'dark' theme
         if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark')
-        } else {
-            document.documentElement.setAttribute('data-bs-theme', theme)
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            document.querySelectorAll('#light-svg, #dark-svg, #auto-svg').forEach(function (elem) {
+                elem.classList.add('invert-svg-color');
+            });
+            return;
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        // deal with 'dark' theme
+        if (theme === 'dark') {
+            document.querySelectorAll('#light-svg, #dark-svg, #auto-svg').forEach(function (elem) {
+                elem.classList.add('invert-svg-color');
+            });
+        }
+        // deal with 'light' or 'auto' + 'light' theme
+        else {
+            document.querySelectorAll('#light-svg, #dark-svg, #auto-svg').forEach(function (elem) {
+                elem.classList.remove('invert-svg-color');
+            });
         }
     }
 

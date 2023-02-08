@@ -180,3 +180,10 @@ a[target]::after {
 *:hover > .anchorjs-link, .anchorjs-link:focus-visible {
     margin-left: -1.375em !important;
 }
+
+/* Bootstrap Icons
+-------------------------------------------------- */
+.invert-svg-color {
+    -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+    filter: invert(100%);
+}
