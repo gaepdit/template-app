@@ -4,8 +4,7 @@ using MyAppRoot.TestData.Identity;
 
 namespace MyAppRoot.LocalRepository.Identity;
 
-public sealed class
-    LocalUserStore :
+public sealed class LocalUserStore :
         IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
         IUserLoginStore<ApplicationUser>,
         IQueryableUserStore<ApplicationUser>
@@ -113,7 +112,7 @@ public sealed class
             .Select(e => e.RoleId);
         var rolesForUser = Roles
             .Where(r => roleIdsForUser.Contains(r.Id))
-            .Select(r => r.NormalizedName).ToList();
+            .Select(r => r.Name).ToList();
         return Task.FromResult<IList<string>>(rolesForUser);
     }
 

@@ -1,12 +1,21 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 namespace MyAppRoot.WebApp.Platform.Settings;
 
-public static class ApplicationSettings
+internal static class ApplicationSettings
 {
-    public static LocalDev LocalDevSettings { get; } = new();
+    public static DevSettingsSection DevSettings { get; set; } = new();
 
-    public class LocalDev
+    public static readonly DevSettingsSection ProductionDefault = new()
+    {
+        UseInMemoryData = false,
+        UseEfMigrations = true,
+        UseAzureAd = true,
+        LocalUserIsAuthenticated = false,
+        LocalUserIsAdmin = false,
+    };
+
+    public class DevSettingsSection
     {
         /// <summary>
         /// Uses in-memory data when `true`. Connects to a SQL Server database when `false`.

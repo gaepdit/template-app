@@ -9,23 +9,27 @@ namespace MyAppRoot.WebApp.Platform.Services;
 
 public static class DataStores
 {
-    public static void AddDataStores(this IServiceCollection services,
-        ConfigurationManager configuration, bool isLocal)
+    public static void AddDataStores(this IServiceCollection services, ConfigurationManager configuration)
     {
-        // When running locally, you have the option to use in-memory data or a database.
-        if (isLocal && ApplicationSettings.LocalDevSettings.UseInMemoryData)
+        // When configured, use in-memory data; otherwise use a SQL Server database.
+        if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
-            services.AddDbContext<AppDbContext>(opts =>
-                opts.UseInMemoryDatabase("TEMP_DB"));
-
             // Uses local static data if no database is built.
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
         {
-            services.AddDbContext<AppDbContext>(opts =>
-                opts.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    x => x.MigrationsAssembly("EfRepository")));
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                services.AddDbContext<AppDbContext>(opts => opts.UseInMemoryDatabase("TEMP_DB"));
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(opts =>
+                    opts.UseSqlServer(connectionString, x => x.MigrationsAssembly("EfRepository")));
+            }
 
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }

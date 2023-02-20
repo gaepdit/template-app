@@ -10,23 +10,24 @@ namespace MyAppRoot.WebApp.Platform.Services;
 
 public static class IdentityStores
 {
-    public static void AddIdentityStores(this IServiceCollection services, bool isLocal)
+    public static void AddIdentityStores(this IServiceCollection services)
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
 
         // When running locally, you have the option to use in-memory data or a database.
-        if (isLocal && ApplicationSettings.LocalDevSettings.UseInMemoryData)
+        if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
-            // Adds local UserStore and RoleSore
+            // Add local UserStore and RoleStore.
             services.AddSingleton<IUserStore<ApplicationUser>, LocalUserStore>();
             services.AddSingleton<IRoleStore<IdentityRole>, LocalRoleStore>();
         }
         else
         {
-            // Add EF identity stores
+            // Add EF identity stores.
             identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
         }
 
+        // Add staff and user services.
         services.AddTransient<IStaffAppService, StaffAppService>();
         services.AddScoped<IUserService, UserService>();
     }
