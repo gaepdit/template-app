@@ -7,9 +7,9 @@ using MyAppRoot.WebApp.Platform.Settings;
 
 namespace MyAppRoot.WebApp.Platform.Services;
 
-public static class DataServices
+public static class DataStores
 {
-    public static void AddDataServices(this IServiceCollection services,
+    public static void AddDataStores(this IServiceCollection services,
         ConfigurationManager configuration, bool isLocal)
     {
         // When running locally, you have the option to use in-memory data or a database.
@@ -18,7 +18,7 @@ public static class DataServices
             services.AddDbContext<AppDbContext>(opts =>
                 opts.UseInMemoryDatabase("TEMP_DB"));
 
-            // Uses static data if no database is built.
+            // Uses local static data if no database is built.
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
