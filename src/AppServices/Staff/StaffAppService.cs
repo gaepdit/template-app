@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace MyAppRoot.AppServices.Staff;
 
-public sealed class LocalStaffAppService : IStaffAppService
+public sealed class StaffAppService : IStaffAppService
 {
     private readonly IUserService _userService;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -16,7 +15,7 @@ public sealed class LocalStaffAppService : IStaffAppService
     private readonly IdentityErrorDescriber _errorDescriber;
     private readonly IOfficeRepository _officeRepository;
 
-    public LocalStaffAppService(
+    public StaffAppService(
         IUserService userService,
         UserManager<ApplicationUser> userManager,
         IMapper mapper,
@@ -91,11 +90,8 @@ public sealed class LocalStaffAppService : IStaffAppService
         user.Office = resource.OfficeId == null ? null : await _officeRepository.FindAsync(resource.OfficeId.Value);
         user.Active = resource.Active;
 
-        return IdentityResult.Success;
+        return await _userManager.UpdateAsync(user);
     }
 
-    public void Dispose()
-    {
-        // Method intentionally left empty.
-    }
+    public void Dispose() => _officeRepository.Dispose();
 }
