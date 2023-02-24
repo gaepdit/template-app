@@ -1,6 +1,7 @@
 ﻿using MyAppRoot.AppServices.Offices;
 using MyAppRoot.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyAppRoot.AppServices.Staff;
 
@@ -41,9 +42,11 @@ public class StaffViewDto
     [UIHint("BoolActive")]
     public bool Active { get; init; } = true;
 
+    [JsonIgnore]
     public string DisplayName =>
         string.Join(" ", new[] { GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
 
+    [JsonIgnore]
     public string SortableFullName =>
         string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
 

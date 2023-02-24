@@ -83,8 +83,8 @@ public sealed class StaffAppService : IStaffAppService
 
     public async Task<IdentityResult> UpdateAsync(StaffUpdateDto resource)
     {
-        var user = await _userManager.FindByIdAsync(resource.Id);
-        if (user is null) throw new EntityNotFoundException(typeof(ApplicationUser), resource.Id);
+        var user = await _userManager.FindByIdAsync(resource.Id)
+            ?? throw new EntityNotFoundException(typeof(ApplicationUser), resource.Id);
 
         user.Phone = resource.Phone;
         user.Office = resource.OfficeId == null ? null : await _officeRepository.FindAsync(resource.OfficeId.Value);
