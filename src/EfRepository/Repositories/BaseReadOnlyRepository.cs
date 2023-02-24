@@ -21,13 +21,13 @@ public abstract class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepositor
         return item ?? throw new EntityNotFoundException(typeof(TEntity), id);
     }
 
-    public Task<TEntity?> FindAsync(TKey id, CancellationToken token = default) =>
-        Context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(id), token);
+    public async Task<TEntity?> FindAsync(TKey id, CancellationToken token = default) =>
+        await Context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 
-    public Task<TEntity?> FindAsync(
+    public async Task<TEntity?> FindAsync(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken token = default) =>
-        Context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(predicate, token);
+        await Context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(predicate, token);
 
     public async Task<IReadOnlyCollection<TEntity>> GetListAsync(CancellationToken token = default) =>
         await Context.Set<TEntity>().AsNoTracking().ToListAsync(token);
@@ -52,8 +52,8 @@ public abstract class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepositor
             .OrderByIf(paging.Sorting)
             .Skip(paging.Skip).Take(paging.Take).ToListAsync(token);
 
-    public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default) =>
-        Context.Set<TEntity>().AsNoTracking().CountAsync(predicate, token);
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default) =>
+        await Context.Set<TEntity>().AsNoTracking().CountAsync(predicate, token);
 
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
