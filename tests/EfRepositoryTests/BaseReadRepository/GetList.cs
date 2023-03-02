@@ -1,7 +1,7 @@
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
 
-namespace EfRepositoryTests.BaseReadOnlyRepository;
+namespace EfRepositoryTests.BaseReadRepository;
 
 public class GetList
 {

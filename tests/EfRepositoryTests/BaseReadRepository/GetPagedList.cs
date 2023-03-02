@@ -2,20 +2,28 @@ using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
-using MyAppRoot.TestData.Constants;
 using System.Globalization;
 
-namespace EfRepositoryTests.BaseReadOnlyRepository;
+namespace EfRepositoryTests.BaseReadRepository;
 
-public class GetPagedListByPredicate
+public class GetPagedList
 {
+    private RepositoryHelper _helper = default!;
     private IOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();
+    public void SetUp()
+    {
+        _helper = RepositoryHelper.CreateRepositoryHelper();
+        _repository = _helper.GetOfficeRepository();
+    }
 
     [TearDown]
-    public void TearDown() => _repository.Dispose();
+    public void TearDown()
+    {
+        _repository.Dispose();
+        _helper.Dispose();
+    }
 
     [Test]
     public async Task WhenItemsExist_ReturnsList()
@@ -23,7 +31,7 @@ public class GetPagedListByPredicate
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(1, itemsCount);
 
-        var result = await _repository.GetPagedListAsync(e => e.Name.Length > 0, paging);
+        var result = await _repository.GetPagedListAsync(paging);
 
         using (new AssertionScope())
         {
@@ -33,27 +41,13 @@ public class GetPagedListByPredicate
     }
 
     [Test]
-    public async Task WhenOneItemMatches_ReturnsListOfOne()
+    public async Task WhenNoItemsExist_ReturnsEmptyList()
     {
-        var itemsCount = OfficeData.GetOffices.Count();
-        var item = OfficeData.GetOffices.First();
-        var paging = new PaginatedRequest(1, itemsCount);
+        await _helper.ClearTableAsync<Office>();
+        var paging = new PaginatedRequest(1, 100);
 
-        var result = await _repository.GetPagedListAsync(e => e.Id == item.Id, paging);
+        var result = await _repository.GetPagedListAsync(paging);
 
-        using (new AssertionScope())
-        {
-            result.Count.Should().Be(1);
-            result.First().Should().BeEquivalentTo(item);
-        }
-    }
-
-    [Test]
-    public async Task WhenDoesNotExist_ReturnsEmptyList()
-    {
-        var itemsCount = OfficeData.GetOffices.Count();
-        var paging = new PaginatedRequest(1, itemsCount);
-        var result = await _repository.GetPagedListAsync(e => e.Name == TestConstants.NonExistentName, paging);
         result.Should().BeEmpty();
     }
 
@@ -62,7 +56,7 @@ public class GetPagedListByPredicate
     {
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(2, itemsCount);
-        var result = await _repository.GetPagedListAsync(e => e.Name.Length > 0, paging);
+        var result = await _repository.GetPagedListAsync(paging);
         result.Should().BeEmpty();
     }
 
@@ -72,9 +66,9 @@ public class GetPagedListByPredicate
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(1, itemsCount, "Name desc");
 
-        var result = await _repository.GetPagedListAsync(e => e.Name.Length > 0, paging);
+        var result = await _repository.GetPagedListAsync(paging);
 
-        using (new AssertionScope { FormattingOptions = { MaxLines = 1000 } })
+        using (new AssertionScope())
         {
             result.Count.Should().Be(itemsCount);
             result.Should().BeEquivalentTo(OfficeData.GetOffices);
@@ -92,7 +86,7 @@ public class GetPagedListByPredicate
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(1, itemsCount, "Name desc");
 
-        var result = await repository.GetPagedListAsync(e => e.Name.Length > 0, paging);
+        var result = await repository.GetPagedListAsync(paging);
 
         using (new AssertionScope())
         {

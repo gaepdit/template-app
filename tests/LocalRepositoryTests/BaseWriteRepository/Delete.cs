@@ -4,7 +4,7 @@ using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
 
-namespace LocalRepositoryTests.BaseRepository;
+namespace LocalRepositoryTests.BaseWriteRepository;
 
 public class Delete
 {

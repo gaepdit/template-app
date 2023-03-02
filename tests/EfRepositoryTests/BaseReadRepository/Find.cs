@@ -1,13 +1,14 @@
-using MyAppRoot.LocalRepository.Repositories;
+using MyAppRoot.Domain.Offices;
+using MyAppRoot.TestData;
 
-namespace LocalRepositoryTests.BaseReadOnlyRepository;
+namespace EfRepositoryTests.BaseReadRepository;
 
 public class Find
 {
-    private LocalOfficeRepository _repository = default!;
+    private IOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -15,7 +16,7 @@ public class Find
     [Test]
     public async Task WhenItemExists_ReturnsItem()
     {
-        var item = _repository.Items.First();
+        var item = OfficeData.GetOffices.First(e => e.Active);
         var result = await _repository.FindAsync(item.Id);
         result.Should().BeEquivalentTo(item);
     }

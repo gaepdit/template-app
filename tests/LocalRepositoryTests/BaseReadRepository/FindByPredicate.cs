@@ -1,7 +1,7 @@
 using FluentAssertions.Execution;
 using MyAppRoot.LocalRepository.Repositories;
 
-namespace LocalRepositoryTests.BaseReadOnlyRepository;
+namespace LocalRepositoryTests.BaseReadRepository;
 
 public class FindByPredicate
 {

@@ -3,7 +3,7 @@ using GaEpd.AppLibrary.Pagination;
 using MyAppRoot.LocalRepository.Repositories;
 using System.Globalization;
 
-namespace LocalRepositoryTests.BaseReadOnlyRepository;
+namespace LocalRepositoryTests.BaseReadRepository;
 
 public class GetPagedList
 {

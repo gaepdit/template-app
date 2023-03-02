@@ -3,7 +3,7 @@ using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
 using MyAppRoot.TestData.Constants;
 
-namespace EfRepositoryTests.BaseReadOnlyRepository;
+namespace EfRepositoryTests.BaseReadRepository;
 
 public class GetListByPredicate
 {

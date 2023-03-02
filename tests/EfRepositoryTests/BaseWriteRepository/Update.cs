@@ -3,7 +3,7 @@ using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
 using MyAppRoot.TestData.Constants;
 
-namespace EfRepositoryTests.BaseRepository;
+namespace EfRepositoryTests.BaseWriteRepository;
 
 public class Update
 {

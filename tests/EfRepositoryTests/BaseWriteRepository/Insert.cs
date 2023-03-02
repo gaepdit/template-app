@@ -2,7 +2,7 @@ using GaEpd.AppLibrary.Domain.Repositories;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
-namespace EfRepositoryTests.BaseRepository;
+namespace EfRepositoryTests.BaseWriteRepository;
 
 public class Insert
 {

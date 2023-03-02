@@ -2,7 +2,7 @@ using GaEpd.AppLibrary.Domain.Repositories;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData;
 
-namespace EfRepositoryTests.BaseReadOnlyRepository;
+namespace EfRepositoryTests.BaseReadRepository;
 
 public class Get
 {
