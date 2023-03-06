@@ -159,3 +159,13 @@ flowchart LR
         B --> D
     end
 ```
+
+### Entity Framework database migrations
+
+Instructions for adding a new Entity Framework database migration:
+
+1. Open a command prompt to "./src/EfRepository/" folder.
+
+2. Run the following command with an appropriate migration name:
+
+   `dotnet ef migrations add NAME_OF_MIGRATION --msbuildprojectextensionspath ..\..\.artifacts\EfRepository\obj\`
