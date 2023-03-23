@@ -47,12 +47,12 @@ TODO: Complete this section for each new application.
 
 ## Info for developers
 
-This is an ASP.NET 6 web application.
+This is an ASP.NET web application.
 
 ### Prerequisites for development
 
 + [Visual Studio](https://www.visualstudio.com/vs/) or similar
-+ [.NET 6.0 SDK](https://dotnet.microsoft.com/download)
++ [.NET SDK](https://dotnet.microsoft.com/download)
 
 ### Preparing for deployment
 
