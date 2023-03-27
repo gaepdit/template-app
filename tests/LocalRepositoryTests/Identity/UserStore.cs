@@ -4,6 +4,7 @@ using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.TestData.Identity;
+using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;
 
@@ -78,7 +79,7 @@ public class UserStore
     public async Task FindByName_ReturnsUser()
     {
         var user = _store.UserStore.First();
-        Assert.That(user.NormalizedUserName, Is.Not.Null);
+        Debug.Assert(user.NormalizedUserName != null, "user.NormalizedUserName != null");
         var result = await _store.FindByNameAsync(user.NormalizedUserName, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }
