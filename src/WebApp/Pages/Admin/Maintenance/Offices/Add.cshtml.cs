@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Identity;
+using MyAppRoot.AppServices.Permissions;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Roles = RoleName.SiteMaintenance)]
+[Authorize(Policy = PolicyName.SiteMaintainer)]
 public class AddModel : PageModel
 {
     [BindProperty]

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace WebAppTests;
@@ -6,6 +6,6 @@ namespace WebAppTests;
 [SetUpFixture]
 public static class WebAppTestsGlobal
 {
-    internal static TempDataDictionary GetPageTempData() =>
+    internal static TempDataDictionary PageTempData() =>
         new(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
 }
