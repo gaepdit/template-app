@@ -2,8 +2,8 @@ using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using MyAppRoot.AppServices.UserServices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 
 namespace MyAppRoot.AppServices.Staff;
 

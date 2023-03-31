@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MyAppRoot.AppServices.AutoMapper;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 
 namespace MyAppRoot.AppServices.ServiceCollectionExtensions;
 

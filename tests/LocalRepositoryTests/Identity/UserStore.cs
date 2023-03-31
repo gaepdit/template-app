@@ -1,7 +1,7 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.TestData.Identity;
 using System.Diagnostics;

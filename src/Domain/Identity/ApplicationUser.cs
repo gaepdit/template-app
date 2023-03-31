@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 
 namespace MyAppRoot.Domain.Identity;
 

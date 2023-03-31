@@ -2,7 +2,7 @@
 using GaEpd.AppLibrary.ListItems;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 
 namespace MyAppRoot.AppServices.Offices;
 

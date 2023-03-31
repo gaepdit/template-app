@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 
 namespace MyAppRoot.AppServices.Offices;
 

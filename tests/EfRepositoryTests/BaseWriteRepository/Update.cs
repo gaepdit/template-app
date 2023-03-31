@@ -1,5 +1,5 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.TestData;
 using MyAppRoot.TestData.Constants;
 

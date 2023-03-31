@@ -1,6 +1,6 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.TestData;
 using MyAppRoot.TestData.Constants;
 using System.Globalization;

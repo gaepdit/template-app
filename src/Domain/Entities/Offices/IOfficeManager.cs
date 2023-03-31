@@ -1,6 +1,6 @@
 using MyAppRoot.Domain.Exceptions;
 
-namespace MyAppRoot.Domain.Offices;
+namespace MyAppRoot.Domain.Entities.Offices;
 
 /// <summary>
 /// A manager for managing Offices.

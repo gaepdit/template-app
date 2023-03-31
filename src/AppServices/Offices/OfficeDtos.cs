@@ -1,4 +1,4 @@
-﻿using MyAppRoot.Domain.Offices;
+﻿using MyAppRoot.Domain.Entities.Offices;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyAppRoot.AppServices.Offices;

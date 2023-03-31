@@ -1,8 +1,8 @@
 using FluentAssertions.Execution;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;

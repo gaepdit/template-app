@@ -1,5 +1,5 @@
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Exceptions;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace DomainTests.Offices.Manager;

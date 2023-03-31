@@ -1,6 +1,6 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
 

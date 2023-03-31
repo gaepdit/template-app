@@ -1,6 +1,6 @@
 ﻿using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.Offices;

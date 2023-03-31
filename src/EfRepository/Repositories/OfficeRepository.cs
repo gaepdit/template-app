@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.EfRepository.Contexts;
 
 namespace MyAppRoot.EfRepository.Repositories;
