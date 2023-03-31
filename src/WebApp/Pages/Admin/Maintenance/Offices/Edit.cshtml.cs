@@ -10,7 +10,7 @@ using MyAppRoot.WebApp.Platform.RazorHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Roles = AppRole.SiteMaintenance)]
+[Authorize(Roles = RoleName.SiteMaintenance)]
 public class EditModel : PageModel
 {
     private readonly IOfficeAppService _service;

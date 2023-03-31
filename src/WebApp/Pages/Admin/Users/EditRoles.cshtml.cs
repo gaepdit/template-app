@@ -8,7 +8,7 @@ using MyAppRoot.WebApp.Platform.RazorHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
-[Authorize(Roles = AppRole.UserAdmin)]
+[Authorize(Roles = RoleName.UserAdmin)]
 public class EditRolesModel : PageModel
 {
     private readonly IStaffAppService _staffService;
