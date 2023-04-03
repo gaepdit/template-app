@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
+using MyAppRoot.AppServices.Permissions;
 using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
-[Authorize(Roles = AppRole.UserAdmin)]
+[Authorize(Policy = PolicyName.UserAdministrator)]
 public class EditModel : PageModel
 {
     private readonly IStaffAppService _staffService;
@@ -30,11 +30,10 @@ public class EditModel : PageModel
         _validator = validator;
     }
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
-
     [BindProperty]
     public StaffUpdateDto UpdateStaff { get; set; } = default!;
 
+    public StaffViewDto DisplayStaff { get; private set; } = default!;
     public SelectList OfficeItems { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync(string? id)

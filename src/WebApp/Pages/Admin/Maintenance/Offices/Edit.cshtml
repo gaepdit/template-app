@@ -6,6 +6,10 @@
 }
 
 <h1>Edit @EditModel.ThisOption.SingularName</h1>
+@if (Model.IsMyOffice)
+{
+    <p class="alert alert-info">This is your office.</p>
+}
 <hr />
 
 <h2>@Model.OriginalName</h2>

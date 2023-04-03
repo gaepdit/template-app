@@ -1,13 +1,16 @@
 using FluentAssertions.Execution;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
+using MyAppRoot.AppServices.Staff;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 using MyAppRoot.WebApp.Platform.RazorHelpers;
+using System.Security.Claims;
 
 namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 
@@ -15,13 +18,24 @@ public class EditTests
 {
     private static readonly OfficeUpdateDto ItemTest = new() { Id = Guid.Empty, Name = TestConstants.ValidName };
 
+    private static readonly StaffViewDto StaffViewTest = new() { Id = Guid.Empty.ToString(), Active = true };
+
     [Test]
-    public async Task OnGet_ReturnsWithItem()
+    public async Task OnGet_GivenSameOffice_ReturnsWithItem()
     {
-        var service = new Mock<IOfficeAppService>();
-        service.Setup(l => l.FindForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
-        var page = new EditModel(service.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsGlobal.GetPageTempData() };
+        var serviceMock = new Mock<IOfficeAppService>();
+        serviceMock.Setup(l => l.FindForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
+        var staffServiceMock = new Mock<IStaffAppService>();
+        staffServiceMock.Setup(l => l.GetCurrentUserAsync())
+            .ReturnsAsync(StaffViewTest);
+        var authorizationMock = new Mock<IAuthorizationService>();
+        authorizationMock.Setup(l =>
+                l.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object?>(),
+                    It.IsAny<IAuthorizationRequirement[]>()))
+            .ReturnsAsync(AuthorizationResult.Success);
+        var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
+                staffServiceMock.Object, authorizationMock.Object)
+            { TempData = WebAppTestsGlobal.PageTempData(), PageContext = WebAppTestsGlobal.PageContextWithUser() };
 
         await page.OnGetAsync(ItemTest.Id);
 
@@ -30,15 +44,48 @@ public class EditTests
             page.Item.Should().BeEquivalentTo(ItemTest);
             page.OriginalName.Should().Be(ItemTest.Name);
             page.HighlightId.Should().Be(Guid.Empty);
+            page.IsMyOffice.Should().BeTrue();
+        }
+    }
+
+    [Test]
+    public async Task OnGet_GivenDifferentOffice_ReturnsWithItem()
+    {
+        var serviceMock = new Mock<IOfficeAppService>();
+        serviceMock.Setup(l => l.FindForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
+        var staffServiceMock = new Mock<IStaffAppService>();
+        staffServiceMock.Setup(l => l.GetCurrentUserAsync())
+            .ReturnsAsync(StaffViewTest);
+        var authorizationMock = new Mock<IAuthorizationService>();
+        authorizationMock.Setup(l =>
+                l.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object?>(),
+                    It.IsAny<IAuthorizationRequirement[]>()))
+            .ReturnsAsync(AuthorizationResult.Failed);
+        var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
+                staffServiceMock.Object, authorizationMock.Object)
+            { TempData = WebAppTestsGlobal.PageTempData(), PageContext = WebAppTestsGlobal.PageContextWithUser() };
+
+        await page.OnGetAsync(ItemTest.Id);
+
+        using (new AssertionScope())
+        {
+            page.Item.Should().BeEquivalentTo(ItemTest);
+            page.OriginalName.Should().Be(ItemTest.Name);
+            page.HighlightId.Should().Be(Guid.Empty);
+            page.IsMyOffice.Should().BeFalse();
         }
     }
 
     [Test]
     public async Task OnGet_GivenNullId_ReturnsNotFound()
     {
-        var service = new Mock<IOfficeAppService>();
-        var page = new EditModel(service.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsGlobal.GetPageTempData() };
+        var serviceMock = new Mock<IOfficeAppService>();
+        var staffServiceMock = new Mock<IStaffAppService>();
+        staffServiceMock.Setup(l => l.GetCurrentUserAsync())
+            .ReturnsAsync(StaffViewTest);
+        var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
+                staffServiceMock.Object, Mock.Of<IAuthorizationService>())
+            { TempData = WebAppTestsGlobal.PageTempData() };
 
         var result = await page.OnGetAsync(null);
 
@@ -52,11 +99,15 @@ public class EditTests
     [Test]
     public async Task OnGet_GivenInvalidId_ReturnsNotFound()
     {
-        var service = new Mock<IOfficeAppService>();
-        service.Setup(l => l.FindForUpdateAsync(It.IsAny<Guid>(), CancellationToken.None))
+        var serviceMock = new Mock<IOfficeAppService>();
+        serviceMock.Setup(l => l.FindForUpdateAsync(It.IsAny<Guid>(), CancellationToken.None))
             .ReturnsAsync((OfficeUpdateDto?)null);
-        var page = new EditModel(service.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsGlobal.GetPageTempData() };
+        var staffServiceMock = new Mock<IStaffAppService>();
+        staffServiceMock.Setup(l => l.GetCurrentUserAsync())
+            .ReturnsAsync(StaffViewTest);
+        var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
+                staffServiceMock.Object, Mock.Of<IAuthorizationService>())
+            { TempData = WebAppTestsGlobal.PageTempData() };
 
         var result = await page.OnGetAsync(Guid.Empty);
 
@@ -66,12 +117,13 @@ public class EditTests
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
-        var service = new Mock<IOfficeAppService>();
-        var validator = new Mock<IValidator<OfficeUpdateDto>>();
-        validator.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))
+        var serviceMock = new Mock<IOfficeAppService>();
+        var validatorMock = new Mock<IValidator<OfficeUpdateDto>>();
+        validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
-        var page = new EditModel(service.Object, validator.Object)
-            { Item = ItemTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+        var page = new EditModel(serviceMock.Object, validatorMock.Object,
+                Mock.Of<IStaffAppService>(), Mock.Of<IAuthorizationService>())
+            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.");
 
@@ -89,13 +141,14 @@ public class EditTests
     [Test]
     public async Task OnPost_GivenInvalidItem_ReturnsPageWithModelErrors()
     {
-        var service = new Mock<IOfficeAppService>();
-        var validator = new Mock<IValidator<OfficeUpdateDto>>();
+        var serviceMock = new Mock<IOfficeAppService>();
+        var validatorMock = new Mock<IValidator<OfficeUpdateDto>>();
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        validator.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))
+        validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult(validationFailures));
-        var page = new EditModel(service.Object, validator.Object)
-            { Item = ItemTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+        var page = new EditModel(serviceMock.Object, validatorMock.Object,
+                Mock.Of<IStaffAppService>(), Mock.Of<IAuthorizationService>())
+            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
 
         var result = await page.OnPostAsync();
 

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MyAppRoot.Domain.Entities.Offices;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace MyAppRoot.AppServices.Offices.Validators;
 
 public class OfficeUpdateValidator : AbstractValidator<OfficeUpdateDto>
 {
