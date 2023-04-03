@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using MyAppRoot.AppServices.Offices.Permissions;
 using MyAppRoot.AppServices.Permissions;
 
 namespace MyAppRoot.AppServices.RegisterServices;
@@ -13,6 +15,6 @@ public static class AuthorizationPolicies
             opts.AddPolicy(PolicyName.UserAdministrator, Policies.UserAdministratorPolicy());
         });
 
-        // services.AddSingleton<IAuthorizationHandler>(_ => new ComplaintViewPermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new OfficePermissionsHandler());
     }
 }

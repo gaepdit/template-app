@@ -11,7 +11,8 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<Office, OfficeViewDto>().ReverseMap();
-        CreateMap<Office, OfficeUpdateDto>();
+        CreateMap<Office, OfficeUpdateDto>()
+            .ForMember(d => d.CurrentUserOfficeId, o => o.Ignore());
 
         CreateMap<ApplicationUser, StaffViewDto>().ReverseMap();
         CreateMap<ApplicationUser, StaffUpdateDto>();

@@ -22,6 +22,10 @@ public class OfficeCreateDto
 
 public class OfficeUpdateDto
 {
+    // Authorization handler assist properties
+    public Guid CurrentUserOfficeId { get; set; }
+
+    // Properties
     public Guid Id { get; init; }
 
     [Required]
