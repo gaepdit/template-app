@@ -12,23 +12,29 @@ namespace MyAppRoot.WebApp.Pages.Admin.Users;
 [Authorize]
 public class IndexModel : PageModel
 {
+    // Constructor
     private readonly IOfficeAppService _officeService;
     private readonly IStaffAppService _staffService;
 
-    public IndexModel(IOfficeAppService officeService, IStaffAppService staffService)
+    public IndexModel(
+        IOfficeAppService officeService,
+        IStaffAppService staffService)
     {
         _officeService = officeService;
         _staffService = staffService;
     }
 
+    // Properties
     public StaffSearchDto Filter { get; set; } = default!;
-    public SelectList RoleItems { get; private set; } = default!;
-    public SelectList OfficeItems { get; private set; } = default!;
     public bool ShowResults { get; private set; }
     public List<StaffViewDto> SearchResults { get; private set; } = default!;
 
     [TempData]
     public string? HighlightId { get; set; }
+
+    // Select lists
+    public SelectList RoleItems { get; private set; } = default!;
+    public SelectList OfficeItems { get; private set; } = default!;
 
     public Task OnGetAsync() => PopulateSelectListsAsync();
 

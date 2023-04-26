@@ -15,6 +15,7 @@ namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 [Authorize(Policy = PolicyName.SiteMaintainer)]
 public class EditModel : PageModel
 {
+    // Constructor
     private readonly IOfficeAppService _service;
     private readonly IValidator<OfficeUpdateDto> _validator;
     private readonly IStaffAppService _staff;
@@ -32,19 +33,21 @@ public class EditModel : PageModel
         _authorization = authorization;
     }
 
+    // Properties
     [BindProperty]
     public OfficeUpdateDto Item { get; set; } = default!;
 
     [BindProperty]
     public string OriginalName { get; set; } = string.Empty;
 
-    public bool IsMyOffice { get; set; }
-
     [TempData]
     public Guid HighlightId { get; set; }
 
+    public bool IsMyOffice { get; set; }
+
     public static MaintenanceOption ThisOption => MaintenanceOption.Office;
 
+    // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         var staff = await _staff.GetCurrentUserAsync();
