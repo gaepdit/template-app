@@ -1,6 +1,7 @@
 using FluentAssertions.Execution;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.TestData.Constants;
@@ -13,7 +14,7 @@ public class UserMapping
     {
         Id = Guid.NewGuid().ToString(),
         GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        FamilyName = TestConstants.NewValidName,
         Email = TestConstants.ValidEmail,
         Phone = "123-456-7890",
         Office = new Office(Guid.NewGuid(), TestConstants.ValidName),
@@ -32,6 +33,21 @@ public class UserMapping
             result.Email.Should().Be(_item.Email);
             result.Phone.Should().Be(_item.Phone);
             result.Office.Should().BeEquivalentTo(_item.Office);
+            result.Active.Should().BeTrue();
+        }
+    }
+
+    [Test]
+    public void StaffSearchResultMappingWorks()
+    {
+        var result = AppServicesTestsSetup.Mapper!.Map<StaffSearchResultDto>(_item);
+
+        using (new AssertionScope())
+        {
+            result.Id.Should().Be(_item.Id);
+            result.SortableFullName.Should().Be($"{_item.FamilyName}, {_item.GivenName}");
+            result.Email.Should().Be(_item.Email);
+            result.OfficeName.Should().Be(_item.Office!.Name);
             result.Active.Should().BeTrue();
         }
     }

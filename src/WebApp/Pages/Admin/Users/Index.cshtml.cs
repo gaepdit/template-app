@@ -1,11 +1,15 @@
-﻿using GaEpd.AppLibrary.ListItems;
+﻿using GaEpd.AppLibrary.Enums;
+using GaEpd.AppLibrary.ListItems;
+using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Identity;
+using MyAppRoot.WebApp.Platform.Constants;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
@@ -25,9 +29,10 @@ public class IndexModel : PageModel
     }
 
     // Properties
-    public StaffSearchDto Filter { get; set; } = default!;
+    public StaffSearchDto Spec { get; set; } = default!;
     public bool ShowResults { get; private set; }
-    public List<StaffViewDto> SearchResults { get; private set; } = default!;
+    public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = default!;
+    public string SortByName => Spec.Sort.ToString();
 
     [TempData]
     public string? HighlightId { get; set; }
@@ -38,14 +43,16 @@ public class IndexModel : PageModel
 
     public Task OnGetAsync() => PopulateSelectListsAsync();
 
-    public async Task<IActionResult> OnGetSearchAsync(StaffSearchDto filter)
+    public async Task<IActionResult> OnGetSearchAsync(StaffSearchDto spec, [FromQuery] int p = 1)
     {
-        await PopulateSelectListsAsync();
-        filter.TrimAll();
-        Filter = filter;
-        if (!ModelState.IsValid) return Page();
-        SearchResults = await _staffService.GetListAsync(filter);
+        spec.TrimAll();
+        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, spec.Sort.GetDescription());
+
+        Spec = spec;
         ShowResults = true;
+
+        await PopulateSelectListsAsync();
+        SearchResults = await _staffService.SearchAsync(spec, paging);
         return Page();
     }
 

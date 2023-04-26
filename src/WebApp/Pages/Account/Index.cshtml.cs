@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Identity;
 
 namespace MyAppRoot.WebApp.Pages.Account;

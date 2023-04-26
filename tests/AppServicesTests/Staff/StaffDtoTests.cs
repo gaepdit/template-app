@@ -1,6 +1,7 @@
 ﻿using FluentAssertions.Execution;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.Staff;

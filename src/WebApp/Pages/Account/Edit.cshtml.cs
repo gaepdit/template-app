@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Platform.PageModelHelpers;
 

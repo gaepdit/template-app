@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
 
@@ -16,6 +17,6 @@ public class AutoMapperProfile : Profile
 
         CreateMap<ApplicationUser, StaffViewDto>();
         CreateMap<ApplicationUser, StaffUpdateDto>();
-        // CreateMap<ApplicationUser, StaffSearchResultDto>();
+        CreateMap<ApplicationUser, StaffSearchResultDto>();
     }
 }
