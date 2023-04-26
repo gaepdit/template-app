@@ -4,7 +4,7 @@ using MyAppRoot.AppServices.Offices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 using System.Security.Claims;
 
 namespace WebAppTests.Pages.Admin.Maintenance.Offices;

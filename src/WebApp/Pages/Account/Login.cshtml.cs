@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Account;
 

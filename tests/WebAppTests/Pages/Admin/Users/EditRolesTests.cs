@@ -8,7 +8,7 @@ using MyAppRoot.Domain.Identity;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Users;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.Pages.Admin.Users;
 

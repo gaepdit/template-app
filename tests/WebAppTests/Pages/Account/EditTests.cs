@@ -10,7 +10,7 @@ using MyAppRoot.AppServices.Staff;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Account;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.Pages.Account;
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Account;
 

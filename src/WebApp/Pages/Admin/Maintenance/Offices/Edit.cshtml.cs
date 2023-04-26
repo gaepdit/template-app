@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +7,7 @@ using MyAppRoot.AppServices.Offices.Permissions;
 using MyAppRoot.AppServices.Permissions;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 
@@ -68,8 +67,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var validationResult = await _validator.ValidateAsync(Item);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(Item));
+        await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
         await _service.UpdateAsync(Item);

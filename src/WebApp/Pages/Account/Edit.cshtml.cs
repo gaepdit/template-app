@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Account;
 
@@ -59,8 +58,7 @@ public class EditModel : PageModel
             return BadRequest();
         if (!staff.Active) return Forbid();
 
-        var validationResult = await _validator.ValidateAsync(UpdateStaff);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(UpdateStaff));
+        await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
         if (!ModelState.IsValid)
         {
