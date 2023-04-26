@@ -35,7 +35,7 @@ public class EditTests
             .ReturnsAsync(AuthorizationResult.Success);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
                 staffServiceMock.Object, authorizationMock.Object)
-            { TempData = WebAppTestsGlobal.PageTempData(), PageContext = WebAppTestsGlobal.PageContextWithUser() };
+            { TempData = WebAppTestsSetup.PageTempData(), PageContext = WebAppTestsSetup.PageContextWithUser() };
 
         await page.OnGetAsync(ItemTest.Id);
 
@@ -63,7 +63,7 @@ public class EditTests
             .ReturnsAsync(AuthorizationResult.Failed);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
                 staffServiceMock.Object, authorizationMock.Object)
-            { TempData = WebAppTestsGlobal.PageTempData(), PageContext = WebAppTestsGlobal.PageContextWithUser() };
+            { TempData = WebAppTestsSetup.PageTempData(), PageContext = WebAppTestsSetup.PageContextWithUser() };
 
         await page.OnGetAsync(ItemTest.Id);
 
@@ -85,7 +85,7 @@ public class EditTests
             .ReturnsAsync(StaffViewTest);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
                 staffServiceMock.Object, Mock.Of<IAuthorizationService>())
-            { TempData = WebAppTestsGlobal.PageTempData() };
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnGetAsync(null);
 
@@ -107,7 +107,7 @@ public class EditTests
             .ReturnsAsync(StaffViewTest);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>(),
                 staffServiceMock.Object, Mock.Of<IAuthorizationService>())
-            { TempData = WebAppTestsGlobal.PageTempData() };
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnGetAsync(Guid.Empty);
 
@@ -123,7 +123,7 @@ public class EditTests
             .ReturnsAsync(new ValidationResult());
         var page = new EditModel(serviceMock.Object, validatorMock.Object,
                 Mock.Of<IStaffAppService>(), Mock.Of<IAuthorizationService>())
-            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
+            { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.");
 
@@ -148,7 +148,7 @@ public class EditTests
             .ReturnsAsync(new ValidationResult(validationFailures));
         var page = new EditModel(serviceMock.Object, validatorMock.Object,
                 Mock.Of<IStaffAppService>(), Mock.Of<IAuthorizationService>())
-            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
+            { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
