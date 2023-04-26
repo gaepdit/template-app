@@ -10,11 +10,12 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<Office, OfficeViewDto>().ReverseMap();
+        CreateMap<Office, OfficeViewDto>();
         CreateMap<Office, OfficeUpdateDto>()
             .ForMember(d => d.CurrentUserOfficeId, o => o.Ignore());
 
-        CreateMap<ApplicationUser, StaffViewDto>().ReverseMap();
+        CreateMap<ApplicationUser, StaffViewDto>();
         CreateMap<ApplicationUser, StaffUpdateDto>();
+        // CreateMap<ApplicationUser, StaffSearchResultDto>();
     }
 }
