@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>MyAppRoot.WebApp</RootNamespace>
-        <AssemblyVersion>2023.4.4</AssemblyVersion>
+        <AssemblyVersion>2023.4.27</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>
