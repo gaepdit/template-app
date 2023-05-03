@@ -7,14 +7,14 @@ using MyAppRoot.Domain.Entities.Offices;
 
 namespace MyAppRoot.AppServices.Offices;
 
-public sealed class OfficeAppService : IOfficeAppService
+public sealed class OfficeService : IOfficeService
 {
     private readonly IOfficeRepository _repository;
     private readonly IOfficeManager _manager;
     private readonly IMapper _mapper;
     private readonly IUserService _users;
 
-    public OfficeAppService(
+    public OfficeService(
         IOfficeRepository repository,
         IOfficeManager manager,
         IMapper mapper,

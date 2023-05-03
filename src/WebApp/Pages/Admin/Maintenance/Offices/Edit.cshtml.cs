@@ -15,15 +15,15 @@ namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 public class EditModel : PageModel
 {
     // Constructor
-    private readonly IOfficeAppService _service;
+    private readonly IOfficeService _service;
     private readonly IValidator<OfficeUpdateDto> _validator;
-    private readonly IStaffAppService _staff;
+    private readonly IStaffService _staff;
     private readonly IAuthorizationService _authorization;
 
     public EditModel(
-        IOfficeAppService service,
+        IOfficeService service,
         IValidator<OfficeUpdateDto> validator,
-        IStaffAppService staff,
+        IStaffService staff,
         IAuthorizationService authorization)
     {
         _service = service;

@@ -4,7 +4,7 @@ using MyAppRoot.AppServices.Staff.Dto;
 
 namespace MyAppRoot.AppServices.Offices;
 
-public interface IOfficeAppService : IDisposable
+public interface IOfficeService : IDisposable
 {
     Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);

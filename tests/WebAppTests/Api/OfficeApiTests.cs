@@ -14,7 +14,7 @@ public class OfficeApiTests
     {
         List<OfficeViewDto> officeList = new()
             { new OfficeViewDto { Id = Guid.Empty, Name = TestConstants.ValidName } };
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.GetListAsync(CancellationToken.None))
             .ReturnsAsync(officeList);
         var apiController = new OfficeApiController(serviceMock.Object);
@@ -28,7 +28,7 @@ public class OfficeApiTests
     public async Task GetOffice_ReturnsOfficeView()
     {
         var item = Mock.Of<OfficeViewDto>();
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
             .ReturnsAsync(item);
         var apiController = new OfficeApiController(serviceMock.Object);
@@ -47,7 +47,7 @@ public class OfficeApiTests
     [Test]
     public async Task GetOffice_UnknownIdReturnsNotFound()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.FindAsync(It.IsAny<Guid>(), CancellationToken.None))
             .ReturnsAsync(null as OfficeViewDto);
         var apiController = new OfficeApiController(serviceMock.Object);
