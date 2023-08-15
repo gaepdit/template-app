@@ -1,7 +1,7 @@
 ﻿using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.UserServices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.Offices;
@@ -25,8 +25,8 @@ public class GetActiveStaff
         var managerMock = new Mock<IOfficeManager>();
         var userServiceMock = new Mock<IUserService>();
 
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
-            AppServicesTestsGlobal.Mapper!, userServiceMock.Object);
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
+            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
         var result = await appService.GetActiveStaffAsync(Guid.Empty);
 

@@ -1,6 +1,6 @@
 using FluentAssertions.Execution;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;
@@ -12,7 +12,7 @@ public class OfficeMapping
     {
         var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
-        var result = AppServicesTestsGlobal.Mapper!.Map<OfficeViewDto>(item);
+        var result = AppServicesTestsSetup.Mapper!.Map<OfficeViewDto>(item);
 
         using (new AssertionScope())
         {
@@ -27,7 +27,7 @@ public class OfficeMapping
     {
         var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
 
-        var result = AppServicesTestsGlobal.Mapper!.Map<OfficeUpdateDto>(item);
+        var result = AppServicesTestsSetup.Mapper!.Map<OfficeUpdateDto>(item);
 
         using (new AssertionScope())
         {

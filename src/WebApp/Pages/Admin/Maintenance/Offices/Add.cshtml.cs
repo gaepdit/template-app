@@ -1,18 +1,30 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Identity;
+using MyAppRoot.AppServices.Permissions;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Roles = AppRole.SiteMaintenance)]
+[Authorize(Policy = PolicyName.SiteMaintainer)]
 public class AddModel : PageModel
 {
+    // Constructor
+    private readonly IOfficeService _service;
+    private readonly IValidator<OfficeCreateDto> _validator;
+
+    public AddModel(
+        IOfficeService service,
+        IValidator<OfficeCreateDto> validator)
+    {
+        _service = service;
+        _validator = validator;
+    }
+
+    // Properties
     [BindProperty]
     public OfficeCreateDto Item { get; set; } = default!;
 
@@ -21,20 +33,18 @@ public class AddModel : PageModel
 
     public static MaintenanceOption ThisOption => MaintenanceOption.Office;
 
+    // Methods
     public void OnGet()
     {
         // Method intentionally left empty.
     }
 
-    public async Task<IActionResult> OnPostAsync(
-        [FromServices] IOfficeAppService service,
-        [FromServices] IValidator<OfficeCreateDto> validator)
+    public async Task<IActionResult> OnPostAsync()
     {
-        var validationResult = await validator.ValidateAsync(Item);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(Item));
+        await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        var id = await service.CreateAsync(Item);
+        var id = await _service.CreateAsync(Item);
 
         HighlightId = id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully added.");

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
-using MyAppRoot.AppServices.ServiceCollectionExtensions;
+using MyAppRoot.AppServices.RegisterServices;
 using MyAppRoot.WebApp.Platform.Raygun;
 using MyAppRoot.WebApp.Platform.Services;
 using MyAppRoot.WebApp.Platform.Settings;
@@ -22,9 +22,11 @@ builder.Services.AddIdentityStores();
 builder.Services.AddAuthenticationServices(builder.Configuration);
 
 // Persist data protection keys.
-var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"], "DataProtectionKeys");
+var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
 builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
-builder.Services.AddAuthorization();
+
+// Configure authorization policies.
+builder.Services.AddAuthorizationPolicies();
 
 // Configure UI services.
 builder.Services.AddRazorPages();
@@ -44,8 +46,12 @@ if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
     builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
 }
 
-// Add app services and data stores.
+// Add app services.
+builder.Services.AddAutoMapperProfiles();
 builder.Services.AddAppServices();
+builder.Services.AddValidators();
+
+// Add data stores.
 builder.Services.AddDataStores(builder.Configuration);
 
 // Initialize database.

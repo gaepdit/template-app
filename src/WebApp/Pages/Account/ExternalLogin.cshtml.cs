@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 using MyAppRoot.WebApp.Platform.Settings;
 using System.Security.Claims;
 
@@ -17,20 +18,18 @@ namespace MyAppRoot.WebApp.Pages.Account;
 [AllowAnonymous]
 public class ExternalLoginModel : PageModel
 {
-    public ApplicationUser? DisplayFailedUser { get; private set; }
-    public string ReturnUrl { get; private set; } = "/";
-
+    // Constructor
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    private readonly IStaffAppService _staffService;
+    private readonly IStaffService _staffService;
     private readonly ILogger<ExternalLoginModel> _logger;
 
     public ExternalLoginModel(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IConfiguration configuration,
-        IStaffAppService staffService,
+        IStaffService staffService,
         ILogger<ExternalLoginModel> logger)
     {
         _signInManager = signInManager;
@@ -40,10 +39,16 @@ public class ExternalLoginModel : PageModel
         _logger = logger;
     }
 
+    // Properties
+    public ApplicationUser? DisplayFailedUser { get; private set; }
+    public string ReturnUrl { get; private set; } = "/";
+
+    // Methods
+
     // Don't call the page directly
     public IActionResult OnGet() => RedirectToPage("./Login");
 
-    // This Post method is called by the Login page
+    // This Post method is called from the Login page
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         ReturnUrl = returnUrl ?? "/";
@@ -61,7 +66,7 @@ public class ExternalLoginModel : PageModel
     private async Task<IActionResult> SignInAsLocalUser()
     {
         _logger.LogInformation(
-            "Local user signin attempted with settings {LocalUserIsAuthenticated} and {LocalUserIsAdmin}",
+            "Local user signin attempted with settings LocalUserIsAuthenticated: {LocalUserIsAuthenticated} and LocalUserIsAdmin: {LocalUserIsAdmin}",
             ApplicationSettings.DevSettings.LocalUserIsAuthenticated,
             ApplicationSettings.DevSettings.LocalUserIsAdmin);
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();
@@ -73,7 +78,7 @@ public class ExternalLoginModel : PageModel
         var user = await _userManager.FindByIdAsync(staff.Id);
         _logger.LogInformation("Local user {StaffName} with ID {StaffId} signed in", staff.DisplayName, staff.Id);
 
-        await _signInManager.SignInAsync(user, false);
+        await _signInManager.SignInAsync(user!, false);
         return LocalRedirect(ReturnUrl);
     }
 
@@ -139,8 +144,8 @@ public class ExternalLoginModel : PageModel
         {
             UserName = info.Principal.FindFirstValue(ClaimConstants.PreferredUserName),
             Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-            GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-            FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+            GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? "",
+            FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? "",
             AzureAdObjectId = info.Principal.FindFirstValue(ClaimConstants.ObjectId),
         };
 
@@ -176,8 +181,8 @@ public class ExternalLoginModel : PageModel
         _logger.LogInformation("Existing user {UserName} logged in with {LoginProvider} provider",
             user.UserName, info.LoginProvider);
         user.Email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        user.GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-        user.FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+        user.GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? "";
+        user.FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? "";
         await _userManager.UpdateAsync(user);
         await _signInManager.RefreshSignInAsync(user);
         return LocalRedirect(ReturnUrl);
@@ -200,7 +205,7 @@ public class ExternalLoginModel : PageModel
 
         // Include the access token in the properties.
         var props = new AuthenticationProperties();
-        props.StoreTokens(info.AuthenticationTokens);
+        if (info.AuthenticationTokens is not null) props.StoreTokens(info.AuthenticationTokens);
         props.IsPersistent = true;
 
         await _signInManager.SignInAsync(user, props, info.LoginProvider);

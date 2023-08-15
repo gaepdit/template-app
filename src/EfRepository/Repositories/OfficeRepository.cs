@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.EfRepository.Contexts;
 
 namespace MyAppRoot.EfRepository.Repositories;
@@ -9,8 +9,8 @@ public sealed class OfficeRepository : BaseRepository<Office, Guid>, IOfficeRepo
 {
     public OfficeRepository(AppDbContext context) : base(context) { }
 
-    public Task<Office?> FindByNameAsync(string name, CancellationToken token = default) =>
-        Context.Offices.AsNoTracking()
+    public async Task<Office?> FindByNameAsync(string name, CancellationToken token = default) =>
+        await Context.Offices.AsNoTracking()
             .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
 
     public async Task<List<ApplicationUser>> GetActiveStaffMembersListAsync(

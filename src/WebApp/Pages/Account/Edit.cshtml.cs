@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,21 +6,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Account;
 
 [Authorize]
 public class EditModel : PageModel
 {
-    private readonly IStaffAppService _staffService;
-    private readonly IOfficeAppService _officeService;
+    // Constructor
+    private readonly IStaffService _staffService;
+    private readonly IOfficeService _officeService;
     private readonly IValidator<StaffUpdateDto> _validator;
 
     public EditModel(
-        IStaffAppService staffService,
-        IOfficeAppService officeService,
+        IStaffService staffService,
+        IOfficeService officeService,
         IValidator<StaffUpdateDto> validator)
     {
         _staffService = staffService;
@@ -29,13 +30,16 @@ public class EditModel : PageModel
         _validator = validator;
     }
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
-
+    // Properties
     [BindProperty]
     public StaffUpdateDto UpdateStaff { get; set; } = default!;
 
+    public StaffViewDto DisplayStaff { get; private set; } = default!;
+
+    // Select lists
     public SelectList OfficeItems { get; private set; } = default!;
 
+    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
@@ -51,11 +55,11 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff is not { Active: true }) return Forbid();
-        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active) return BadRequest();
+        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active)
+            return BadRequest();
+        if (!staff.Active) return Forbid();
 
-        var validationResult = await _validator.ValidateAsync(UpdateStaff);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(UpdateStaff));
+        await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -64,7 +68,8 @@ public class EditModel : PageModel
             return Page();
         }
 
-        await _staffService.UpdateAsync(UpdateStaff);
+        var result = await _staffService.UpdateAsync(UpdateStaff);
+        if (!result.Succeeded) return BadRequest();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
         return RedirectToPage("Index");

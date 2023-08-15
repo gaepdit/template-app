@@ -1,5 +1,6 @@
 using FluentAssertions.Execution;
 using MyAppRoot.LocalRepository.Identity;
+using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;
 
@@ -11,6 +12,7 @@ public class UserRoleStore
         using var store = new LocalUserStore();
         var user = store.UserStore.Last();
         var roleName = store.Roles.First().Name;
+        Debug.Assert(roleName != null, nameof(roleName) + " != null");
         var resultBefore = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
         await store.AddToRoleAsync(user, roleName, CancellationToken.None);
@@ -29,6 +31,7 @@ public class UserRoleStore
         using var store = new LocalUserStore();
         var user = store.UserStore.First();
         var roleName = store.Roles.First().Name;
+        Debug.Assert(roleName != null, nameof(roleName) + " != null");
         var resultBefore = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
         await store.RemoveFromRoleAsync(user, roleName, CancellationToken.None);
@@ -77,6 +80,7 @@ public class UserRoleStore
         using var store = new LocalUserStore();
         var user = store.UserStore.First();
         var roleName = store.Roles.First().Name;
+        Debug.Assert(roleName != null, nameof(roleName) + " != null");
         var result = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeTrue();
     }
@@ -87,6 +91,7 @@ public class UserRoleStore
         using var store = new LocalUserStore();
         var user = store.UserStore.Last();
         var roleName = store.Roles.First().Name;
+        Debug.Assert(roleName != null, nameof(roleName) + " != null");
         var result = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeFalse();
     }
@@ -96,6 +101,7 @@ public class UserRoleStore
     {
         using var store = new LocalUserStore();
         var roleName = store.Roles.First().Name;
+        Debug.Assert(roleName != null, nameof(roleName) + " != null");
         var result = await store.GetUsersInRoleAsync(roleName, CancellationToken.None);
 
         using (new AssertionScope())

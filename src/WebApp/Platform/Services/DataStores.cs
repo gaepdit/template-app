@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.EfRepository.Contexts;
 using MyAppRoot.EfRepository.Repositories;
 using MyAppRoot.LocalRepository.Repositories;
@@ -19,7 +19,7 @@ public static class DataStores
         }
         else
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrEmpty(connectionString))
             {

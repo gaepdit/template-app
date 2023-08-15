@@ -6,7 +6,6 @@
 
 <h1>@ViewData["Title"]</h1>
 <hr />
-<partial name="_AlertPartial" for="Message" />
 
 <h2>@Html.DisplayFor(m => m.DisplayStaff.DisplayName, "StringOrNone")</h2>
 
@@ -22,8 +21,8 @@
 </dl>
 
 <div class="mb-3">
-    <a asp-page="./Edit" class="btn btn-outline-primary me-2">Edit Profile</a>
-    <form class="form-inline d-inline-block" asp-page="./Logout" method="post">
+    <a asp-page="Edit" class="btn btn-outline-primary me-2">Edit Profile</a>
+    <form class="form-inline d-inline-block" asp-page="Logout" method="post">
         <button type="submit" class="btn btn-danger">Sign out</button>
     </form>
 </div>

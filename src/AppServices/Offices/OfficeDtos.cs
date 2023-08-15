@@ -1,4 +1,4 @@
-﻿using MyAppRoot.Domain.Offices;
+﻿using MyAppRoot.Domain.Entities.Offices;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyAppRoot.AppServices.Offices;
@@ -22,6 +22,10 @@ public class OfficeCreateDto
 
 public class OfficeUpdateDto
 {
+    // Authorization handler assist properties
+    public Guid CurrentUserOfficeId { get; set; }
+
+    // Properties
     public Guid Id { get; init; }
 
     [Required]

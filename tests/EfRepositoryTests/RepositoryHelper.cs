@@ -1,6 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.EfRepository.Contexts;
 using MyAppRoot.EfRepository.Contexts.SeedDevData;
 using MyAppRoot.EfRepository.Repositories;
@@ -24,7 +24,7 @@ namespace EfRepositoryTests;
 /// </summary>
 public sealed class RepositoryHelper : IDisposable
 {
-    private AppDbContext Context { get; set; } = null!;
+    private AppDbContext Context { get; set; } = default!;
 
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
@@ -117,7 +117,7 @@ public sealed class RepositoryHelper : IDisposable
     private static void ClearAllStaticData()
     {
         OfficeData.ClearData();
-        IdentityData.ClearData();
+        UserData.ClearData();
     }
 
     /// <summary>

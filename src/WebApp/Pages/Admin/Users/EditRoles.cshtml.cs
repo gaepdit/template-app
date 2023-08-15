@@ -1,33 +1,38 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyAppRoot.AppServices.Permissions;
 using MyAppRoot.AppServices.Staff;
+using MyAppRoot.AppServices.Staff.Dto;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using MyAppRoot.WebApp.Platform.PageModelHelpers;
 
 namespace MyAppRoot.WebApp.Pages.Admin.Users;
 
-[Authorize(Roles = AppRole.UserAdmin)]
+[Authorize(Policy = PolicyName.UserAdministrator)]
 public class EditRolesModel : PageModel
 {
-    private readonly IStaffAppService _staffService;
-    public EditRolesModel(IStaffAppService staffService) => _staffService = staffService;
+    // Constructor
+    private readonly IStaffService _staffService;
+    public EditRolesModel(IStaffService staffService) => _staffService = staffService;
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
-    public string? OfficeName => DisplayStaff.Office?.Name;
-
+    // Properties
     [BindProperty]
     public string UserId { get; set; } = string.Empty;
 
     [BindProperty]
     public List<RoleSetting> RoleSettings { get; set; } = new();
 
+    public StaffViewDto DisplayStaff { get; private set; } = default!;
+    public string? OfficeName => DisplayStaff.Office?.Name;
+
+    // Methods
     public async Task<IActionResult> OnGetAsync(string? id)
     {
-        if (id == null) return RedirectToPage("Index");
+        if (id is null) return RedirectToPage("Index");
         var staff = await _staffService.FindAsync(id);
-        if (staff == null) return NotFound();
+        if (staff is null) return NotFound();
 
         DisplayStaff = staff;
         UserId = id;
@@ -51,7 +56,7 @@ public class EditRolesModel : PageModel
             ModelState.AddModelError(string.Empty, string.Concat(err.Code, ": ", err.Description));
 
         var staff = await _staffService.FindAsync(UserId);
-        if (staff == null) return BadRequest();
+        if (staff is null) return BadRequest();
 
         DisplayStaff = staff;
 
@@ -73,9 +78,9 @@ public class EditRolesModel : PageModel
 
     public class RoleSetting
     {
-        public string Name { get; init; } = null!;
-        public string DisplayName { get; init; } = null!;
-        public string Description { get; init; } = null!;
+        public string Name { get; init; } = default!;
+        public string DisplayName { get; init; } = default!;
+        public string Description { get; init; } = default!;
         public bool IsSelected { get; init; }
     }
 }

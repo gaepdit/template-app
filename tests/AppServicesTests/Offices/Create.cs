@@ -1,7 +1,7 @@
 ﻿using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.UserServices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.Offices;
@@ -20,8 +20,8 @@ public class Create
         var userServiceMock = new Mock<IUserService>();
         userServiceMock.Setup(l => l.GetCurrentUserAsync())
             .ReturnsAsync((ApplicationUser?)null);
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
-            AppServicesTestsGlobal.Mapper!, userServiceMock.Object);
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
+            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
         var resource = new OfficeCreateDto { Name = TestConstants.ValidName };
 
         var result = await appService.CreateAsync(resource);

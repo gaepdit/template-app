@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Offices;
+using MyAppRoot.Domain.Entities.Offices;
 using MyAppRoot.TestData.Constants;
 
 namespace AppServicesTests.Offices;
@@ -17,8 +17,8 @@ public class FindForUpdate
             .ReturnsAsync(office);
         var managerMock = new Mock<IOfficeManager>();
         var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
-            AppServicesTestsGlobal.Mapper!, userServiceMock.Object);
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
+            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -35,7 +35,7 @@ public class FindForUpdate
         var managerMock = new Mock<IOfficeManager>();
         var mapperMock = new Mock<IMapper>();
         var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
             mapperMock.Object, userServiceMock.Object);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
