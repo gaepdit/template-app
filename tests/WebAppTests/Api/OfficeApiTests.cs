@@ -14,10 +14,9 @@ public class OfficeApiTests
     {
         List<OfficeViewDto> officeList = new()
             { new OfficeViewDto { Id = Guid.Empty, Name = TestConstants.ValidName } };
-        var serviceMock = new Mock<IOfficeService>();
-        serviceMock.Setup(l => l.GetListAsync(CancellationToken.None))
-            .ReturnsAsync(officeList);
-        var apiController = new OfficeApiController(serviceMock.Object);
+        var serviceMock = Substitute.For<IOfficeService>();
+        serviceMock.GetListAsync(CancellationToken.None).Returns(officeList);
+        var apiController = new OfficeApiController(serviceMock);
 
         var result = await apiController.ListOfficesAsync();
 
@@ -27,11 +26,10 @@ public class OfficeApiTests
     [Test]
     public async Task GetOffice_ReturnsOfficeView()
     {
-        var item = Mock.Of<OfficeViewDto>();
-        var serviceMock = new Mock<IOfficeService>();
-        serviceMock.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
-            .ReturnsAsync(item);
-        var apiController = new OfficeApiController(serviceMock.Object);
+        var item = Substitute.For<OfficeViewDto>();
+        var serviceMock = Substitute.For<IOfficeService>();
+        serviceMock.FindAsync(Guid.Empty, CancellationToken.None).Returns(item);
+        var apiController = new OfficeApiController(serviceMock);
 
         var response = await apiController.GetOfficeAsync(Guid.Empty);
 
@@ -47,10 +45,9 @@ public class OfficeApiTests
     [Test]
     public async Task GetOffice_UnknownIdReturnsNotFound()
     {
-        var serviceMock = new Mock<IOfficeService>();
-        serviceMock.Setup(l => l.FindAsync(It.IsAny<Guid>(), CancellationToken.None))
-            .ReturnsAsync(null as OfficeViewDto);
-        var apiController = new OfficeApiController(serviceMock.Object);
+        var serviceMock = Substitute.For<IOfficeService>();
+        serviceMock.FindAsync(Arg.Any<Guid>(), CancellationToken.None).Returns(null as OfficeViewDto);
+        var apiController = new OfficeApiController(serviceMock);
 
         var response = await apiController.GetOfficeAsync(Guid.Empty);
 
