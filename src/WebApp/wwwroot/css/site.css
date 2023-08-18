@@ -59,7 +59,7 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    /*margin-bottom: 60px;*/ /* Single height for one footer section */
+    /* margin-bottom: 60px;*/ /* Single height for one footer section */
     margin-bottom: 120px; /* Double height for two footer sections */
 }
 
@@ -130,11 +130,12 @@ a[target]::after {
     content: ' \1f5d7';
 }
 
+/* can be suppressed */
 a[target].no-external-link::after {
     content: none;
 }
 
-/* Hover style for links with underline removed
+/* Add outline on hover for links with underline removed
 -------------------------------------------------- */
 a.text-decoration-none:hover {
     outline: 2px solid;
@@ -183,9 +184,10 @@ a.text-decoration-none:hover {
 
 /* Bootstrap Icons
 -------------------------------------------------- */
-.invert-svg-color {
-    -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
-    filter: invert(100%);
+.bi {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
 }
 
 /* Fix for Bootstrap textarea with "floating" label
@@ -207,4 +209,3 @@ a.text-decoration-none:hover {
 /* ==================================================
 Application-specific styles
 ================================================== */
-
