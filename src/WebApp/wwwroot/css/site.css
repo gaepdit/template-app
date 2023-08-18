@@ -41,6 +41,10 @@ html {
     color: rgb(150, 113, 0) !important;
 }
 
+[data-bs-theme="light"] .text-danger-emphasis {
+    color: rgb(220, 53, 69) !important;
+}
+
 /* Sticky footer
 -------------------------------------------------- */
 html {
