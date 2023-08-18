@@ -45,7 +45,7 @@ else
             <th scope="col">Active</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
         @foreach (var item in Model.Items)
         {
             <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">

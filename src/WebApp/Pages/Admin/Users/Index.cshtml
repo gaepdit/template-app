@@ -76,7 +76,7 @@
                     <partial name="Shared/_PaginationNavAndCount" model="((IPaginatedResult)Model.SearchResults, Model.Spec.AsRouteValues())" />
                 </caption>
 
-                <thead class="table-light">
+                <thead>
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
@@ -97,7 +97,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="table-group-divider">
                 @foreach (var item in Model.SearchResults.Items)
                 {
                     <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
