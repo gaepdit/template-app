@@ -16,29 +16,42 @@
 }
 
 .text-bg-brand a:active {
-    color: #875050 ;
+    color: #875050;
 }
 
 .text-bg-brand .dropdown-item:active {
-    color: #fff ;
+    color: #fff;
+}
+
+.text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem rgba(67, 11, 11, 0.63);
 }
 
 /* Dark mode theme colors */
 [data-bs-theme="dark"] .text-bg-brand {
-    background-color: #671010;
+    background-color: rgb(57, 7, 7);
     color: #fff;
 }
 
 [data-bs-theme="dark"] .text-bg-brand a {
-    color: #fee;
+    color: #c9a1a1;
 }
 
 [data-bs-theme="dark"] .text-bg-brand a:hover,
 [data-bs-theme="dark"] .text-bg-brand a:focus {
-    color: #fdd;
+    color: #fccece;
 }
+
 [data-bs-theme="dark"] .text-bg-brand a:active {
-    color: #dcc;
+    color: #ffacac;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem rgba(255, 230, 230, 0.57);
 }
 
 /* Adjust font sizing
