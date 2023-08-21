@@ -102,11 +102,11 @@
                 {
                     <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
                         <td>
+                            <a asp-page="Details" asp-route-id="@item.Id">@item.SortableFullName</a>
                             @if (item.Email.Equals(User.Identity?.Name))
                             {
-                                <span class="badge text-bg-info">YOU</span>
+                                <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">You</span>
                             }
-                            <a asp-page="Details" asp-route-id="@item.Id">@item.SortableFullName</a>
                         </td>
                         <td>@item.Email</td>
                         <td>@Html.DisplayFor(m => item.OfficeName, TemplateNames.StringOrNone)</td>
