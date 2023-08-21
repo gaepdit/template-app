@@ -16,7 +16,7 @@
     @Model.DisplayStaff.DisplayName
     @if (Model.DisplayStaff.Email.Equals(User.Identity?.Name))
     {
-        <a asp-page="/Account/Index"><span class="badge text-bg-info">YOU</span></a>
+        <a asp-page="/Account/Index"><span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">You</span></a>
     }
 </h2>
 
@@ -56,12 +56,12 @@ else
 {
     <p>This account has the following application roles.</p>
 
-    <dl class="p-3 border rounded-3 bg-light">
+    <dl class="p-3 border rounded-3 bg-light-subtle">
         @foreach (var role in Model.Roles)
         {
             <dt>@role.DisplayName</dt>
             <dd>
-                <p class="text-muted">@role.Description</p>
+                <p class="text-body-secondary">@role.Description</p>
             </dd>
         }
     </dl>

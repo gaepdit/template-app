@@ -34,7 +34,7 @@
 
 @if (Model.Items.Count == 0)
 {
-    <em class="text-muted">None</em>
+    <em class="text-body-secondary">None</em>
 }
 else
 {
@@ -45,7 +45,7 @@ else
             <th scope="col">Active</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
         @foreach (var item in Model.Items)
         {
             <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
