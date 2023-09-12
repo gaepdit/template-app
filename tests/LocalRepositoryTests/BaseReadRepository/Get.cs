@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.LocalRepository.Repositories;
+using MyApp.Domain.Entities.Offices;
+using MyApp.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.BaseReadRepository;
 

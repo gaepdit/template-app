@@ -1,29 +1,56 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Identity;
+using MyApp.Domain.Identity;
+using MyApp.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace MyApp.LocalRepository.Identity;
 
 public sealed class LocalUserStore :
-        IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
-        IUserLoginStore<ApplicationUser>,
-        IQueryableUserStore<ApplicationUser>
+    IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
+    IUserLoginStore<ApplicationUser>,
+    IQueryableUserStore<ApplicationUser>
 {
     public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
 
     internal ICollection<ApplicationUser> UserStore { get; }
     internal ICollection<IdentityRole> Roles { get; }
-    private ICollection<IdentityUserRole<string>> UserRoles { get; }
+    private List<IdentityUserRole<string>> UserRoles { get; }
     private ICollection<UserLogin> UserLogins { get; }
 
     public LocalUserStore()
     {
+        // Seed Users
         UserStore = UserData.GetUsers.ToList();
+
+        // Seed Roles
         Roles = UserData.GetRoles.ToList();
-        UserRoles = Roles
-            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = UserStore.First().Id })
-            .ToList();
+
+        // Seed User Roles
+        UserRoles = new List<IdentityUserRole<string>>();
+
+        // -- admin
+        UserRoles.AddRange(Roles
+            .Select(role => new IdentityUserRole<string>
+                { RoleId = role.Id, UserId = UserStore.Single(e => e.GivenName == "Admin").Id })
+            .ToList());
+
+        // -- staff
+        var staffUserId = UserStore.Single(e => e.GivenName == "General").Id;
+        UserRoles.AddRange(new IdentityUserRole<string>[]
+        {
+            new()
+            {
+                RoleId = Roles.Single(e => e.Name == RoleName.SiteMaintenance).Id,
+                UserId = staffUserId,
+            },
+            new()
+            {
+                RoleId = Roles.Single(e => e.Name == RoleName.Staff).Id,
+                UserId = staffUserId,
+            },
+        });
+
+        // Initialize Logins
         UserLogins = new List<UserLogin>();
     }
 
@@ -86,7 +113,7 @@ public sealed class LocalUserStore :
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
         if (roleId is null) return Task.CompletedTask;
 
-        var exists = UserRoles.Any(e => e.UserId == user.Id && e.RoleId == roleId);
+        var exists = UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId);
         if (!exists) UserRoles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = user.Id });
 
         return Task.CompletedTask;
@@ -119,7 +146,7 @@ public sealed class LocalUserStore :
     {
         var roleId = Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
-        return Task.FromResult(UserRoles.Any(e => e.UserId == user.Id && e.RoleId == roleId));
+        return Task.FromResult(UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId));
     }
 
     public Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)

@@ -1,8 +1,8 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.TestData.Constants;
+using MyApp.Domain.Entities.Offices;
+using MyApp.LocalRepository.Repositories;
+using MyApp.TestData.Constants;
 
 namespace LocalRepositoryTests.BaseWriteRepository;
 
@@ -35,7 +35,7 @@ public class Delete
     [Test]
     public async Task WhenItemDoesNotExist_Throws()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var action = async () => await _repository.DeleteAsync(item);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");

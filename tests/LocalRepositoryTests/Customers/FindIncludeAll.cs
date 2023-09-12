@@ -1,13 +1,13 @@
 using MyApp.LocalRepository.Repositories;
 
-namespace LocalRepositoryTests.BaseReadRepository;
+namespace LocalRepositoryTests.Customers;
 
-public class Find
+public class FindIncludeAll
 {
-    private LocalOfficeRepository _repository = default!;
+    private LocalCustomerRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetCustomerRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -16,14 +16,17 @@ public class Find
     public async Task WhenItemExists_ReturnsItem()
     {
         var item = _repository.Items.First();
-        var result = await _repository.FindAsync(item.Id);
+        item.Contacts.RemoveAll(c => c.IsDeleted);
+
+        var result = await _repository.FindIncludeAllAsync(item.Id);
+
         result.Should().BeEquivalentTo(item);
     }
 
     [Test]
     public async Task WhenDoesNotExist_ReturnsNull()
     {
-        var result = await _repository.FindAsync(Guid.Empty);
+        var result = await _repository.FindIncludeAllAsync(Guid.Empty);
         result.Should().BeNull();
     }
 }

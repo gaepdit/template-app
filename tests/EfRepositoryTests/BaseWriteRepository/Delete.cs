@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData.Constants;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData.Constants;
 
 namespace EfRepositoryTests.BaseWriteRepository;
 
@@ -27,14 +27,14 @@ public class Delete
     public async Task WhenItemExists_DeletesItem()
     {
         // Arrange
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
         await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
         // (Still part of arrange...)
-        var getResult = await _repository.GetAsync(item.Id);
+        var getResult = await _repository.FindAsync(item.Id);
         getResult.Should().BeEquivalentTo(item);
-
+       
         // Act
         await _repository.DeleteAsync(item);
         _repositoryHelper.ClearChangeTracker();
@@ -48,7 +48,7 @@ public class Delete
     public async Task WhenAutoSaveIsFalse_NothingIsDeleted()
     {
         // Arrange
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
         await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
@@ -64,7 +64,7 @@ public class Delete
     [Test]
     public async Task WhenItemDoesNotExist_Throws()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var action = async () => await _repository.DeleteAsync(item);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");

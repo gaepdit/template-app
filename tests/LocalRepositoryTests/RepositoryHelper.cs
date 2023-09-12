@@ -1,12 +1,18 @@
-﻿using MyAppRoot.LocalRepository.Identity;
-using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Identity;
+﻿using MyApp.LocalRepository.Identity;
+using MyApp.LocalRepository.Repositories;
+using MyApp.TestData;
+using MyApp.TestData.Identity;
 
 namespace LocalRepositoryTests;
 
 public static class RepositoryHelper
 {
+    public static LocalCustomerRepository GetCustomerRepository()
+    {
+        ClearAllStaticData();
+        return new LocalCustomerRepository(new LocalContactRepository());
+    }
+
     public static LocalOfficeRepository GetOfficeRepository()
     {
         ClearAllStaticData();
@@ -21,6 +27,8 @@ public static class RepositoryHelper
 
     private static void ClearAllStaticData()
     {
+        ContactData.ClearData();
+        CustomerData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
     }
