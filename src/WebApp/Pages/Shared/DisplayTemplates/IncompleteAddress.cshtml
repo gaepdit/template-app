@@ -1,5 +1,10 @@
-﻿@model MyAppRoot.Domain.ValueObjects.Address?
-@if (Model is not null)
+﻿@using MyApp.Domain.ValueObjects
+@model MyApp.Domain.ValueObjects.IncompleteAddress?
+@if (Model is null || Model == IncompleteAddress.EmptyAddress)
+{
+    <span class="text-body-secondary">[Not entered]</span>
+}
+else
 {
     @if (!string.IsNullOrWhiteSpace(Model.Street))
     {
@@ -28,11 +33,11 @@
         }
         else
         {
-            @Model.State@:&nbsp;
+            @Model.State@:
         }
     }
     @if (!string.IsNullOrWhiteSpace(Model.PostalCode))
     {
-        @Model.PostalCode
+        @:&nbsp;@Model.PostalCode
     }
 }

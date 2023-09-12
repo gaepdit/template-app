@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace MyApp.WebApp.Pages.Account;
 
-[Authorize]
+[Authorize(Policy = nameof(Policies.LoggedInUser))]
 public class IndexModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
@@ -16,12 +17,8 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync([FromServices] IStaffService staffService)
     {
-        var staff = await staffService.GetCurrentUserAsync();
-        if (staff is not { Active: true }) return Forbid();
-
-        DisplayStaff = staff;
+        DisplayStaff = await staffService.GetCurrentUserAsync();
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-
         return Page();
     }
 }

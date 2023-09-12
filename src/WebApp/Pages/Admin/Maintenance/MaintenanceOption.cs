@@ -1,4 +1,4 @@
-namespace MyAppRoot.WebApp.Pages.Admin.Maintenance;
+namespace MyApp.WebApp.Pages.Admin.Maintenance;
 
 public class MaintenanceOption
 {
@@ -7,6 +7,6 @@ public class MaintenanceOption
 
     private MaintenanceOption() { }
 
-    public static MaintenanceOption Office { get; } =
+    public static MaintenanceOption Office =>
         new() { SingularName = "Office", PluralName = "Offices" };
 }

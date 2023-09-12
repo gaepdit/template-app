@@ -1,5 +1,6 @@
 ﻿@page
-@using MyAppRoot.Domain.Identity
+@using MyApp.Domain.Identity
+@using MyApp.WebApp.Pages.Shared.DisplayTemplates
 @model IndexModel
 @{
     ViewData["Title"] = $"Site Maintenance: {IndexModel.ThisOption.PluralName}";
@@ -43,26 +44,30 @@ else
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Active</th>
+            <th scope="col">
+                <span class="visually-hidden">Actions</span>
+            </th>
         </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody>
         @foreach (var item in Model.Items)
         {
             <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
                 <td>
-                    @if (Model.IsSiteMaintainer)
+                    @if (item.Id == Model.HighlightId)
                     {
-                        <a asp-page="Edit" asp-route-id="@item.Id">
-                            @Html.DisplayFor(m => item.Name, "StringOrNone")
-                        </a>
+                        @:👉 
                     }
-                    else
-                    {
-                        @Html.DisplayFor(m => item.Name, "StringOrNone")
-                    }
+                    @Html.DisplayFor(m => item.Name, "StringOrNone")
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Active)
+                    @Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)
+                </td>
+                <td>
+                    @if (Model.IsSiteMaintainer)
+                    {
+                        <a asp-page="Edit" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">Edit</a>
+                    }
                 </td>
             </tr>
         }

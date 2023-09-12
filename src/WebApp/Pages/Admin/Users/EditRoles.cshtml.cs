@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Permissions;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Users;
+namespace MyApp.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = PolicyName.UserAdministrator)]
+[Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditRolesModel : PageModel
 {
     // Constructor

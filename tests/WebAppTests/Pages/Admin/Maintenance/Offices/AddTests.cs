@@ -3,25 +3,26 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.TestData.Constants;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Pages.Admin.Maintenance.Offices;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 
 public class AddTests
 {
-    private static readonly OfficeCreateDto ItemTest = new() { Name = TestConstants.ValidName };
+    private static readonly OfficeCreateDto ItemTest = new(TextData.ValidName);
 
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
         var serviceMock = Substitute.For<IOfficeService>();
-        serviceMock.CreateAsync(Arg.Any<OfficeCreateDto>(), CancellationToken.None).Returns(Guid.Empty);
+        serviceMock.CreateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>()).Returns(Guid.Empty);
         var validatorMock = Substitute.For<IValidator<OfficeCreateDto>>();
-        validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), CancellationToken.None).Returns(new ValidationResult());
+        validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
+            .Returns(new ValidationResult());
         var page = new AddModel(serviceMock, validatorMock)
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
         var expectedMessage =
@@ -44,7 +45,7 @@ public class AddTests
         var serviceMock = Substitute.For<IOfficeService>();
         var validatorMock = Substitute.For<IValidator<OfficeCreateDto>>();
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), CancellationToken.None)
+        validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
         var page = new AddModel(serviceMock, validatorMock)
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace MyApp.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class LoginModel : PageModel

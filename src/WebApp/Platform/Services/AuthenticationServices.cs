@@ -1,7 +1,7 @@
 ﻿using Microsoft.Identity.Web;
-using MyAppRoot.WebApp.Platform.Settings;
+using MyApp.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace MyApp.WebApp.Platform.Services;
 
 public static class AuthenticationServices
 {

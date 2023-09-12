@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyAppRoot.AppServices.Offices;
+using MyApp.AppServices.Offices;
 
-namespace MyAppRoot.WebApp.Api;
+namespace MyApp.WebApp.Api;
 
 [ApiController]
 [Route("api/offices")]
@@ -14,11 +14,4 @@ public class OfficeApiController : Controller
     [HttpGet]
     public async Task<IReadOnlyList<OfficeViewDto>> ListOfficesAsync() =>
         (await _officeService.GetListAsync());
-
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<OfficeViewDto>> GetOfficeAsync([FromRoute] Guid id)
-    {
-        var item = await _officeService.FindAsync(id);
-        return item is null ? Problem("ID not found.", statusCode: 404) : Ok(item);
-    }
 }

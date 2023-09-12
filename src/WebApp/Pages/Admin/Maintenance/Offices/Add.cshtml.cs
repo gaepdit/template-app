@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Permissions;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.Permissions;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
+namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Policy = PolicyName.SiteMaintainer)]
+[Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public class AddModel : PageModel
 {
     // Constructor
@@ -44,9 +44,8 @@ public class AddModel : PageModel
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        var id = await _service.CreateAsync(Item);
-
-        HighlightId = id;
+        HighlightId = await _service.CreateAsync(Item);
+        
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully added.");
         return RedirectToPage("Index");
     }

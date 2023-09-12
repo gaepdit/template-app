@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.EfRepository.Contexts;
-using MyAppRoot.EfRepository.Repositories;
-using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.WebApp.Platform.Settings;
+using Microsoft.EntityFrameworkCore;
+using MyApp.Domain.Entities.Contacts;
+using MyApp.Domain.Entities.Customers;
+using MyApp.Domain.Entities.Offices;
+using MyApp.EfRepository.Contexts;
+using MyApp.EfRepository.Repositories;
+using MyApp.LocalRepository.Repositories;
+using MyApp.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace MyApp.WebApp.Platform.Services;
 
 public static class DataStores
 {
@@ -15,11 +17,13 @@ public static class DataStores
         if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
             // Uses local static data if no database is built.
+            services.AddSingleton<IContactRepository, LocalContactRepository>();
+            services.AddSingleton<ICustomerRepository, LocalCustomerRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
         {
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -28,9 +32,17 @@ public static class DataStores
             else
             {
                 services.AddDbContext<AppDbContext>(opts =>
-                    opts.UseSqlServer(connectionString, x => x.MigrationsAssembly("EfRepository")));
+                    opts.UseSqlServer(connectionString, builder =>
+                    {
+                        // DateOnly and TimeOnly entity properties require the following package: 
+                        // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
+                        // FUTURE: This will no longer be necessary after upgrading to .NET 8.
+                        builder.UseDateOnlyTimeOnly();
+                    }));
             }
 
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }
     }
