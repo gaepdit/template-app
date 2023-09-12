@@ -22,8 +22,12 @@ The following steps describe how to use the template for a new application.
 
 ## Customize the application
 
-* Update the "README.md" file with information about the new application.
-* Change the branding colors in "src\WebApp\wwwroot\css\site.css".
+* Update these files with information about the new application:
+    * README.md
+    * docs/Entity relationship diagram.md
+    * docs/Role capabilities.md
+    * docs/Site map.md
+* Change the branding colors in "src\WebApp\wwwroot\css\site.css" by adjusting the `--base-hue` variable.
 
 ## Prepare for deployment
 
