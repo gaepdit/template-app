@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace MyApp.AppServices.Staff;
 
 /// <summary>
 /// The exception that is thrown if the current user can't be found.
@@ -9,7 +9,7 @@ namespace MyAppRoot.AppServices.Staff;
 public class CurrentUserNotFoundException : Exception
 {
     public CurrentUserNotFoundException()
-        : base($"Information on the current user could not be found.") { }
+        : base("Information on the current user could not be found.") { }
 
     protected CurrentUserNotFoundException(SerializationInfo info, StreamingContext context)
         : base(info, context) { }

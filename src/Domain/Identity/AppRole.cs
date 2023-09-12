@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.Domain.Identity;
+﻿namespace MyApp.Domain.Identity;
 
 /// <summary>
 /// User Roles available to the application for authorization.
@@ -7,6 +7,8 @@ public static class RoleName
 {
     // These are the strings that are stored in the database. Avoid modifying these once set!
 
+    public const string Manager = nameof(Manager);
+    public const string Staff = nameof(Staff);
     public const string SiteMaintenance = nameof(SiteMaintenance);
     public const string UserAdmin = nameof(UserAdmin);
 }
@@ -40,7 +42,7 @@ public class AppRole
     /// </summary>
     /// <param name="roles">A list of role strings.</param>
     /// <returns>A list of AppRoles.</returns>
-    public static IList<AppRole> RolesAsAppRoles(IEnumerable<string> roles)
+    public static IEnumerable<AppRole> RolesAsAppRoles(IEnumerable<string> roles)
     {
         var appRoles = new List<AppRole>();
 
@@ -53,13 +55,27 @@ public class AppRole
 
     // These static Role objects are used for displaying role information in the UI.
 
+    [UsedImplicitly]
+    public static AppRole AdminRole { get; } = new(
+        RoleName.Manager, "Manager",
+        "Can do manager work."
+    );
+
+    [UsedImplicitly]
+    public static AppRole StaffRole { get; } = new(
+        RoleName.Staff, "Staff",
+        "Can do staff work."
+    );
+
+    [UsedImplicitly]
     public static AppRole SiteMaintenanceRole { get; } = new(
         RoleName.SiteMaintenance, "Site Maintenance",
         "Can update values in lookup tables (drop-down lists)."
     );
 
+    [UsedImplicitly]
     public static AppRole UserAdminRole { get; } = new(
         RoleName.UserAdmin, "User Account Admin",
-        "Can register and edit all users and roles."
+        "Can edit all user profiles and roles."
     );
 }

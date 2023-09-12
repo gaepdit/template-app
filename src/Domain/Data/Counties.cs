@@ -1,8 +1,9 @@
-﻿namespace MyAppRoot.Domain.Data;
+﻿// ReSharper disable StringLiteralTypo
+namespace MyApp.Domain.Data;
 
 public static partial class Data
 {
-    public static List<string> Counties => new()
+    public static IEnumerable<string> Counties => new List<string>
     {
         "Appling",
         "Atkinson",

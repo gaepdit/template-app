@@ -1,7 +1,7 @@
 using FluentAssertions.Execution;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData.Constants;
+using MyApp.AppServices.Offices;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;
 
@@ -10,7 +10,7 @@ public class OfficeMapping
     [Test]
     public void OfficeViewMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeViewDto>(item);
 
@@ -25,7 +25,7 @@ public class OfficeMapping
     [Test]
     public void OfficeUpdateMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeUpdateDto>(item);
 

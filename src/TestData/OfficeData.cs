@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Entities.Offices;
+using MyApp.Domain.Entities.Offices;
 
-namespace MyAppRoot.TestData;
+namespace MyApp.TestData;
 
 internal static class OfficeData
 {
@@ -19,7 +19,7 @@ internal static class OfficeData
         get
         {
             if (_offices is not null) return _offices;
-            _offices = OfficeSeedItems;
+            _offices = OfficeSeedItems.ToList();
             return _offices;
         }
     }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData.Constants;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.UserServices;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData.Constants;
 
 namespace AppServicesTests.Offices;
 
@@ -11,7 +11,7 @@ public class FindForUpdate
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
     {
-        var office = new Office(Guid.Empty, TestConstants.ValidName);
+        var office = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
         var managerMock = Substitute.For<IOfficeManager>();

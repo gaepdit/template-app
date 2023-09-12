@@ -1,37 +1,9 @@
-﻿using MyAppRoot.Domain.Entities.Offices;
-using System.ComponentModel.DataAnnotations;
+﻿using MyApp.AppServices.DtoBase;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace MyApp.AppServices.Offices;
 
-public class OfficeViewDto
-{
-    public Guid Id { get; init; }
-    public string Name { get; init; } = string.Empty;
+public record OfficeViewDto(Guid Id, string Name, bool Active) : SimpleNamedEntityViewDto(Id, Name, Active);
 
-    [UIHint("BoolActive")]
-    public bool Active { get; init; }
-}
+public record OfficeCreateDto(string Name) : SimpleNamedEntityCreateDto(Name);
 
-public class OfficeCreateDto
-{
-    [Required]
-    [StringLength(Office.MaxNameLength, MinimumLength = Office.MinNameLength,
-        ErrorMessage = "The Name must be at least {2} characters but no longer than {1}.")]
-    public string Name { get; init; } = string.Empty;
-}
-
-public class OfficeUpdateDto
-{
-    // Authorization handler assist properties
-    public Guid CurrentUserOfficeId { get; set; }
-
-    // Properties
-    public Guid Id { get; init; }
-
-    [Required]
-    [StringLength(Office.MaxNameLength, MinimumLength = Office.MinNameLength,
-        ErrorMessage = "The Name must be at least {2} characters but no longer than {1}.")]
-    public string Name { get; init; } = string.Empty;
-
-    public bool Active { get; init; }
-}
+public record OfficeUpdateDto(Guid Id, string Name, bool Active) : SimpleNamedEntityUpdateDto(Id, Name, Active);

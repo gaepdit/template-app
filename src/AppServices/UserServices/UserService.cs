@@ -1,9 +1,8 @@
-﻿using GaEpd.AppLibrary.Domain.Repositories;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.AppServices.UserServices;
+namespace MyApp.AppServices.UserServices;
 
 public class UserService : IUserService
 {
@@ -23,10 +22,6 @@ public class UserService : IUserService
         var principal = _httpContextAccessor.HttpContext?.User;
         return principal is null ? null : await _userManager.GetUserAsync(principal);
     }
-
-    public async Task<ApplicationUser> GetUserAsync(string id) =>
-        await _userManager.FindByIdAsync(id)
-            ?? throw new EntityNotFoundException(typeof(ApplicationUser), id);
 
     public Task<ApplicationUser?> FindUserAsync(string id) =>
         _userManager.FindByIdAsync(id);

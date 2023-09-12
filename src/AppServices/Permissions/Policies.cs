@@ -1,25 +1,54 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyAppRoot.AppServices.Permissions.Requirements;
+using MyApp.AppServices.Permissions.Requirements;
 
-namespace MyAppRoot.AppServices.Permissions;
+namespace MyApp.AppServices.Permissions;
 
-public static class PolicyName
-{
-    public const string UserAdministrator = nameof(UserAdministrator);
-    public const string SiteMaintainer = nameof(SiteMaintainer);
-}
+#pragma warning disable S125
+
+// Two ways to use these policies:
+//
+// A. As an attribute on a PageModel class:
+//
+//    [Authorize(Policy = PolicyName.SiteMaintainer)]
+//    public class AddModel : PageModel
+//
+// B. From a DI authorization service: 
+//
+//    public async Task<IActionResult> OnGetAsync([FromServices] IAuthorizationService authorizationService)
+//    {
+//        var isStaff = (await authorizationService.AuthorizeAsync(User, Policies.StaffUserPolicy())).Succeeded;
+//    }
+
+#pragma warning restore S125
 
 public static class Policies
 {
-    public static AuthorizationPolicy SiteMaintainerPolicy() =>
-        new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .AddRequirements(new SiteMaintainerRequirement())
-            .Build();
+    // Default policy builders
+    private static AuthorizationPolicyBuilder AuthenticatedUserPolicyBuilder =>
+        new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
 
-    public static AuthorizationPolicy UserAdministratorPolicy() =>
-        new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .AddRequirements(new UserAdministratorRequirement())
-            .Build();
+    private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder =>
+        AuthenticatedUserPolicyBuilder.AddRequirements(new ActiveUserRequirement());
+
+    // Policies
+    public static AuthorizationPolicy ActiveUser =>
+        ActiveUserPolicyBuilder.Build();
+
+    public static AuthorizationPolicy AdministrationView =>
+        ActiveUserPolicyBuilder.AddRequirements(new AdministrationViewRequirement()).Build();
+
+    public static AuthorizationPolicy AdminUser =>
+        ActiveUserPolicyBuilder.AddRequirements(new AdminUserRequirement()).Build();
+
+    public static AuthorizationPolicy LoggedInUser =>
+        AuthenticatedUserPolicyBuilder.Build();
+
+    public static AuthorizationPolicy SiteMaintainer =>
+        ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();
+
+    public static AuthorizationPolicy StaffUser =>
+        ActiveUserPolicyBuilder.AddRequirements(new StaffUserRequirement()).Build();
+
+    public static AuthorizationPolicy UserAdministrator =>
+        ActiveUserPolicyBuilder.AddRequirements(new UserAdministratorRequirement()).Build();
 }

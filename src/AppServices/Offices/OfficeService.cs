@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities.Offices;
+using MyApp.AppServices.UserServices;
+using MyApp.Domain.Entities.Offices;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace MyApp.AppServices.Offices;
 
 public sealed class OfficeService : IOfficeService
 {
@@ -26,18 +24,6 @@ public sealed class OfficeService : IOfficeService
         _users = users;
     }
 
-    public async Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<OfficeViewDto>(item);
-    }
-
-    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<OfficeUpdateDto>(item);
-    }
-
     public async Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default)
     {
         var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
@@ -50,28 +36,27 @@ public sealed class OfficeService : IOfficeService
 
     public async Task<Guid> CreateAsync(OfficeCreateDto resource, CancellationToken token = default)
     {
-        var item = await _manager.CreateAsync(resource.Name, token);
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
+        var item = await _manager.CreateAsync(resource.Name, (await _users.GetCurrentUserAsync())?.Id, token);
         await _repository.InsertAsync(item, token: token);
         return item.Id;
+    }
+
+    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.FindAsync(id, token);
+        return _mapper.Map<OfficeUpdateDto>(item);
     }
 
     public async Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default)
     {
         var item = await _repository.GetAsync(resource.Id, token);
+        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())
             await _manager.ChangeNameAsync(item, resource.Name, token);
         item.Active = resource.Active;
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task<IReadOnlyList<StaffViewDto>> GetActiveStaffAsync(Guid id, CancellationToken token = default)
-    {
-        var users = await _repository.GetActiveStaffMembersListAsync(id, token);
-        return _mapper.Map<IReadOnlyList<StaffViewDto>>(users);
     }
 
     public void Dispose() => _repository.Dispose();
