@@ -4,7 +4,7 @@ using MyApp.AppServices.Permissions.Requirements;
 namespace MyApp.AppServices.Permissions;
 
 #pragma warning disable S125
-
+//
 // Two ways to use these policies:
 //
 // A. As an attribute on a PageModel class:
@@ -18,7 +18,7 @@ namespace MyApp.AppServices.Permissions;
 //    {
 //        var isStaff = (await authorizationService.AuthorizeAsync(User, Policies.StaffUserPolicy())).Succeeded;
 //    }
-
+//
 #pragma warning restore S125
 
 public static class Policies
@@ -30,18 +30,17 @@ public static class Policies
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder =>
         AuthenticatedUserPolicyBuilder.AddRequirements(new ActiveUserRequirement());
 
-    // Policies
-    public static AuthorizationPolicy ActiveUser =>
-        ActiveUserPolicyBuilder.Build();
+    // Basic policies
+    public static AuthorizationPolicy ActiveUser => ActiveUserPolicyBuilder.Build();
 
+    public static AuthorizationPolicy LoggedInUser => AuthenticatedUserPolicyBuilder.Build();
+
+    // Role-based policies
     public static AuthorizationPolicy AdministrationView =>
         ActiveUserPolicyBuilder.AddRequirements(new AdministrationViewRequirement()).Build();
 
     public static AuthorizationPolicy AdminUser =>
         ActiveUserPolicyBuilder.AddRequirements(new AdminUserRequirement()).Build();
-
-    public static AuthorizationPolicy LoggedInUser =>
-        AuthenticatedUserPolicyBuilder.Build();
 
     public static AuthorizationPolicy SiteMaintainer =>
         ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();
