@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyAppRoot.Domain.Identity;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.AppServices.Permissions.Requirements;
+namespace MyApp.AppServices.Permissions.Requirements;
 
 internal class UserAdministratorRequirement :
     AuthorizationHandler<UserAdministratorRequirement>, IAuthorizationRequirement
@@ -10,9 +10,6 @@ internal class UserAdministratorRequirement :
         AuthorizationHandlerContext context,
         UserAdministratorRequirement requirement)
     {
-        if (!(context.User.Identity?.IsAuthenticated ?? false))
-            return Task.FromResult(0);
-
         if (context.User.IsInRole(RoleName.UserAdmin))
             context.Succeed(requirement);
 

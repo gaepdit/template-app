@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.WebApp.Platform.Constants;
+﻿namespace MyApp.WebApp.Platform.Constants;
 
 // App-wide global variables
 internal static class GlobalConstants

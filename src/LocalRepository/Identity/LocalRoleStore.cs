@@ -1,19 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.TestData.Identity;
+using MyApp.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace MyApp.LocalRepository.Identity;
 
 /// <summary>
 /// This store is intentionally only partially implemented. RoleStore is read-only.
 /// </summary>
 public sealed class LocalRoleStore : IRoleStore<IdentityRole>
 {
-    internal IEnumerable<IdentityRole> Roles { get; }
-
-    public LocalRoleStore()
-    {
-        Roles = UserData.GetRoles;
-    }
+    internal IEnumerable<IdentityRole> Roles { get; } = UserData.GetRoles;
 
     public Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken) =>
         Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.

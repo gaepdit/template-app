@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData;
 
 namespace EfRepositoryTests.BaseReadRepository;
 

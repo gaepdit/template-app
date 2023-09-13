@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
-using MyAppRoot.Domain.Entities.Offices;
+using MyApp.Domain.Entities.EntityBase;
+using MyApp.Domain.Entities.Offices;
 
-namespace MyAppRoot.AppServices.Offices.Validators;
+namespace MyApp.AppServices.Offices.Validators;
 
 public class OfficeCreateValidator : AbstractValidator<OfficeCreateDto>
 {
@@ -13,7 +14,8 @@ public class OfficeCreateValidator : AbstractValidator<OfficeCreateDto>
 
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
-            .Length(Office.MinNameLength, Office.MaxNameLength)
+            .NotEmpty()
+            .Length(SimpleNamedEntity.MinNameLength, SimpleNamedEntity.MaxNameLength)
             .MustAsync(async (_, name, token) => await NotDuplicateName(name, token))
             .WithMessage("The name entered already exists.");
     }

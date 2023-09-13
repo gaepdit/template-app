@@ -2,10 +2,10 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.EfRepository.Contexts;
+using MyApp.EfRepository.Contexts;
 using System.Linq.Expressions;
 
-namespace MyAppRoot.EfRepository.Repositories;
+namespace MyApp.EfRepository.Repositories;
 
 public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
@@ -16,7 +16,7 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
 
     public async Task<TEntity> GetAsync(TKey id, CancellationToken token = default)
     {
-        var item = await Context.Set<TEntity>().AsNoTracking()
+        var item = await Context.Set<TEntity>()
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
         return item ?? throw new EntityNotFoundException(typeof(TEntity), id);
     }
@@ -102,6 +102,8 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         }
     }
 
+    public async Task SaveChangesAsync(CancellationToken token = default) => await Context.SaveChangesAsync(token);
+    
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
     {

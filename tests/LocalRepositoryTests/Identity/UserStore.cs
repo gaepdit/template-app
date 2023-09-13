@@ -1,9 +1,9 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.LocalRepository.Identity;
-using MyAppRoot.TestData.Identity;
+using MyApp.Domain.Entities.Offices;
+using MyApp.Domain.Identity;
+using MyApp.LocalRepository.Identity;
+using MyApp.TestData.Identity;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;
@@ -79,7 +79,7 @@ public class UserStore
     public async Task FindByName_ReturnsUser()
     {
         var user = _store.UserStore.First();
-        Debug.Assert(user.NormalizedUserName != null, "user.NormalizedUserName != null");
+        Debug.Assert(user.NormalizedUserName != null, "role.NormalizedName != null");
         var result = await _store.FindByNameAsync(user.NormalizedUserName, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }

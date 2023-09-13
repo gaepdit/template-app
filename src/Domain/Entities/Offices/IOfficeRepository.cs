@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Identity;
+﻿using MyApp.Domain.Identity;
 
-namespace MyAppRoot.Domain.Entities.Offices;
+namespace MyApp.Domain.Entities.Offices;
 
 public interface IOfficeRepository : IRepository<Office, Guid>
 {

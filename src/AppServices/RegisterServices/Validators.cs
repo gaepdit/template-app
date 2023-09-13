@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyAppRoot.AppServices.RegisterServices;
+namespace MyApp.AppServices.RegisterServices;
 
 public static class Validators
 {

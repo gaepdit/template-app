@@ -1,7 +1,7 @@
-﻿using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData.Constants;
+﻿using MyApp.AppServices.Offices;
+using MyApp.AppServices.UserServices;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData.Constants;
 
 namespace AppServicesTests.Offices;
 
@@ -10,7 +10,7 @@ public class GetList
     [Test]
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
-        var office = new Office(Guid.Empty, TestConstants.ValidName);
+        var office = new Office(Guid.Empty, TextData.ValidName);
         var itemList = new List<Office> { office };
 
         var repoMock = Substitute.For<IOfficeRepository>();

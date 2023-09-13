@@ -1,8 +1,8 @@
-﻿namespace MyAppRoot.Domain.Data;
+﻿namespace MyApp.Domain.Data;
 
 public static partial class Data
 {
-    public static List<string> States => new()
+    public static IEnumerable<string> States => new List<string>
     {
         "Alabama",
         "Alaska",

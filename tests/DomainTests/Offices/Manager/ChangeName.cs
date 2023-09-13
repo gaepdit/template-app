@@ -1,6 +1,7 @@
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.Domain.Exceptions;
-using MyAppRoot.TestData.Constants;
+using MyApp.Domain.Entities.EntityBase;
+using MyApp.Domain.Entities.Offices;
+using MyApp.Domain.Exceptions;
+using MyApp.TestData.Constants;
 
 namespace DomainTests.Offices.Manager;
 
@@ -9,55 +10,59 @@ public class ChangeName
     [Test]
     public async Task WhenNewNameIsValid_ChangesName()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindByNameAsync(TestConstants.NewValidName, Arg.Any<CancellationToken>()).Returns((Office?)null);
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns((Office?)null);
         var manager = new OfficeManager(repoMock);
 
-        await manager.ChangeNameAsync(item, TestConstants.NewValidName);
+        await manager.ChangeNameAsync(item, TextData.NewValidName);
 
-        item.Name.Should().BeEquivalentTo(TestConstants.NewValidName);
+        item.Name.Should().BeEquivalentTo(TextData.NewValidName);
     }
 
     [Test]
     public async Task WhenNewNameIsUnchanged_CompletesWithNoChange()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindByNameAsync(TestConstants.ValidName, Arg.Any<CancellationToken>()).Returns(item);
+        repoMock.FindByNameAsync(TextData.ValidName, Arg.Any<CancellationToken>())
+            .Returns(item);
         var manager = new OfficeManager(repoMock);
 
-        await manager.ChangeNameAsync(item, TestConstants.ValidName);
+        await manager.ChangeNameAsync(item, TextData.ValidName);
 
-        item.Name.Should().BeEquivalentTo(TestConstants.ValidName);
+        item.Name.Should().BeEquivalentTo(TextData.ValidName);
     }
 
     [Test]
     public async Task WhenNewNameAlreadyExists_Throws()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
-        var existingItem = new Office(Guid.NewGuid(), TestConstants.NewValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
+        var existingItem = new Office(Guid.NewGuid(), TextData.NewValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindByNameAsync(TestConstants.NewValidName, Arg.Any<CancellationToken>()).Returns(existingItem);
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns(existingItem);
         var manager = new OfficeManager(repoMock);
 
-        var action = async () => await manager.ChangeNameAsync(item, TestConstants.NewValidName);
+        var action = async () => await manager.ChangeNameAsync(item, TextData.NewValidName);
 
         (await action.Should().ThrowAsync<NameAlreadyExistsException>())
-            .WithMessage($"An entity with that name already exists. Name: {TestConstants.NewValidName}");
+            .WithMessage($"An entity with that name already exists. Name: {TextData.NewValidName}");
     }
 
     [Test]
     public async Task WhenNewNameIsInvalid_Throws()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindByNameAsync(TestConstants.NewValidName, Arg.Any<CancellationToken>()).Returns((Office?)null);
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns((Office?)null);
         var manager = new OfficeManager(repoMock);
 
-        var action = async () => await manager.ChangeNameAsync(item, TestConstants.ShortName);
+        var action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
 
         (await action.Should().ThrowAsync<ArgumentException>())
-            .WithMessage($"The length must be at least the minimum length '{Office.MinNameLength}'.*");
+            .WithMessage($"The length must be at least the minimum length '{SimpleNamedEntity.MinNameLength}'.*");
     }
 }

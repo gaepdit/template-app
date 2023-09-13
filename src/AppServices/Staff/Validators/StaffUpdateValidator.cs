@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.AppServices.Staff.Validators;
+namespace MyApp.AppServices.Staff.Validators;
 
+[UsedImplicitly]
 public class StaffUpdateValidator : AbstractValidator<StaffUpdateDto>
 {
     public StaffUpdateValidator()
     {
-        RuleFor(e => e.Phone).MaximumLength(ApplicationUser.MaxPhoneLength);
+        RuleFor(e => e.Phone)
+            .MaximumLength(ApplicationUser.MaxPhoneLength);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.WebApp.Models;
+﻿namespace MyApp.WebApp.Models;
 
 public class DisplayMessage
 {

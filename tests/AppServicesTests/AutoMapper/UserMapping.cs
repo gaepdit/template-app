@@ -1,10 +1,8 @@
 using FluentAssertions.Execution;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Constants;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Entities.Offices;
+using MyApp.Domain.Identity;
+using MyApp.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;
 
@@ -13,11 +11,11 @@ public class UserMapping
     private readonly ApplicationUser _item = new()
     {
         Id = Guid.NewGuid().ToString(),
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.NewValidName,
-        Email = TestConstants.ValidEmail,
-        Phone = "123-456-7890",
-        Office = new Office(Guid.NewGuid(), TestConstants.ValidName),
+        GivenName = TextData.ValidName,
+        FamilyName = TextData.NewValidName,
+        Email = TextData.ValidEmail,
+        Phone = TextData.ValidPhoneNumber,
+        Office = new Office(Guid.NewGuid(), TextData.ValidName),
     };
 
     [Test]

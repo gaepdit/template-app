@@ -3,7 +3,7 @@ using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using System.Linq.Expressions;
 
-namespace MyAppRoot.LocalRepository.Repositories;
+namespace MyApp.LocalRepository.Repositories;
 
 public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : IEntity<TKey>
@@ -83,7 +83,11 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     public async Task DeleteAsync(TEntity entity, bool autoSave = true, CancellationToken token = default) =>
         Items.Remove(await GetAsync(entity.Id, token));
 
+    // Local repository does not require changes to be explicitly saved.
+    public Task SaveChangesAsync(CancellationToken token = default) => Task.CompletedTask;
+
     // ReSharper disable once VirtualMemberNeverOverridden.Global
+    // ReSharper disable once UnusedParameter.Global
     protected virtual void Dispose(bool disposing)
     {
         // This method intentionally left blank.

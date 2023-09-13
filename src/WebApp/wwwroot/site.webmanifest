@@ -1,6 +1,6 @@
 {
 	"name": "MY_APP_NAME",
-	"short_name": "MY_APP_NAME",
+	"short_name": "MY_APP",
 	"icons": [
 		{
 			"src": "/icon-192.png",

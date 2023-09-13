@@ -1,0 +1,9 @@
+﻿@model MyApp.AppServices.DtoBase.IDtoHasNameProperty?
+@if (Model is null)
+{
+    <span class="text-body-secondary">[Not entered]</span>
+}
+else
+{
+    @Model.Name
+}

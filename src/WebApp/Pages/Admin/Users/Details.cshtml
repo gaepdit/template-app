@@ -1,8 +1,7 @@
 ﻿@page "{id:Guid?}"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
-    ViewData["Title"] = "User Profile: " + Model.DisplayStaff.DisplayName;
+    ViewData["Title"] = "User Profile: " + Model.DisplayStaff.Name;
 }
 
 <h1>User Profile</h1>
@@ -13,10 +12,12 @@
     {
         <em class="text-warning">Inactive:</em>
     }
-    @Model.DisplayStaff.DisplayName
-    @if (Model.DisplayStaff.Email.Equals(User.Identity?.Name))
+    @Model.DisplayStaff.Name
+    @if (Model.DisplayStaff.Email!.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
     {
-        <a asp-page="/Account/Index"><span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">You</span></a>
+        <a asp-page="/Account/Index">
+            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">YOU</span>
+        </a>
     }
 </h2>
 
@@ -50,11 +51,17 @@
 
 @if (Model.Roles.Count == 0)
 {
-    <p>This account has no application roles.</p>
+    <p>
+        This account has no application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
 }
 else
 {
-    <p>This account has the following application roles.</p>
+    <p>
+        This account has the following application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
 
     <dl class="p-3 border rounded-3 bg-light-subtle">
         @foreach (var role in Model.Roles)

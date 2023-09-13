@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Entities.Offices;
+using MyApp.Domain.Entities.Offices;
 
-namespace MyAppRoot.Domain.Identity;
+namespace MyApp.Domain.Identity;
 
 // Add profile data for application users by adding properties to the ApplicationUser class.
 // (IdentityUser already includes Id, Email, and UserName properties.)
@@ -24,6 +24,7 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     // Editable user/staff properties
     public const int MaxPhoneLength = 25;
 
+    [ProtectedPersonalData]
     [StringLength(MaxPhoneLength)]
     public string? Phone { get; set; }
 

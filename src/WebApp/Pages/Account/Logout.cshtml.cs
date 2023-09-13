@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.WebApp.Platform.Settings;
+using MyApp.Domain.Identity;
+using MyApp.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace MyApp.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class LogoutModel : PageModel

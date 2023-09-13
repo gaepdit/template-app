@@ -2,11 +2,11 @@ using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Pages.Admin.Users;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
+using MyApp.TestData.Constants;
+using MyApp.WebApp.Pages.Admin.Users;
 using System.Security.Claims;
 
 namespace WebAppTests.Pages.Admin.Users;
@@ -19,10 +19,12 @@ public class DetailsTests
         var staffView = new StaffViewDto
         {
             Id = Guid.Empty.ToString(),
-            Email = TestConstants.ValidEmail,
-            GivenName = TestConstants.ValidName,
-            FamilyName = TestConstants.ValidName,
+            FamilyName = TextData.ValidName,
+            GivenName = TextData.ValidName,
+            Email = TextData.ValidEmail,
+            Active = true,
         };
+
         var serviceMock = Substitute.For<IStaffService>();
         serviceMock.FindAsync(Arg.Any<string>()).Returns(staffView);
         serviceMock.GetAppRolesAsync(Arg.Any<string>()).Returns(new List<AppRole>());
@@ -63,8 +65,8 @@ public class DetailsTests
         serviceMock.FindAsync(Arg.Any<string>()).Returns((StaffViewDto?)null);
         var pageModel = new DetailsModel { TempData = WebAppTestsSetup.PageTempData() };
 
-        var result = await pageModel
-            .OnGetAsync(serviceMock, Substitute.For<IAuthorizationService>(), Guid.Empty.ToString());
+        var result =
+            await pageModel.OnGetAsync(serviceMock, Substitute.For<IAuthorizationService>(), Guid.Empty.ToString());
 
         result.Should().BeOfType<NotFoundResult>();
     }

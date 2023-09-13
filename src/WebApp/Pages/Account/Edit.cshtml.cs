@@ -4,15 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace MyApp.WebApp.Pages.Account;
 
-[Authorize]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class EditModel : PageModel
 {
     // Constructor
@@ -43,7 +44,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff is not { Active: true }) return Forbid();
+        if (!staff.Active) return Forbid();
 
         DisplayStaff = staff;
         UpdateStaff = DisplayStaff.AsUpdateDto();
@@ -55,9 +56,15 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active)
-            return BadRequest();
+
+        // Inactive staff cannot do anything here.
         if (!staff.Active) return Forbid();
+
+        // Staff can only update self here.
+        if (staff.Id != UpdateStaff.Id) return BadRequest();
+
+        // User cannot deactivate self.
+        UpdateStaff.Active = true;
 
         await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
 

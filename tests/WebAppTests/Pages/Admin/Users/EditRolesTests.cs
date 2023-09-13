@@ -2,37 +2,38 @@ using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Pages.Admin.Users;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
+using MyApp.TestData.Constants;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Pages.Admin.Users;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.Pages.Admin.Users;
 
 public class EditRolesTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new() { Id = Guid.Empty, Name = TestConstants.ValidName };
+    private static readonly OfficeViewDto OfficeViewTest = new(Guid.Empty, TextData.ValidName, true);
 
     private static readonly StaffViewDto StaffViewTest = new()
     {
         Id = Guid.Empty.ToString(),
-        Email = TestConstants.ValidEmail,
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        FamilyName = TextData.ValidName,
+        GivenName = TextData.ValidName,
+        Email = TextData.ValidEmail,
         Office = OfficeViewTest,
+        Active = true,
     };
 
     private static readonly List<EditRolesModel.RoleSetting> RoleSettingsTest = new()
     {
         new EditRolesModel.RoleSetting
         {
-            Name = TestConstants.ValidName,
-            DisplayName = TestConstants.ValidName,
-            Description = TestConstants.ValidName,
+            Name = TextData.ValidName,
+            DisplayName = TextData.ValidName,
+            Description = TextData.ValidName,
             IsSelected = true,
         },
     };
@@ -60,7 +61,7 @@ public class EditRolesTests
         {
             result.Should().BeOfType<PageResult>();
             pageModel.DisplayStaff.Should().Be(StaffViewTest);
-            pageModel.OfficeName.Should().Be(TestConstants.ValidName);
+            pageModel.OfficeName.Should().Be(TextData.ValidName);
             pageModel.UserId.Should().Be(Guid.Empty.ToString());
             pageModel.RoleSettings.Should().BeEquivalentTo(expectedRoleSettings);
         }

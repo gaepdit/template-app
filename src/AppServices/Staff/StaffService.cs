@@ -1,13 +1,13 @@
-using AutoMapper;
+﻿using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.Domain.Identity;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.AppServices.UserServices;
+using MyApp.Domain.Entities.Offices;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace MyApp.AppServices.Staff;
 
 public sealed class StaffService : IStaffService
 {
@@ -50,8 +50,7 @@ public sealed class StaffService : IStaffService
         return _mapper.Map<List<StaffViewDto>>(users);
     }
 
-    public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(
-        StaffSearchDto spec, PaginatedRequest paging, CancellationToken token = default)
+    public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging)
     {
         var users = string.IsNullOrEmpty(spec.Role)
             ? _userManager.Users.ApplyFilter(spec)
@@ -64,12 +63,13 @@ public sealed class StaffService : IStaffService
 
     public async Task<IList<string>> GetRolesAsync(string id)
     {
-        ApplicationUser? user = await _userManager.FindByIdAsync(id);
+        var user = await _userManager.FindByIdAsync(id);
         if (user is null) return new List<string>();
         return await _userManager.GetRolesAsync(user);
     }
 
-    public async Task<IList<AppRole>> GetAppRolesAsync(string id) => AppRole.RolesAsAppRoles(await GetRolesAsync(id));
+    public async Task<IList<AppRole>> GetAppRolesAsync(string id) =>
+        AppRole.RolesAsAppRoles(await GetRolesAsync(id)).OrderBy(r => r.DisplayName).ToList();
 
     public async Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles)
     {
@@ -103,7 +103,7 @@ public sealed class StaffService : IStaffService
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), resource.Id);
 
         user.Phone = resource.Phone;
-        user.Office = resource.OfficeId is null ? null : await _officeRepository.FindAsync(resource.OfficeId.Value);
+        user.Office = resource.OfficeId is null ? null : await _officeRepository.GetAsync(resource.OfficeId.Value);
         user.Active = resource.Active;
 
         return await _userManager.UpdateAsync(user);

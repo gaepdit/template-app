@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Offices.Validators;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData.Constants;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.Offices.Validators;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData.Constants;
 
 namespace AppServicesTests.Offices;
 
@@ -13,17 +13,12 @@ public class UpdateValidator
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TestConstants.ValidName,
-            Active = true,
-        };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
-        result.ShouldNotHaveValidationErrorFor(e => e.Name);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Test]
@@ -31,13 +26,8 @@ public class UpdateValidator
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new Office(Guid.NewGuid(), TestConstants.ValidName));
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TestConstants.ValidName,
-            Active = true,
-        };
+            .Returns(new Office(Guid.NewGuid(), TextData.ValidName));
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
@@ -51,18 +41,13 @@ public class UpdateValidator
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new Office(Guid.Empty, TestConstants.ValidName));
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TestConstants.ValidName,
-            Active = true,
-        };
+            .Returns(new Office(Guid.Empty, TextData.ValidName));
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
-        result.ShouldNotHaveValidationErrorFor(e => e.Name);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Test]
@@ -70,7 +55,7 @@ public class UpdateValidator
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var model = new OfficeUpdateDto() { Name = TestConstants.ShortName };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ShortName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);

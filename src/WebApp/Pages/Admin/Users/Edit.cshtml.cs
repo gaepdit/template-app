@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Permissions;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Staff;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Users;
+namespace MyApp.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = PolicyName.UserAdministrator)]
+[Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditModel : PageModel
 {
     // Constructor

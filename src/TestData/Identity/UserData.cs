@@ -1,6 +1,7 @@
-﻿using MyAppRoot.Domain.Identity;
+﻿using MyApp.Domain.Identity;
+using MyApp.TestData.Constants;
 
-namespace MyAppRoot.TestData.Identity;
+namespace MyApp.TestData.Identity;
 
 internal static partial class UserData
 {
@@ -10,31 +11,39 @@ internal static partial class UserData
         {
             Id = "00000000-0000-0000-0000-000000000001",
             GivenName = "Admin",
-            FamilyName = "User",
+            FamilyName = "User1",
             Email = "admin.user@example.net",
-            Phone = "123-456-7890",
+            Phone = TextData.ValidPhoneNumber,
             Office = OfficeData.GetOffices.ElementAt(0),
         },
         new()
         {
             Id = "00000000-0000-0000-0000-000000000002",
             GivenName = "General",
-            FamilyName = "User",
+            FamilyName = "User2",
             Email = "general.user@example.net",
-            Office = OfficeData.GetOffices.ElementAt(1),
+            Office = OfficeData.GetOffices.ElementAt(0),
         },
         new()
         {
             Id = "00000000-0000-0000-0000-000000000003",
+            GivenName = "Limited",
+            FamilyName = "User3",
+            Email = "limited.user@example.net",
+            Office = OfficeData.GetOffices.ElementAt(0),
+        },
+        new()
+        {
+            Id = "00000000-0000-0000-0000-000000000004",
             GivenName = "Inactive",
-            FamilyName = "User",
+            FamilyName = "User4",
             Email = "inactive.user@example.net",
             Active = false,
-            Office = OfficeData.GetOffices.ElementAt(1),
+            Office = OfficeData.GetOffices.ElementAt(0),
         },
     };
 
-    private static IEnumerable<ApplicationUser>? _users;
+    private static List<ApplicationUser>? _users;
 
     public static IEnumerable<ApplicationUser> GetUsers
     {

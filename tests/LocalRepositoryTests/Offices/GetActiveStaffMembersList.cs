@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.LocalRepository.Repositories;
+using MyApp.Domain.Entities.Offices;
+using MyApp.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.Offices;
 
@@ -17,7 +17,6 @@ public class GetActiveStaffMembersList
     [Test]
     public async Task WhenStaffExist_ReturnsList()
     {
-        // First active office was seeded with active staff.
         var item = _repository.Items.First(e => e.Active);
         var result = await _repository.GetActiveStaffMembersListAsync(item.Id);
         result.Should().BeEquivalentTo(item.StaffMembers);

@@ -1,8 +1,8 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Constants;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData;
+using MyApp.TestData.Constants;
 using System.Globalization;
 
 namespace EfRepositoryTests.BaseReadRepository;
@@ -53,7 +53,7 @@ public class GetPagedListByPredicate
     {
         var itemsCount = OfficeData.GetOffices.Count();
         var paging = new PaginatedRequest(1, itemsCount);
-        var result = await _repository.GetPagedListAsync(e => e.Name == TestConstants.NonExistentName, paging);
+        var result = await _repository.GetPagedListAsync(e => e.Name == TextData.NonExistentName, paging);
         result.Should().BeEmpty();
     }
 

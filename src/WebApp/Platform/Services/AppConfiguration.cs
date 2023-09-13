@@ -1,6 +1,6 @@
-﻿using MyAppRoot.WebApp.Platform.Settings;
+﻿using MyApp.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace MyApp.WebApp.Platform.Services;
 
 public static class AppConfiguration
 {
@@ -9,14 +9,12 @@ public static class AppConfiguration
         builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
             .Bind(ApplicationSettings.RaygunSettings);
 
-        if (builder.Environment.IsDevelopment())
-        {
-            builder.Configuration.GetSection(nameof(ApplicationSettings.DevSettings))
-                .Bind(ApplicationSettings.DevSettings);
-        }
+        var useDevConfig = Convert.ToBoolean(builder.Configuration["UseDevSettings"]);
+        var devConfig = builder.Configuration.GetSection(nameof(ApplicationSettings.DevSettings));
+
+        if (useDevConfig && devConfig.Exists())
+            devConfig.Bind(ApplicationSettings.DevSettings);
         else
-        {
             ApplicationSettings.DevSettings = ApplicationSettings.ProductionDefault;
-        }
     }
 }

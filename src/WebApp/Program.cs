@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
-using MyAppRoot.AppServices.RegisterServices;
-using MyAppRoot.WebApp.Platform.Raygun;
-using MyAppRoot.WebApp.Platform.Services;
-using MyAppRoot.WebApp.Platform.Settings;
+using MyApp.AppServices.RegisterServices;
+using MyApp.WebApp.Platform.Raygun;
+using MyApp.WebApp.Platform.SecurityHeaders;
+using MyApp.WebApp.Platform.Services;
+using MyApp.WebApp.Platform.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Set default timeout for regular expressions.
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
+// ReSharper disable once HeapView.BoxingAllocation
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
 // Bind application settings.
@@ -20,6 +23,7 @@ builder.Services.AddIdentityStores();
 
 // Configure Authentication.
 builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformation>();
 
 // Persist data protection keys.
 var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
@@ -64,10 +68,10 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "MY_APP_NAME API",
+        Title = "MY_APP API",
         Contact = new OpenApiContact
         {
-            Name = "MY_APP_NAME Support",
+            Name = "MY_APP Support",
             Email = builder.Configuration["SupportEmail"],
         },
     });
@@ -79,19 +83,18 @@ builder.Services.AddWebOptimizer();
 // Build the application.
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Configure error handling.
+if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+else app.UseExceptionHandler("/Error"); // Production or Staging
+
+// Configure security HTTP headers
+if (!app.Environment.IsDevelopment() || ApplicationSettings.DevSettings.UseSecurityHeadersInDev)
 {
-    // Development
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    // Production or Staging
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
-    if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
+    app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
+
+if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 
 // Configure the application pipeline.
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
@@ -106,7 +109,7 @@ app.UseAuthorization();
 app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("v1/openapi.json", "MY_APP_NAME API v1");
+    c.SwaggerEndpoint("v1/openapi.json", "MY_APP API v1");
     c.RoutePrefix = "api-docs";
     c.DocumentTitle = "MY_APP_NAME API";
 });

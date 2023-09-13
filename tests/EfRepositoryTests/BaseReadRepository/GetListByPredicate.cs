@@ -1,7 +1,7 @@
 using FluentAssertions.Execution;
-using MyAppRoot.Domain.Entities.Offices;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Constants;
+using MyApp.Domain.Entities.Offices;
+using MyApp.TestData;
+using MyApp.TestData.Constants;
 
 namespace EfRepositoryTests.BaseReadRepository;
 
@@ -30,7 +30,7 @@ public class GetListByPredicate
     [Test]
     public async Task WhenDoesNotExist_ReturnsEmptyList()
     {
-        var result = await _repository.GetListAsync(e => e.Name == TestConstants.NonExistentName);
+        var result = await _repository.GetListAsync(e => e.Name == TextData.NonExistentName);
         result.Should().BeEmpty();
     }
 }

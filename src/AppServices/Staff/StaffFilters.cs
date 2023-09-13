@@ -1,9 +1,9 @@
-﻿using GaEpd.AppLibrary.Enums;
+﻿using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
-using MyAppRoot.AppServices.Staff.Dto;
-using MyAppRoot.Domain.Identity;
+using MyApp.AppServices.Staff.Dto;
+using MyApp.Domain.Identity;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace MyApp.AppServices.Staff;
 
 public static class StaffFilters
 {

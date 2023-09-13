@@ -1,4 +1,4 @@
-using MyAppRoot.LocalRepository.Identity;
+using MyApp.LocalRepository.Identity;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;

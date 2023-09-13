@@ -1,9 +1,9 @@
 ﻿using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Authorization;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.AppServices.Offices;
+using MyApp.TestData.Constants;
+using MyApp.WebApp.Pages.Admin.Maintenance.Offices;
+using MyApp.WebApp.Platform.PageModelHelpers;
 using System.Security.Claims;
 
 namespace WebAppTests.Pages.Admin.Maintenance.Offices;
@@ -11,13 +11,13 @@ namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 public class IndexTests
 {
     private static readonly List<OfficeViewDto> ListTest = new()
-        { new OfficeViewDto { Id = Guid.Empty, Name = TestConstants.ValidName } };
+        { new OfficeViewDto(Guid.Empty, TextData.ValidName, true) };
 
     [Test]
     public async Task OnGet_ReturnsWithList()
     {
         var serviceMock = Substitute.For<IOfficeService>();
-        serviceMock.GetListAsync(CancellationToken.None).Returns(ListTest);
+        serviceMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(ListTest);
         var authorizationMock = Substitute.For<IAuthorizationService>();
         authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Is((string?)null), Arg.Any<string>())
             .Returns(AuthorizationResult.Success());

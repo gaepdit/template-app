@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Pages;
-using MyAppRoot.WebApp.Platform.PageModelHelpers;
+using MyApp.WebApp.Models;
+using MyApp.WebApp.Pages;
+using MyApp.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.DisplayMessages;
 

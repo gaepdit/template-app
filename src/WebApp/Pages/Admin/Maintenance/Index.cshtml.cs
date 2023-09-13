@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyApp.AppServices.Permissions;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Maintenance;
+namespace MyApp.WebApp.Pages.Admin.Maintenance;
 
-[Authorize]
+[Authorize(Policy = nameof(Policies.AdministrationView))]
 public class IndexModel : PageModel
 {
     public void OnGet()
