@@ -2,7 +2,6 @@
 
 namespace MyApp.Domain.Entities.Customers;
 
-/// <inheritdoc />
 public class CustomerManager : ICustomerManager
 {
     public Customer Create(string name, string? createdById)

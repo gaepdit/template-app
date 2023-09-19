@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApp.Domain.Entities.Contacts;
 using MyApp.Domain.Entities.Customers;
@@ -24,7 +23,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
-        builder.Entity<Contact>().Navigation(user => user.Customer).AutoInclude();
+        builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();
 
 #pragma warning disable S125
         // Let's save enums in the database as strings.

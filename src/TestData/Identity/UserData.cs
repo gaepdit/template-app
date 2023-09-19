@@ -30,7 +30,7 @@ internal static partial class UserData
             GivenName = "Limited",
             FamilyName = "User3",
             Email = "limited.user@example.net",
-            Office = OfficeData.GetOffices.ElementAt(0),
+            Office = OfficeData.GetOffices.ElementAt(1),
         },
         new()
         {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MyApp.AppServices.DtoBase;
-using MyApp.Domain.Entities.EntityBase;
+using MyApp.Domain;
 using MyApp.Domain.Entities.Offices;
 
 namespace MyApp.AppServices.Offices.Validators;
@@ -16,7 +16,7 @@ public class OfficeUpdateValidator : AbstractValidator<OfficeUpdateDto>
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .Length(SimpleNamedEntity.MinNameLength, SimpleNamedEntity.MaxNameLength)
+            .Length(Constants.MinimumNameLength, Constants.MaximumNameLength)
             .MustAsync(async (e, _, token) => await NotDuplicateName(e, token))
             .WithMessage("The name entered already exists.");
     }

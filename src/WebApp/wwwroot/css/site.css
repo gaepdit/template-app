@@ -8,7 +8,6 @@
 
 /* Light mode theme colors */
 .text-bg-brand {
-
     background-color: hsl(var(--base-hue), 75%, 91%);
     color: hsl(210, 11%, 15%);
 }

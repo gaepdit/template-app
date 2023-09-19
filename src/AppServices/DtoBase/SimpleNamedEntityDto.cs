@@ -1,4 +1,4 @@
-﻿using MyApp.Domain.Entities.EntityBase;
+﻿using MyApp.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.AppServices.DtoBase;
@@ -18,7 +18,7 @@ public abstract record SimpleNamedEntityViewDto
 public abstract record SimpleNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
-    [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
+    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
     string Name
 );
 
@@ -26,7 +26,7 @@ public abstract record SimpleNamedEntityUpdateDto
 (
     Guid Id,
     [Required(AllowEmptyStrings = false)]
-    [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
+    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
     string Name,
     bool Active
 );

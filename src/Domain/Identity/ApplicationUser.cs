@@ -28,7 +28,6 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     [StringLength(MaxPhoneLength)]
     public string? Phone { get; set; }
 
-    [InverseProperty("StaffMembers")]
     public Office? Office { get; set; }
 
     public bool Active { get; set; } = true;

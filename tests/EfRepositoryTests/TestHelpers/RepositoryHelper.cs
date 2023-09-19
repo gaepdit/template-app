@@ -11,7 +11,7 @@ using MyApp.TestData.Identity;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
-namespace EfRepositoryTests;
+namespace EfRepositoryTests.TestHelpers;
 
 /// <summary>
 /// <para>
@@ -121,13 +121,15 @@ public sealed class RepositoryHelper : IDisposable
         await Context.SaveChangesAsync();
         ClearChangeTracker();
     }
-
+    
+    // === Domain entities
+    
     private static void ClearAllStaticData()
     {
         ContactData.ClearData();
         CustomerData.ClearData();
-        OfficeData.ClearData();
         UserData.ClearData();
+        OfficeData.ClearData();
     }
 
     /// <summary>
@@ -162,6 +164,7 @@ public sealed class RepositoryHelper : IDisposable
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedOfficeData(_context);
+        DbSeedDataHelpers.SeedIdentityData(_context);
         Context = new AppDbContext(_options);
         return new OfficeRepository(Context);
     }

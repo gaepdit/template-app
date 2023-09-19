@@ -35,7 +35,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    private static void SeedIdentityData(AppDbContext context)
+    internal static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
         var users = UserData.GetUsers.ToList();
