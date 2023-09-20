@@ -18,7 +18,7 @@ public abstract record SimpleNamedEntityViewDto
 public abstract record SimpleNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
-    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
     string Name
 );
 
@@ -26,7 +26,7 @@ public abstract record SimpleNamedEntityUpdateDto
 (
     Guid Id,
     [Required(AllowEmptyStrings = false)]
-    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
     string Name,
     bool Active
 );
