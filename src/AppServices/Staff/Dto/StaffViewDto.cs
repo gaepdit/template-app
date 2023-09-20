@@ -1,12 +1,12 @@
-﻿using GaEpd.AppLibrary.Extensions;
-using MyApp.AppServices.DtoBase;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Extensions;
 using MyApp.AppServices.Offices;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace MyApp.AppServices.Staff.Dto;
 
-public record StaffViewDto : IDtoHasNameProperty
+public record StaffViewDto : INamedEntity
 {
     public string Id { get; init; } = null!;
     public string GivenName { get; init; } = null!;

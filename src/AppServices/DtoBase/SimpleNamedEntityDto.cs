@@ -1,19 +1,15 @@
-﻿using MyApp.Domain;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using MyApp.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.AppServices.DtoBase;
-
-public interface IDtoHasNameProperty
-{
-    string Name { get; }
-}
 
 public abstract record SimpleNamedEntityViewDto
 (
     Guid Id,
     string Name,
     bool Active
-) : IDtoHasNameProperty;
+) : INamedEntity;
 
 public abstract record SimpleNamedEntityCreateDto
 (
