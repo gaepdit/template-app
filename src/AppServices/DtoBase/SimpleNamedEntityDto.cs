@@ -1,24 +1,20 @@
-﻿using MyApp.Domain;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using MyApp.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.AppServices.DtoBase;
-
-public interface IDtoHasNameProperty
-{
-    string Name { get; }
-}
 
 public abstract record SimpleNamedEntityViewDto
 (
     Guid Id,
     string Name,
     bool Active
-) : IDtoHasNameProperty;
+) : INamedEntity;
 
 public abstract record SimpleNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
-    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
     string Name
 );
 
@@ -26,7 +22,7 @@ public abstract record SimpleNamedEntityUpdateDto
 (
     Guid Id,
     [Required(AllowEmptyStrings = false)]
-    [StringLength(Constants.MaximumNameLength, MinimumLength = Constants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
     string Name,
     bool Active
 );

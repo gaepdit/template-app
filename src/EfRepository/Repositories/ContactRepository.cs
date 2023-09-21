@@ -2,7 +2,7 @@
 
 namespace MyApp.EfRepository.Repositories;
 
-public sealed class ContactRepository : BaseRepository<Contact, Guid>, IContactRepository
+public sealed class ContactRepository : BaseRepository<Contact, Guid, AppDbContext>, IContactRepository
 {
-    public ContactRepository(DbContext context) : base(context) { }
+    public ContactRepository(AppDbContext context) : base(context) { }
 }

@@ -2,9 +2,9 @@
 
 namespace MyApp.EfRepository.Repositories;
 
-public sealed class CustomerRepository : BaseRepository<Customer, Guid>, ICustomerRepository
+public sealed class CustomerRepository : BaseRepository<Customer, Guid, AppDbContext>, ICustomerRepository
 {
-    public CustomerRepository(DbContext context) : base(context) { }
+    public CustomerRepository(AppDbContext context) : base(context) { }
 
     public async Task<Customer?> FindIncludeAllAsync(Guid id, CancellationToken token = default) =>
         await Context.Set<Customer>()
