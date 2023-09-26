@@ -5,7 +5,6 @@ using MyApp.AppServices.Customers;
 using MyApp.AppServices.Customers.Dto;
 using MyApp.AppServices.Customers.Permissions;
 using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Staff;
 
 namespace MyApp.WebApp.Pages.Customers;
 
@@ -14,13 +13,11 @@ public class DetailsModel : PageModel
 {
     // Constructor
     private readonly ICustomerService _customers;
-    private readonly IStaffService _staff;
     private readonly IAuthorizationService _authorization;
 
-    public DetailsModel(ICustomerService customers, IStaffService staff, IAuthorizationService authorization)
+    public DetailsModel(ICustomerService customers, IAuthorizationService authorization)
     {
         _customers = customers;
-        _staff = staff;
         _authorization = authorization;
     }
 
