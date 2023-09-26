@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.Domain.Identity;
+using MyApp.AppServices.Permissions.Helpers;
 
 namespace MyApp.AppServices.Permissions.Requirements;
 
@@ -10,9 +10,7 @@ internal class AdministrationViewRequirement :
         AuthorizationHandlerContext context,
         AdministrationViewRequirement requirement)
     {
-        if (context.User.IsInRole(RoleName.Staff) ||
-            context.User.IsInRole(RoleName.SiteMaintenance) ||
-            context.User.IsInRole(RoleName.Manager))
+        if (context.User.IsStaffOrMaintainer())
             context.Succeed(requirement);
 
         return Task.FromResult(0);
