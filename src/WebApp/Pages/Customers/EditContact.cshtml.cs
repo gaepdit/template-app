@@ -30,6 +30,10 @@ public class EditContactModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public ContactUpdateDto ContactUpdate { get; set; } = default!;
 
@@ -42,15 +46,6 @@ public class EditContactModel : PageModel
     // Select lists
     public SelectList StatesSelectList => new(Data.States);
 
-    // Messaging
-    public Handlers Handler { get; private set; } = Handlers.None;
-
-    public enum Handlers
-    {
-        None,
-        EditContact,
-    }
-
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
@@ -59,16 +54,19 @@ public class EditContactModel : PageModel
 
         var contact = await _service.FindContactForUpdateAsync(id.Value);
         if (contact is null) return NotFound();
-        ContactUpdate = contact;
 
         var customer = await _service.FindBasicInfoAsync(contact.CustomerId);
         if (customer is null) return NotFound();
-        CustomerView = customer;
 
         await SetPermissionsAsync(contact);
 
         if (UserCan[CustomerOperation.Edit])
+        {
+            Id = id.Value;
+            ContactUpdate = contact;
+            CustomerView = customer;
             return Page();
+        }
 
         if (!UserCan[CustomerOperation.ManageDeletions])
             return NotFound();
@@ -79,44 +77,33 @@ public class EditContactModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var originalContact = await RefreshExistingData(ContactUpdate.Id);
+        var originalContact = await _service.FindContactForUpdateAsync(Id);
         if (originalContact is null) return BadRequest();
 
         await SetPermissionsAsync(originalContact);
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
-        Handler = Handlers.EditContact;
+        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
+        if (customer is null) return BadRequest();
 
         await _validator.ApplyValidationAsync(ContactUpdate, ModelState);
-        if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateContactAsync(ContactUpdate);
+        if (!ModelState.IsValid)
+        {
+            CustomerView = customer;
+            return Page();
+        }
 
-        HighlightId = ContactUpdate.Id;
+        await _service.UpdateContactAsync(Id, ContactUpdate);
+
+        HighlightId = Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully updated.");
-        return RedirectToPage("Details", new { id = ContactUpdate.CustomerId });
+        return RedirectToPage("Details", new { id = originalContact.CustomerId });
     }
 
     private async Task SetPermissionsAsync(ContactUpdateDto item)
     {
         foreach (var operation in CustomerOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
-    }
-
-    private async Task<ContactUpdateDto?> RefreshExistingData(Guid id)
-    {
-        var originalContact = await _service.FindContactForUpdateAsync(id);
-        if (originalContact is null) return null;
-
-        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
-        if (customer is null) return null;
-
-        ContactUpdate.IsDeleted = originalContact.IsDeleted;
-        ContactUpdate.CustomerIsDeleted = originalContact.CustomerIsDeleted;
-        ContactUpdate.CustomerId = originalContact.CustomerId;
-
-        CustomerView = customer;
-
-        return originalContact;
     }
 }
