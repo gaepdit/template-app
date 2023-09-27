@@ -4,25 +4,26 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.AppServices.DtoBase;
 
-public abstract record SimpleNamedEntityViewDto
+public abstract record StandardNamedEntityViewDto
 (
     Guid Id,
     string Name,
     bool Active
 ) : INamedEntity;
 
-public abstract record SimpleNamedEntityCreateDto
+public abstract record StandardNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
-    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength,
+        MinimumLength = AppConstants.MinimumNameLength)]
     string Name
 );
 
-public abstract record SimpleNamedEntityUpdateDto
+public abstract record StandardNamedEntityUpdateDto
 (
-    Guid Id,
     [Required(AllowEmptyStrings = false)]
-    [StringLength(AppConstants.MaximumNameLength, MinimumLength = AppConstants.MinimumNameLength)]
+    [StringLength(AppConstants.MaximumNameLength,
+        MinimumLength = AppConstants.MinimumNameLength)]
     string Name,
     bool Active
 );
