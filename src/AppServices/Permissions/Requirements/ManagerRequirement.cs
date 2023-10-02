@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.Domain.Identity;
+using MyApp.AppServices.Permissions.Helpers;
 
 namespace MyApp.AppServices.Permissions.Requirements;
 
-internal class UserAdministratorRequirement :
-    AuthorizationHandler<UserAdministratorRequirement>, IAuthorizationRequirement
+internal class ManagerRequirement :
+    AuthorizationHandler<ManagerRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        UserAdministratorRequirement requirement)
+        ManagerRequirement requirement)
     {
-        if (context.User.IsInRole(RoleName.UserAdmin))
+        if (context.User.IsManager())
             context.Succeed(requirement);
 
         return Task.FromResult(0);

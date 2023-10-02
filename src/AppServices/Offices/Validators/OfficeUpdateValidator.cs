@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MyApp.AppServices.DtoBase;
 using MyApp.Domain;
 using MyApp.Domain.Entities.Offices;
 
@@ -13,17 +12,18 @@ public class OfficeUpdateValidator : AbstractValidator<OfficeUpdateDto>
     {
         _repository = repository;
 
-        RuleFor(e => e.Name)
+        RuleFor(updateDto => updateDto.Name)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .Length(AppConstants.MinimumNameLength, AppConstants.MaximumNameLength)
-            .MustAsync(async (e, _, token) => await NotDuplicateName(e, token))
+            .MustAsync(async (_, name, context, token) => await NotDuplicateName(name, context, token))
             .WithMessage("The name entered already exists.");
     }
 
-    private async Task<bool> NotDuplicateName(SimpleNamedEntityUpdateDto item, CancellationToken token = default)
+    private async Task<bool> NotDuplicateName(string name, IValidationContext context,
+        CancellationToken token = default)
     {
-        var existing = await _repository.FindByNameAsync(item.Name, token);
-        return existing is null || existing.Id == item.Id;
+        var office = await _repository.FindByNameAsync(name, token);
+        return office is null || office.Id == (Guid)context.RootContextData["Id"];
     }
 }

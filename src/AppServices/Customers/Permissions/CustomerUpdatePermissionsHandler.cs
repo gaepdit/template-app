@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using MyApp.AppServices.Customers.Dto;
-using MyApp.Domain.Identity;
-using System.Security.Principal;
+using MyApp.AppServices.Permissions.Helpers;
 
 namespace MyApp.AppServices.Customers.Permissions;
 
@@ -20,7 +19,7 @@ internal class CustomerUpdatePermissionsHandler :
         {
             nameof(CustomerOperation.Edit) =>
                 // Customers can only be edited if they are not deleted.
-                IsStaffUser(context.User) && IsNotDeleted(resource),
+                context.User.IsStaff() && IsNotDeleted(resource),
 
             _ => false,
         };
@@ -28,9 +27,6 @@ internal class CustomerUpdatePermissionsHandler :
         if (success) context.Succeed(requirement);
         return Task.FromResult(0);
     }
-
-    private static bool IsStaffUser(IPrincipal user) =>
-        user.IsInRole(RoleName.Staff) || user.IsInRole(RoleName.Manager);
 
     private static bool IsNotDeleted(CustomerUpdateDto resource) => !resource.IsDeleted;
 }
