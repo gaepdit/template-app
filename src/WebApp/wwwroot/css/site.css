@@ -230,27 +230,6 @@ details.card:not([open]) summary.card-header {
     border-bottom: none;
 }
 
-/* Print styles
--------------------------------------------------- */
-@media print {
-    header.sticky-top {
-        position: static;
-    }
-
-    .banner-test-site {
-        position: static;
-        text-shadow: none;
-        box-shadow: none;
-        border: 1px solid;
-        margin-bottom: 1rem;
-        background: hsl(45, 100%, 80%);
-    }
-
-    .banner-test-site::after {
-        content: "— Not for public distribution";
-    }
-}
-
 /* Bootstrap Icons
 -------------------------------------------------- */
 .bi {
@@ -274,3 +253,29 @@ details.card:not([open]) summary.card-header {
 .validation-summary-errors ul {
     margin-bottom: 0;
 }
+
+/* ==================================================
+Print styles
+================================================== */
+@media print {
+    header.sticky-top {
+        position: static;
+    }
+
+    .banner-test-site {
+        position: static;
+        text-shadow: none;
+        box-shadow: none;
+        border: 1px solid;
+        margin-bottom: 1rem;
+        background: hsl(45, 100%, 80%);
+    }
+
+    .banner-test-site::after {
+        content: "— Not for public distribution";
+    }
+}
+
+/* ==================================================
+Additional application-specific styles
+================================================== */
