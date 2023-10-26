@@ -54,7 +54,7 @@ public sealed class CustomerService : ICustomerService
     /// Private method used to asynchronously retrieve <see cref="Customer"/> based on its unique identifier.
     /// </summary>
     /// <param name="id">Customer's unique identifier.</param>
-    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     /// <returns>The <see cref="Customer"/> with the provided identifier if present and null otherwise</returns>
     private async Task<Customer?> GetCustomerCachedAsync(Guid id, CancellationToken token = default)
     {
@@ -73,7 +73,7 @@ public sealed class CustomerService : ICustomerService
     /// Asynchronously retrieves a specific customer based on its unique identifier.
     /// </summary>
     /// <param name="id">Customer's unique identifier.</param>
-    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     /// <returns><see cref="CustomerViewDto"/> associated with the required customer if present and null otherwise.</returns>
     public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
@@ -89,6 +89,14 @@ public sealed class CustomerService : ICustomerService
             : view;
     }
 
+    /// <summary>
+    /// Asynchronously retrieves information about a customer identified by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the customer desired.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
+    /// <returns>
+    /// DTO containing basic information about the customer, or null if the customer is not found.
+    /// </returns>
     public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) => 
         _mapper.Map<CustomerSearchResultDto>(await GetCustomerCachedAsync(id, token));
 
@@ -110,10 +118,24 @@ public sealed class CustomerService : ICustomerService
         await _customerRepository.SaveChangesAsync(token);
         return customer.Id;
     }
-
+    
+    /// <summary>
+    /// Asynchronously retrieves customer for updating purposes by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the customer desired.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
+    /// <returns>
+    /// DTO with the data of the user as it currently is, meant to be updated, if not found will return null.
+    /// </returns>
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<CustomerUpdateDto>(await GetCustomerCachedAsync(id, token));
 
+    /// <summary>
+    /// Asynchronously updates a customer identified by their unique identifier using the provided data in the resource.
+    /// </summary>
+    /// <param name="id">Customer's unique identifier.</param>
+    /// <param name="resource">Updated data resource of the specified customer.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
         _cache.Remove(id);
@@ -137,6 +159,11 @@ public sealed class CustomerService : ICustomerService
         await _customerRepository.UpdateAsync(item, token: token);
     } //TODO #2 - in PR ask if that should be cached here too? deletion doesn't make sense to cache here.
 
+    /// <summary>
+    /// Asynchronously restores a previously deleted customer identified by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the customer to restore.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
         var item = await GetCustomerCachedAsync(id, token);
@@ -149,7 +176,7 @@ public sealed class CustomerService : ICustomerService
     }
 
     // Contacts
-    //TODO - ask about caching those. remove before PR
+    //TODO #4 - ask about caching those. remove before PR
 
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
