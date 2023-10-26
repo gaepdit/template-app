@@ -47,13 +47,6 @@ public sealed class CustomerService : ICustomerService
                 await _customerRepository.GetPagedListAsync(predicate, paging, token))
             : new List<CustomerSearchResultDto>();
         
-        // TODO #1 - In second thought this should be saved based on the search params.
-        // if(list.Count > 0) list.ForEach(item =>
-        // {
-        //     if(_cache.Get(item.Id) is null) 
-        //         _cache.Set(item.Id, item, TimeSpan.FromMinutes(CustomerExpirationMinutes));
-        // });
-        
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
     }
     
