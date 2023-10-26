@@ -8,6 +8,7 @@ using MyApp.Domain.Entities.Customers;
 using MyApp.TestData;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AppServicesTests.Customers;
 
@@ -31,7 +32,7 @@ public class Search
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
             customerRepoMock, Substitute.For<ICustomerManager>(),
-            Substitute.For<IContactRepository>());
+            Substitute.For<IContactRepository>(), new MemoryCache(new MemoryCacheOptions()));
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
@@ -60,7 +61,7 @@ public class Search
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
             customerRepoMock, Substitute.For<ICustomerManager>(),
-            Substitute.For<IContactRepository>());
+            Substitute.For<IContactRepository>(), new MemoryCache(new MemoryCacheOptions()));
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
