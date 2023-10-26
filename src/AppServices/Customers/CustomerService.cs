@@ -46,7 +46,14 @@ public sealed class CustomerService : ICustomerService
             ? _mapper.Map<List<CustomerSearchResultDto>>(
                 await _customerRepository.GetPagedListAsync(predicate, paging, token))
             : new List<CustomerSearchResultDto>();
-
+        
+        // TODO #1 - In second thought this should be saved based on the search params.
+        // if(list.Count > 0) list.ForEach(item =>
+        // {
+        //     if(_cache.Get(item.Id) is null) 
+        //         _cache.Set(item.Id, item, TimeSpan.FromMinutes(CustomerExpirationMinutes));
+        // });
+        
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
     }
     
@@ -135,22 +142,29 @@ public sealed class CustomerService : ICustomerService
         item.SetDeleted((await _userService.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
         await _customerRepository.UpdateAsync(item, token: token);
-    }
+    } //TODO #2 - in PR ask if that should be cached here too? deletion doesn't make sense to cache here.
 
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
-        var item = await _customerRepository.GetAsync(id, token);
+        var item = await GetCustomerCachedAsync(id, token);
+        /* TODO #3 - at PR, previously this method did not expect item to be null. If this was a mistake,
+         * consider throwing/ returning appropriate message. Right now it just to stop IDE error.
+         */
+        if (item is null) return;
         item.SetNotDeleted();
         await _customerRepository.UpdateAsync(item, token: token);
     }
 
     // Contacts
+    //TODO - ask about caching those. remove before PR
 
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
-        var customer = await _customerRepository.GetAsync(resource.CustomerId, token);
-        var id = await CreateContactAsync(customer, resource, await _userService.GetCurrentUserAsync(), token);
+        var customer = await GetCustomerCachedAsync(resource.CustomerId, token);
+        // ! -> same as #3.
+        var id = await CreateContactAsync(customer!, resource, await _userService.GetCurrentUserAsync(), token);
         await _contactRepository.SaveChangesAsync(token);
+        
         return id;
     }
 
