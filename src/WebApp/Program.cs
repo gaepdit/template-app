@@ -80,6 +80,9 @@ builder.Services.AddSwaggerGen(c =>
 // Configure bundling and minification.
 builder.Services.AddWebOptimizer();
 
+//Add simple cache.
+builder.Services.AddMemoryCache();
+
 // Build the application.
 var app = builder.Build();
 
