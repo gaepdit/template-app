@@ -1,5 +1,6 @@
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
+using Microsoft.Extensions.Caching.Memory;
 using MyApp.AppServices.Customers.Dto;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.AppServices.UserServices;
@@ -11,25 +12,29 @@ namespace MyApp.AppServices.Customers;
 
 public sealed class CustomerService : ICustomerService
 {
+    private const double CustomerExpirationMinutes = 5.0;
+    
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
     private readonly ICustomerRepository _customerRepository;
     private readonly ICustomerManager _customerManager;
     private readonly IContactRepository _contactRepository;
+    private readonly IMemoryCache _cache;
 
     public CustomerService(
         IMapper mapper, IUserService userService, ICustomerRepository customerRepository,
-        ICustomerManager customerManager, IContactRepository contactRepository)
+        ICustomerManager customerManager, IContactRepository contactRepository, IMemoryCache cache)
     {
         _mapper = mapper;
         _userService = userService;
         _customerRepository = customerRepository;
         _customerManager = customerManager;
         _contactRepository = contactRepository;
+        _cache = cache;
     }
 
     // Customer read
-
+    
     public async Task<IPaginatedResult<CustomerSearchResultDto>> SearchAsync(
         CustomerSearchDto spec, PaginatedRequest paging, CancellationToken token = default)
     {
@@ -44,10 +49,35 @@ public sealed class CustomerService : ICustomerService
 
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
     }
+    
+    /// <summary>
+    /// Private method used to asynchronously retrieve <see cref="Customer"/> based on its unique identifier.
+    /// </summary>
+    /// <param name="id">Customer's unique identifier.</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>The <see cref="Customer"/> with the provided identifier if present and null otherwise</returns>
+    private async Task<Customer?> GetCustomerCachedAsync(Guid id, CancellationToken token = default)
+    {
+        var customer = _cache.Get<Customer>(id);
+        if (customer is null)
+        {
+            customer = await _customerRepository.FindIncludeAllAsync(id, token);
+            if (customer is null) return null;
 
+            _cache.Set(id, customer, TimeSpan.FromMinutes(CustomerExpirationMinutes));
+        }
+        return customer;
+    }
+
+    /// <summary>
+    /// Asynchronously retrieves a specific customer based on its unique identifier.
+    /// </summary>
+    /// <param name="id">Customer's unique identifier.</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="CustomerViewDto"/> associated with the required customer if present and null otherwise.</returns>
     public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var customer = await _customerRepository.FindIncludeAllAsync(id, token);
+        var customer = await GetCustomerCachedAsync(id, token);
         if (customer is null) return null;
 
         var view = _mapper.Map<CustomerViewDto>(customer);
@@ -59,8 +89,8 @@ public sealed class CustomerService : ICustomerService
             : view;
     }
 
-    public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CustomerSearchResultDto>(await _customerRepository.FindAsync(id, token));
+    public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) => 
+        _mapper.Map<CustomerSearchResultDto>(await GetCustomerCachedAsync(id, token));
 
     // Customer write
 
@@ -82,10 +112,12 @@ public sealed class CustomerService : ICustomerService
     }
 
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CustomerUpdateDto>(await _customerRepository.FindAsync(id, token));
+        _mapper.Map<CustomerUpdateDto>(await GetCustomerCachedAsync(id, token));
 
     public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
+        _cache.Remove(id);
+        
         var item = await _customerRepository.GetAsync(id, token);
         item.SetUpdater((await _userService.GetCurrentUserAsync())?.Id);
 
