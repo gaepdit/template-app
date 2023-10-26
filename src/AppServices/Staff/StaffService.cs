@@ -2,6 +2,7 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
@@ -11,21 +12,24 @@ namespace MyApp.AppServices.Staff;
 
 public sealed class StaffService : IStaffService
 {
-    private readonly IUserService _userService;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IMapper _mapper;
     private readonly IOfficeRepository _officeRepository;
+    private readonly IUserService _userService;
+    private readonly IMemoryCache _cache;
+    private readonly IMapper _mapper;
 
     public StaffService(
         IUserService userService,
         UserManager<ApplicationUser> userManager,
         IMapper mapper,
-        IOfficeRepository officeRepository)
+        IOfficeRepository officeRepository,
+        IMemoryCache cache)
     {
         _userService = userService;
         _userManager = userManager;
         _mapper = mapper;
         _officeRepository = officeRepository;
+        _cache = cache;
     }
 
     public async Task<StaffViewDto> GetCurrentUserAsync()
@@ -35,9 +39,23 @@ public sealed class StaffService : IStaffService
         return _mapper.Map<StaffViewDto>(user);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves <see cref="ApplicationUser"/> based on its unique identifier.
+    /// Private method, used only within the service, same as FindUserAsync(string) at <see cref="IUserService"/>
+    /// </summary>
+    /// <param name="id">User's unique identifier.</param>
+    /// <returns>The User whose associated with the id provided if present and null otherwise.</returns>
+    private async Task<ApplicationUser?> GetUserCached(string id) => await _userService.FindUserAsync(id);
+    
+    /// <summary>
+    /// Asynchronously retrieves <see cref="ApplicationUser"/> as <see cref="StaffViewDto"/> based on it's unique
+    /// identifier.
+    /// </summary>
+    /// <param name="id">Staff member's unique identifier within the system.</param>
+    /// <returns> The associated StaffViewDto with the provided identifier if presented and null otherwise. </returns>
     public async Task<StaffViewDto?> FindAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await GetUserCached(id);
         return _mapper.Map<StaffViewDto?>(user);
     }
 
@@ -61,9 +79,16 @@ public sealed class StaffService : IStaffService
         return new PaginatedResult<StaffSearchResultDto>(listMapped, users.Count(), paging);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves a list of roles associated with a staff member by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the staff member.</param>
+    /// <returns>
+    /// A list of role names to which the staff member belongs. An empty list is returned if the member is not found.
+    /// </returns>
     public async Task<IList<string>> GetRolesAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await GetUserCached(id);
         if (user is null) return new List<string>();
         return await _userManager.GetRolesAsync(user);
     }
@@ -73,6 +98,8 @@ public sealed class StaffService : IStaffService
 
     public async Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles)
     {
+        _cache.Remove(id);
+        
         var user = await _userManager.FindByIdAsync(id)
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), id);
 
@@ -97,8 +124,16 @@ public sealed class StaffService : IStaffService
         }
     }
 
+    /// <summary>
+    /// Asynchronously updates the information of a staff member identified by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the staff member to update.</param>
+    /// <param name="resource">Update request containing the updated information.</param>
+    /// <returns><see cref="IdentityResult"/> indicating the success or failure of the update operation.</returns>
     public async Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource)
     {
+        _cache.Remove(id);
+        
         var user = await _userManager.FindByIdAsync(id)
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), id);
 
