@@ -219,19 +219,17 @@ public sealed class CustomerService : ICustomerService
     /// </summary>
     /// <param name="contactId">Contact's unique identifier.</param>
     /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
-    /// <returns>the Contact associated with the provided identifier if present and null otherwise.</returns>
+    /// <returns>Contact object associated with the provided identifier if present and null otherwise.</returns>
     private async Task<Contact?> GetContactCachedAsync(Guid contactId, CancellationToken token = default)
     {
         var contact = _cache.Get<Contact>(contactId);
-        if (contact is not null && !contact.IsDeleted) return contact;
-        
         if (contact is null)
         {
             contact = await _contactRepository.FindAsync(e => e.Id == contactId && !e.IsDeleted, token);
             if (contact is null) return null;
             _cache.Set(contact.Id, contact, TimeSpan.FromMinutes(ContactExpirationMinutes));
         }
-        return contact;
+        return contact.IsDeleted ? null : contact;
     }
     
     /// <summary>
@@ -240,7 +238,7 @@ public sealed class CustomerService : ICustomerService
     /// <param name="contactId">Contact's unique identifier.</param>
     /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     /// <returns>
-    /// <see cref="ContactViewDto"/> presents data of the requested Contact if present and null otherwise.
+    /// <see cref="ContactViewDto"/>.
     /// </returns>
     public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
         _mapper.Map<ContactViewDto>(await GetContactCachedAsync(contactId, token));
@@ -251,7 +249,7 @@ public sealed class CustomerService : ICustomerService
     /// <param name="contactId">Contact's unique identifier.</param>
     /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     /// <returns>
-    /// <see cref="ContactUpdateDto"/> presents data of the requested Contact if present and null otherwise.
+    /// <see cref="ContactUpdateDto"/>.
     /// </returns>
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
         _mapper.Map<ContactUpdateDto>(await GetContactCachedAsync(contactId, token));
