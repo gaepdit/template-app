@@ -45,7 +45,7 @@ public sealed class StaffService : IStaffService
     /// </summary>
     /// <param name="id">User's unique identifier.</param>
     /// <returns>The User whose associated with the id provided if present and null otherwise.</returns>
-    private async Task<ApplicationUser?> GetUserCached(string id) => await _userService.FindUserAsync(id);
+    private async Task<ApplicationUser?> GetUserCachedAsync(string id) => await _userService.FindUserAsync(id);
     
     /// <summary>
     /// Asynchronously retrieves <see cref="ApplicationUser"/> as <see cref="StaffViewDto"/> based on it's unique
@@ -55,7 +55,7 @@ public sealed class StaffService : IStaffService
     /// <returns> The associated StaffViewDto with the provided identifier if presented and null otherwise. </returns>
     public async Task<StaffViewDto?> FindAsync(string id)
     {
-        var user = await GetUserCached(id);
+        var user = await GetUserCachedAsync(id);
         return _mapper.Map<StaffViewDto?>(user);
     }
 
@@ -88,7 +88,7 @@ public sealed class StaffService : IStaffService
     /// </returns>
     public async Task<IList<string>> GetRolesAsync(string id)
     {
-        var user = await GetUserCached(id);
+        var user = await GetUserCachedAsync(id);
         if (user is null) return new List<string>();
         return await _userManager.GetRolesAsync(user);
     }
