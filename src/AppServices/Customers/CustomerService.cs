@@ -12,7 +12,9 @@ namespace MyApp.AppServices.Customers;
 
 public sealed class CustomerService : ICustomerService
 {
+    //Change those if needed:
     private const double CustomerExpirationMinutes = 5.0;
+    private const double ContactExpirationMinutes = 5.0;
     
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
@@ -115,6 +117,8 @@ public sealed class CustomerService : ICustomerService
         await _customerRepository.InsertAsync(customer, autoSave: false, token: token);
         await CreateContactAsync(customer, resource.Contact, user, token);
 
+        _cache.Set(customer.Id, customer, TimeSpan.FromMinutes(CustomerExpirationMinutes));
+        
         await _customerRepository.SaveChangesAsync(token);
         return customer.Id;
     }
@@ -176,7 +180,6 @@ public sealed class CustomerService : ICustomerService
     }
 
     // Contacts
-    //TODO #4 - ask about caching those. remove before PR
 
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
@@ -204,19 +207,59 @@ public sealed class CustomerService : ICustomerService
         contact.Address = resource.Address;
         contact.EnteredBy = user;
 
+        _cache.Set(contact.Id, contact, TimeSpan.FromMinutes(ContactExpirationMinutes));
+
         await _contactRepository.InsertAsync(contact, autoSave: false, token: token);
         return contact.Id;
     }
 
+    /// <summary>
+    /// Asynchronously retrieves the <see cref="Contact"/> associated with the provided identifier.
+    /// Caches it accordingly.
+    /// </summary>
+    /// <param name="contactId">Contact's unique identifier.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
+    /// <returns>the Contact associated with the provided identifier if present and null otherwise.</returns>
+    private async Task<Contact?> GetContactCachedAsync(Guid contactId, CancellationToken token = default)
+    {
+        var contact = _cache.Get<Contact>(contactId);
+        if (contact is not null && !contact.IsDeleted) return contact;
+        
+        if (contact is null)
+        {
+            contact = await _contactRepository.FindAsync(e => e.Id == contactId && !e.IsDeleted, token);
+            if (contact is null) return null;
+            _cache.Set(contact.Id, contact, TimeSpan.FromMinutes(ContactExpirationMinutes));
+        }
+        return contact;
+    }
+    
+    /// <summary>
+    /// Asynchronously retrieves Contact for display purposes.
+    /// </summary>
+    /// <param name="contactId">Contact's unique identifier.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
+    /// <returns>
+    /// <see cref="ContactViewDto"/> presents data of the requested Contact if present and null otherwise.
+    /// </returns>
     public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
-        _mapper.Map<ContactViewDto>(await _contactRepository.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        _mapper.Map<ContactViewDto>(await GetContactCachedAsync(contactId, token));
 
+    /// <summary>
+    /// Asynchronously retrieves Contact for updating purposes.
+    /// </summary>
+    /// <param name="contactId">Contact's unique identifier.</param>
+    /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
+    /// <returns>
+    /// <see cref="ContactUpdateDto"/> presents data of the requested Contact if present and null otherwise.
+    /// </returns>
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
-        _mapper.Map<ContactUpdateDto>(
-            await _contactRepository.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        _mapper.Map<ContactUpdateDto>(await GetContactCachedAsync(contactId, token));
 
     public async Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default)
     {
+        _cache.Remove(contactId);
+        
         var item = await _contactRepository.GetAsync(contactId, token);
         item.SetUpdater((await _userService.GetCurrentUserAsync())?.Id);
 
@@ -233,6 +276,8 @@ public sealed class CustomerService : ICustomerService
 
     public async Task DeleteContactAsync(Guid contactId, CancellationToken token = default)
     {
+        _cache.Remove(contactId);
+        
         var item = await _contactRepository.GetAsync(contactId, token);
         item.SetDeleted((await _userService.GetCurrentUserAsync())?.Id);
         await _contactRepository.UpdateAsync(item, token: token);
