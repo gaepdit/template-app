@@ -58,17 +58,33 @@ public sealed class CustomerService : ICustomerService
     /// <param name="id">Customer's unique identifier.</param>
     /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     /// <returns>The <see cref="Customer"/> with the provided identifier if present and null otherwise</returns>
-    private async Task<Customer?> GetCustomerCachedAsync(Guid id, CancellationToken token = default)
+    private async Task<Customer> GetCustomerCachedAsync(Guid id, CancellationToken token = default)
     {
         var customer = _cache.Get<Customer>(id);
         if (customer is null)
         {
             customer = await _customerRepository.FindIncludeAllAsync(id, token);
-            if (customer is null) return null;
+            if (customer is null)
+            {
+                throw new KeyNotFoundException(
+                    $"No customer exists with {id.ToString()} id.");
+            }
 
             _cache.Set(id, customer, TimeSpan.FromMinutes(CustomerExpirationMinutes));
         }
         return customer;
+    }
+
+    private async Task<Customer?> FindCustomerHelper(Guid id, CancellationToken token = default)
+    {
+        try
+        {
+            return await GetCustomerCachedAsync(id, token);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -79,7 +95,7 @@ public sealed class CustomerService : ICustomerService
     /// <returns><see cref="CustomerViewDto"/> associated with the required customer if present and null otherwise.</returns>
     public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var customer = await GetCustomerCachedAsync(id, token);
+        var customer = await FindCustomerHelper(id, token);
         if (customer is null) return null;
 
         var view = _mapper.Map<CustomerViewDto>(customer);
@@ -100,7 +116,7 @@ public sealed class CustomerService : ICustomerService
     /// DTO containing basic information about the customer, or null if the customer is not found.
     /// </returns>
     public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) => 
-        _mapper.Map<CustomerSearchResultDto>(await GetCustomerCachedAsync(id, token));
+        _mapper.Map<CustomerSearchResultDto>(await FindCustomerHelper(id, token));
 
     // Customer write
 
@@ -132,7 +148,7 @@ public sealed class CustomerService : ICustomerService
     /// DTO with the data of the user as it currently is, meant to be updated, if not found will return null.
     /// </returns>
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CustomerUpdateDto>(await GetCustomerCachedAsync(id, token));
+        _mapper.Map<CustomerUpdateDto>(await FindCustomerHelper(id, token));
 
     /// <summary>
     /// Asynchronously updates a customer identified by their unique identifier using the provided data in the resource.
@@ -142,8 +158,6 @@ public sealed class CustomerService : ICustomerService
     /// <param name="token"><see cref="CancellationToken"/> (Optional)</param>
     public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
-        _cache.Remove(id);
-        
         var item = await _customerRepository.GetAsync(id, token);
         item.SetUpdater((await _userService.GetCurrentUserAsync())?.Id);
 
@@ -151,17 +165,20 @@ public sealed class CustomerService : ICustomerService
         item.Description = resource.Description;
         item.County = resource.County;
         item.MailingAddress = resource.MailingAddress;
-
+        
+        _cache.Set(id, item, TimeSpan.FromMinutes(CustomerExpirationMinutes));
+        
         await _customerRepository.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
+        _cache.Remove(id);
         var item = await _customerRepository.GetAsync(id, token);
         item.SetDeleted((await _userService.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
         await _customerRepository.UpdateAsync(item, token: token);
-    } //TODO #2 - in PR ask if that should be cached here too? deletion doesn't make sense to cache here.
+    }
 
     /// <summary>
     /// Asynchronously restores a previously deleted customer identified by their unique identifier.
@@ -171,10 +188,6 @@ public sealed class CustomerService : ICustomerService
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
         var item = await GetCustomerCachedAsync(id, token);
-        /* TODO #3 - at PR, previously this method did not expect item to be null. If this was a mistake,
-         * consider throwing/ returning appropriate message. Right now it just to stop IDE error.
-         */
-        if (item is null) return;
         item.SetNotDeleted();
         await _customerRepository.UpdateAsync(item, token: token);
     }
@@ -184,8 +197,7 @@ public sealed class CustomerService : ICustomerService
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
         var customer = await GetCustomerCachedAsync(resource.CustomerId, token);
-        // ! -> same as #3.
-        var id = await CreateContactAsync(customer!, resource, await _userService.GetCurrentUserAsync(), token);
+        var id = await CreateContactAsync(customer, resource, await _userService.GetCurrentUserAsync(), token);
         await _contactRepository.SaveChangesAsync(token);
         
         return id;
@@ -222,6 +234,8 @@ public sealed class CustomerService : ICustomerService
     /// <returns>Contact object associated with the provided identifier if present and null otherwise.</returns>
     private async Task<Contact?> GetContactCachedAsync(Guid contactId, CancellationToken token = default)
     {
+        // Did not do the same as I did in GetCustomerCachedAsync to throw an exception
+        // seems useless & verbose in this case, but can be accomplished if required.
         var contact = _cache.Get<Contact>(contactId);
         if (contact is null)
         {
@@ -256,8 +270,6 @@ public sealed class CustomerService : ICustomerService
 
     public async Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default)
     {
-        _cache.Remove(contactId);
-        
         var item = await _contactRepository.GetAsync(contactId, token);
         item.SetUpdater((await _userService.GetCurrentUserAsync())?.Id);
 
@@ -268,6 +280,8 @@ public sealed class CustomerService : ICustomerService
         item.Email = resource.Email;
         item.Notes = resource.Notes;
         item.Address = resource.Address;
+        
+        _cache.Set(contactId, item, TimeSpan.FromMinutes(ContactExpirationMinutes));
 
         await _contactRepository.UpdateAsync(item, token: token);
     }
