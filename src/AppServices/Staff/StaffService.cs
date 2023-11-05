@@ -12,6 +12,8 @@ namespace MyApp.AppServices.Staff;
 
 public sealed class StaffService : IStaffService
 {
+    private const double UserExpirationMinutes = UserService.UserExpirationMinutes;
+    
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IOfficeRepository _officeRepository;
     private readonly IUserService _userService;
@@ -98,8 +100,6 @@ public sealed class StaffService : IStaffService
 
     public async Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles)
     {
-        _cache.Remove(id);
-        
         var user = await _userManager.FindByIdAsync(id)
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), id);
 
@@ -109,6 +109,8 @@ public sealed class StaffService : IStaffService
             if (result != IdentityResult.Success) return result;
         }
 
+        _cache.Set(id, user, TimeSpan.FromMinutes(UserExpirationMinutes));
+        
         return IdentityResult.Success;
 
         async Task<IdentityResult> UpdateUserRoleAsync(ApplicationUser u, string r, bool addToRole)
