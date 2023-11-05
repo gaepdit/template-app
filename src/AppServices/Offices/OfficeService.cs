@@ -92,8 +92,6 @@ public sealed class OfficeService : IOfficeService
 
     public async Task UpdateAsync(Guid id, OfficeUpdateDto resource, CancellationToken token = default)
     {
-        _cache.Remove(id);
-        
         var item = await _repository.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
@@ -101,6 +99,8 @@ public sealed class OfficeService : IOfficeService
             await _manager.ChangeNameAsync(item, resource.Name, token);
         item.Active = resource.Active;
 
+        _cache.Set(id, item, TimeSpan.FromMinutes(OfficeExpirationMinutes));
+        
         await _repository.UpdateAsync(item, token: token);
     }
 
