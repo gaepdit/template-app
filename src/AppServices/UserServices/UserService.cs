@@ -7,7 +7,7 @@ namespace MyApp.AppServices.UserServices;
 
 public class UserService : IUserService
 {
-    private const double UserExpirationMinutes = 30.0;
+    internal const double UserExpirationMinutes = 30.0;
     
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
