@@ -300,4 +300,10 @@ public sealed class CustomerService : ICustomerService
         _customerRepository.Dispose();
         _contactRepository.Dispose();
     }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _customerRepository.DisposeAsync();
+        await _contactRepository.DisposeAsync();
+    }
 }

@@ -5,7 +5,7 @@ using MyApp.Domain.Identity;
 
 namespace MyApp.AppServices.Staff;
 
-public interface IStaffService : IDisposable
+public interface IStaffService : IDisposable, IAsyncDisposable
 {
     Task<StaffViewDto> GetCurrentUserAsync();
     Task<StaffViewDto?> FindAsync(string id);

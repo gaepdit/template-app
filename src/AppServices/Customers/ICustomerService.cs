@@ -3,7 +3,7 @@ using MyApp.AppServices.Customers.Dto;
 
 namespace MyApp.AppServices.Customers;
 
-public interface ICustomerService : IDisposable
+public interface ICustomerService : IDisposable, IAsyncDisposable
 {
     // Customer read
     Task<IPaginatedResult<CustomerSearchResultDto>> SearchAsync(

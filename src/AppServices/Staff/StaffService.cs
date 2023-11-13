@@ -146,5 +146,17 @@ public sealed class StaffService : IStaffService
         return await _userManager.UpdateAsync(user);
     }
 
-    public void Dispose() => _officeRepository.Dispose();
+    public void Dispose()
+    {
+        _userManager.Dispose();
+        _officeRepository.Dispose();
+        _cache.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _userManager.Dispose();
+        await _officeRepository.DisposeAsync();
+        _cache.Dispose();
+    }
 }
