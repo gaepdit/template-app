@@ -1,4 +1,5 @@
-﻿using MyApp.AppServices.Offices;
+﻿using Microsoft.Extensions.Caching.Memory;
+using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
 using MyApp.TestData.Constants;
@@ -18,7 +19,7 @@ public class GetList
         var managerMock = Substitute.For<IOfficeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+            AppServicesTestsSetup.Mapper!, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 
@@ -33,7 +34,7 @@ public class GetList
         var managerMock = Substitute.For<IOfficeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+            AppServicesTestsSetup.Mapper!, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 

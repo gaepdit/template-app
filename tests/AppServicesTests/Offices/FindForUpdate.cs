@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
@@ -17,7 +18,7 @@ public class FindForUpdate
         var managerMock = Substitute.For<IOfficeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+            AppServicesTestsSetup.Mapper!, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -34,7 +35,7 @@ public class FindForUpdate
         var mapperMock = Substitute.For<IMapper>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService = new OfficeService(repoMock, managerMock,
-            mapperMock, userServiceMock);
+            mapperMock, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
