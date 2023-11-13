@@ -1,13 +1,8 @@
-using FluentAssertions.Execution;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyApp.AppServices.Staff;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.Domain.Identity;
 using MyApp.TestData.Constants;
 using MyApp.WebApp.Pages.Admin.Users;
-using System.Security.Claims;
 
 namespace WebAppTests.Pages.Admin.Users;
 
