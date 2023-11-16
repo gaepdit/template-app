@@ -25,13 +25,11 @@ public class AddTests
 
         var result = await page.OnPostAsync();
 
-        using (new AssertionScope())
-        {
-            page.HighlightId.Should().Be(Guid.Empty);
-            page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
-            result.Should().BeOfType<RedirectToPageResult>();
-            ((RedirectToPageResult)result).PageName.Should().Be("Index");
-        }
+        using var scope = new AssertionScope();
+        page.HighlightId.Should().Be(Guid.Empty);
+        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        result.Should().BeOfType<RedirectToPageResult>();
+        ((RedirectToPageResult)result).PageName.Should().Be("Index");
     }
 
     [Test]
@@ -47,10 +45,8 @@ public class AddTests
 
         var result = await page.OnPostAsync();
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<PageResult>();
-            page.ModelState.IsValid.Should().BeFalse();
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<PageResult>();
+        page.ModelState.IsValid.Should().BeFalse();
     }
 }

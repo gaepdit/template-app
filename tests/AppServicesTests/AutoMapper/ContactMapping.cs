@@ -21,14 +21,12 @@ public class ContactMapping
 
         var result = AppServicesTestsSetup.Mapper!.Map<ContactViewDto>(item);
 
-        using (new AssertionScope())
-        {
-            result.Id.Should().Be(item.Id);
-            result.Honorific.Should().Be(item.Honorific);
-            result.GivenName.Should().Be(item.GivenName);
-            result.FamilyName.Should().Be(item.FamilyName);
-            result.Title.Should().Be(item.Title);
-        }
+        using var scope = new AssertionScope();
+        result.Id.Should().Be(item.Id);
+        result.Honorific.Should().Be(item.Honorific);
+        result.GivenName.Should().Be(item.GivenName);
+        result.FamilyName.Should().Be(item.FamilyName);
+        result.Title.Should().Be(item.Title);
     }
 
     [Test]
@@ -48,15 +46,13 @@ public class ContactMapping
 
         var result = AppServicesTestsSetup.Mapper!.Map<ContactUpdateDto>(item);
 
-        using (new AssertionScope())
-        {
-            result.Honorific.Should().Be(item.Honorific);
-            result.GivenName.Should().Be(item.GivenName);
-            result.FamilyName.Should().Be(item.FamilyName);
-            result.Title.Should().Be(item.Title);
-            result.IsDeleted.Should().BeTrue();
-            result.CustomerIsDeleted.Should().BeTrue();
-            result.CustomerId.Should().Be(TextData.TestGuid);
-        }
+        using var scope = new AssertionScope();
+        result.Honorific.Should().Be(item.Honorific);
+        result.GivenName.Should().Be(item.GivenName);
+        result.FamilyName.Should().Be(item.FamilyName);
+        result.Title.Should().Be(item.Title);
+        result.IsDeleted.Should().BeTrue();
+        result.CustomerIsDeleted.Should().BeTrue();
+        result.CustomerId.Should().Be(TextData.TestGuid);
     }
 }

@@ -37,13 +37,11 @@ public class EditTests
 
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<PageResult>();
-            pageModel.DisplayStaff.Should().Be(StaffViewTest);
-            pageModel.UpdateStaff.Should().BeEquivalentTo(StaffViewTest.AsUpdateDto());
-            pageModel.OfficeItems.Should().BeEmpty();
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<PageResult>();
+        pageModel.DisplayStaff.Should().Be(StaffViewTest);
+        pageModel.UpdateStaff.Should().BeEquivalentTo(StaffViewTest.AsUpdateDto());
+        pageModel.OfficeItems.Should().BeEmpty();
     }
 
     [Test]
@@ -55,11 +53,9 @@ public class EditTests
 
         var result = await pageModel.OnGetAsync(null);
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<RedirectToPageResult>();
-            ((RedirectToPageResult)result).PageName.Should().Be("Index");
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<RedirectToPageResult>();
+        ((RedirectToPageResult)result).PageName.Should().Be("Index");
     }
 
     [Test]
@@ -92,14 +88,12 @@ public class EditTests
 
         var result = await page.OnPostAsync();
 
-        using (new AssertionScope())
-        {
-            page.ModelState.IsValid.Should().BeTrue();
-            result.Should().BeOfType<RedirectToPageResult>();
-            ((RedirectToPageResult)result).PageName.Should().Be("Details");
-            ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty);
-            page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
-        }
+        using var scope = new AssertionScope();
+        page.ModelState.IsValid.Should().BeTrue();
+        result.Should().BeOfType<RedirectToPageResult>();
+        ((RedirectToPageResult)result).PageName.Should().Be("Details");
+        ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty);
+        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
     }
 
     [Test]
@@ -135,13 +129,11 @@ public class EditTests
 
         var result = await page.OnPostAsync();
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<PageResult>();
-            page.ModelState.IsValid.Should().BeFalse();
-            page.DisplayStaff.Should().Be(StaffViewTest);
-            page.UpdateStaff.Should().Be(StaffUpdateTest);
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<PageResult>();
+        page.ModelState.IsValid.Should().BeFalse();
+        page.DisplayStaff.Should().Be(StaffViewTest);
+        page.UpdateStaff.Should().Be(StaffUpdateTest);
     }
 
     [Test]

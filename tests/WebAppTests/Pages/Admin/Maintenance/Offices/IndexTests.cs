@@ -22,11 +22,9 @@ public class IndexTests
 
         await page.OnGetAsync(serviceMock, authorizationMock);
 
-        using (new AssertionScope())
-        {
-            page.Items.Should().BeEquivalentTo(ListTest);
-            page.TempData.GetDisplayMessage().Should().BeNull();
-            page.HighlightId.Should().BeNull();
-        }
+        using var scope = new AssertionScope();
+        page.Items.Should().BeEquivalentTo(ListTest);
+        page.TempData.GetDisplayMessage().Should().BeNull();
+        page.HighlightId.Should().BeNull();
     }
 }
