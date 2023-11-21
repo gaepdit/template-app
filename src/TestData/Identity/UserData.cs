@@ -5,7 +5,7 @@ namespace MyApp.TestData.Identity;
 
 internal static partial class UserData
 {
-    private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
+    private static IEnumerable<ApplicationUser> UserSeedItems { get; } = new List<ApplicationUser>
     {
         new()
         {
