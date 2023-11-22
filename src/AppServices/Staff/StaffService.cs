@@ -150,13 +150,11 @@ public sealed class StaffService : IStaffService
     {
         _userManager.Dispose();
         _officeRepository.Dispose();
-        _cache.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         _userManager.Dispose();
         await _officeRepository.DisposeAsync();
-        _cache.Dispose();
     }
 }

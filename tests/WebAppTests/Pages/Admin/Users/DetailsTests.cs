@@ -30,12 +30,10 @@ public class DetailsTests
 
         var result = await pageModel.OnGetAsync(serviceMock, authorizationMock, staffView.Id);
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<PageResult>();
-            pageModel.DisplayStaff.Should().Be(staffView);
-            pageModel.Roles.Should().BeEmpty();
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<PageResult>();
+        pageModel.DisplayStaff.Should().Be(staffView);
+        pageModel.Roles.Should().BeEmpty();
     }
 
     [Test]
@@ -46,11 +44,9 @@ public class DetailsTests
 
         var result = await pageModel.OnGetAsync(serviceMock, Substitute.For<IAuthorizationService>(), null);
 
-        using (new AssertionScope())
-        {
-            result.Should().BeOfType<RedirectToPageResult>();
-            ((RedirectToPageResult)result).PageName.Should().Be("Index");
-        }
+        using var scope = new AssertionScope();
+        result.Should().BeOfType<RedirectToPageResult>();
+        ((RedirectToPageResult)result).PageName.Should().Be("Index");
     }
 
     [Test]

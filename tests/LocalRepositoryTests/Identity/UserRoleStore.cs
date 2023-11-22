@@ -26,11 +26,9 @@ public class UserRoleStore
         await _store.AddToRoleAsync(user, roleName, CancellationToken.None);
         var resultAfter = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        using (new AssertionScope())
-        {
-            resultBefore.Should().BeFalse();
-            resultAfter.Should().BeTrue();
-        }
+        using var scope = new AssertionScope();
+        resultBefore.Should().BeFalse();
+        resultAfter.Should().BeTrue();
     }
 
     [Test]
@@ -44,11 +42,9 @@ public class UserRoleStore
         await _store.RemoveFromRoleAsync(user, roleName, CancellationToken.None);
         var resultAfter = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        using (new AssertionScope())
-        {
-            resultBefore.Should().BeTrue();
-            resultAfter.Should().BeFalse();
-        }
+        using var scope = new AssertionScope();
+        resultBefore.Should().BeTrue();
+        resultAfter.Should().BeFalse();
     }
 
     [Test]
@@ -58,11 +54,9 @@ public class UserRoleStore
 
         var result = await _store.GetRolesAsync(user, CancellationToken.None);
 
-        using (new AssertionScope())
-        {
-            result.Should().NotBeNull();
-            result.Should().HaveCount(_store.Roles.Count);
-        }
+        using var scope = new AssertionScope();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(_store.Roles.Count);
     }
 
     [Test]
@@ -72,11 +66,9 @@ public class UserRoleStore
 
         var result = await _store.GetRolesAsync(user, CancellationToken.None);
 
-        using (new AssertionScope())
-        {
-            result.Should().NotBeNull();
-            result.Should().HaveCount(0);
-        }
+        using var scope = new AssertionScope();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
     }
 
     [Test]
@@ -105,11 +97,9 @@ public class UserRoleStore
         using var store = new LocalUserStore();
         var result = await store.GetUsersInRoleAsync(RoleName.UserAdmin, CancellationToken.None);
 
-        using (new AssertionScope())
-        {
-            result.Should().HaveCount(1);
-            result[0].Should().BeEquivalentTo(_store.UserStore.First());
-        }
+        using var scope = new AssertionScope();
+        result.Should().HaveCount(1);
+        result[0].Should().BeEquivalentTo(_store.UserStore.First());
     }
 
     [Test]

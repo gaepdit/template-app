@@ -38,11 +38,9 @@ public class Search
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
 
         // Assert
-        using (new AssertionScope())
-        {
-            result.Items.Should().BeEquivalentTo(itemList);
-            result.CurrentCount.Should().Be(count);
-        }
+        using var scope = new AssertionScope();
+        result.Items.Should().BeEquivalentTo(itemList);
+        result.CurrentCount.Should().Be(count);
     }
 
     [Test]
@@ -67,10 +65,8 @@ public class Search
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
 
         // Assert
-        using (new AssertionScope())
-        {
-            result.Items.Should().BeEquivalentTo(itemList);
-            result.CurrentCount.Should().Be(count);
-        }
+        using var scope = new AssertionScope();
+        result.Items.Should().BeEquivalentTo(itemList);
+        result.CurrentCount.Should().Be(count);
     }
 }

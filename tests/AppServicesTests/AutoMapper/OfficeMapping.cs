@@ -14,12 +14,10 @@ public class OfficeMapping
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeViewDto>(item);
 
-        using (new AssertionScope())
-        {
-            result.Id.Should().Be(item.Id);
-            result.Name.Should().Be(item.Name);
-            result.Active.Should().BeTrue();
-        }
+        using var scope = new AssertionScope();
+        result.Id.Should().Be(item.Id);
+        result.Name.Should().Be(item.Name);
+        result.Active.Should().BeTrue();
     }
 
     [Test]
@@ -29,10 +27,8 @@ public class OfficeMapping
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeUpdateDto>(item);
 
-        using (new AssertionScope())
-        {
-            result.Name.Should().Be(item.Name);
-            result.Active.Should().BeTrue();
-        }
+        using var scope = new AssertionScope();
+        result.Name.Should().Be(item.Name);
+        result.Active.Should().BeTrue();
     }
 }
