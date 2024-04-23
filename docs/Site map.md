@@ -2,17 +2,39 @@
 
 *Update this document with a site map for the site.*
 
-## Application Pages
+* `/` Home page with welcome portal and [menu bar](Menu%20bar.md) allowing access to staff pages.
+* `/Support` (Help/support page)
 
-### Home Page
+## Public Pages
 
-* `/` (Home page/user dashboard)
+These pages are available to the public.
 
-### Internal Application Page
+* *Add a list of public pages.*
 
-* *Continue the list of application pages.*
+## Staff Pages
 
-### Maintenance Pages 
+These pages are only available to logged-in staff.
+
+* `/Staff` (Staff dashboard)
+
+* *Continue the list of protected application pages.*
+
+## User Account
+
+* `/Account` (View profile)
+* `/Account/Login` (Work account login form)
+* `/Account/Edit` (Edit contact info)
+
+## Admin pages
+
+### Reports
+
+(Pages must be named "Reporting" because "Reports" is reserved by the ArcGIS application.)
+
+* `/Admin/Reporting` (Management & error reports)
+* `/Admin/Reporting/[report type]` (View report)
+
+### Site Maintenance
 
 Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists.
 
@@ -21,29 +43,9 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 * `/Admin/Maintenance/[type]/Add` (Add new item)
 * `/Admin/Maintenance/[type]/Edit/{id}` (Edit item)
 
-## User Account and Admin pages
-
-### Account Pages
-
-* `/Account` (View profile)
-* `/Account/Login` (Work account login form)
-* `/Account/Edit` (Edit contact info)
-
-### User Management Pages
+### User Management
 
 * `/Admin/Users` (User search)
 * `/Admin/Users/Details/{id}` (View user profile)
 * `/Admin/Users/Edit/{id}` (Edit contact info)
 * `/Admin/Users/EditRoles/{id}` (Edit roles)
-
-## Menu Bar
-
-* Home (`/`)
-* *Add main menu items here.*
-* More (Drop-down)
-    * Users (`/Admin/Users`)
-    * Site Maintenance (`/Admin/Maintenance`)
-* Account (Drop-down)
-    * Profile page (`/Account`)
-    * Sign out (form)
-* Toggle theme

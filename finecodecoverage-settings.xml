@@ -9,6 +9,6 @@
         [LocalRepositoryTests]*
         [WebAppTests]*
         [TestData]*
-        [EfRepository]MyAppRoot.EfRepository.Migrations.*
+        [EfRepository]MyApp.EfRepository.Migrations.*
   </Exclude>
 </FineCodeCoverage>
