@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalRepositoryTests", "tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppTests", "tests\WebAppTests\WebAppTests.csproj", "{0C0DFDC9-DB51-4C14-91F8-30E9FC66E32C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "src\EmailService\EmailService.csproj", "{1D7EE75A-3FA5-4BC7-B11D-4E6EABA19BC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{0C0DFDC9-DB51-4C14-91F8-30E9FC66E32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C0DFDC9-DB51-4C14-91F8-30E9FC66E32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C0DFDC9-DB51-4C14-91F8-30E9FC66E32C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7EE75A-3FA5-4BC7-B11D-4E6EABA19BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7EE75A-3FA5-4BC7-B11D-4E6EABA19BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7EE75A-3FA5-4BC7-B11D-4E6EABA19BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7EE75A-3FA5-4BC7-B11D-4E6EABA19BC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{13FAE9CA-FE4A-447E-8957-037E5DAD845B} = {DB76F5B0-EC9D-4144-91AA-46D5679152A3}
