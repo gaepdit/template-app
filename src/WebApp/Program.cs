@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
 // Bind application settings.
-AppConfiguration.BindSettings(builder);
+builder.BindSettings();
 
 // Configure Identity.
 builder.Services.AddIdentityStores();

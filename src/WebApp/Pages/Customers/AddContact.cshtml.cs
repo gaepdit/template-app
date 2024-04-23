@@ -65,9 +65,9 @@ public class AddContactModel : PageModel
 
         var customer = await _service.FindBasicInfoAsync(id.Value);
         if (customer is null) return NotFound();
+        if (customer.IsDeleted) return BadRequest();
 
         Customer = customer;
-        if (Customer.IsDeleted) return Forbid();
 
         await _validator.ApplyValidationAsync(NewContact, ModelState);
         if (!ModelState.IsValid) return Page();

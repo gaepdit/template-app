@@ -4,7 +4,7 @@ namespace MyApp.WebApp.Platform.Services;
 
 public static class AppConfiguration
 {
-    public static void BindSettings(WebApplicationBuilder builder)
+    public static void BindSettings(this WebApplicationBuilder builder)
     {
         builder.Configuration.GetSection(nameof(ApplicationSettings.RaygunSettings))
             .Bind(ApplicationSettings.RaygunSettings);
