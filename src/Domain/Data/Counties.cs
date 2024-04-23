@@ -3,8 +3,8 @@ namespace MyApp.Domain.Data;
 
 public static partial class Data
 {
-    public static IEnumerable<string> Counties => new List<string>
-    {
+    public static IEnumerable<string> Counties { get; } =
+    [
         "Appling",
         "Atkinson",
         "Bacon",
@@ -164,5 +164,5 @@ public static partial class Data
         "Wilkes",
         "Wilkinson",
         "Worth",
-    };
+    ];
 }

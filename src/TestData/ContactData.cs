@@ -13,7 +13,7 @@ internal static class ContactData
             CustomerData.GetCustomers.ElementAt(0))
         {
             EnteredBy = UserData.GetUsers.ElementAt(1),
-            EnteredOn = DateTimeOffset.Now.AddDays(-5),
+            EnteredDate = DateTimeOffset.Now.AddDays(-5),
             Honorific = "Mr.",
             GivenName = TextData.Word,
             FamilyName = TextData.AnotherWord,
@@ -26,7 +26,7 @@ internal static class ContactData
             CustomerData.GetCustomers.ElementAt(0))
         {
             EnteredBy = UserData.GetUsers.ElementAt(0),
-            EnteredOn = DateTimeOffset.Now.AddDays(-4),
+            EnteredDate = DateTimeOffset.Now.AddDays(-4),
             Honorific = string.Empty,
             GivenName = string.Empty,
             FamilyName = string.Empty,
@@ -39,7 +39,7 @@ internal static class ContactData
             CustomerData.GetCustomers.ElementAt(0))
         {
             EnteredBy = UserData.GetUsers.ElementAt(3),
-            EnteredOn = DateTimeOffset.Now.AddDays(-3),
+            EnteredDate = DateTimeOffset.Now.AddDays(-3),
             Honorific = "Ms.",
             GivenName = "Deleted",
             FamilyName = "Contact",
@@ -52,7 +52,7 @@ internal static class ContactData
             CustomerData.GetCustomers.ElementAt(2))
         {
             EnteredBy = UserData.GetUsers.ElementAt(1),
-            EnteredOn = DateTimeOffset.Now.AddDays(-2),
+            EnteredDate = DateTimeOffset.Now.AddDays(-2),
             Honorific = "Mx.",
             GivenName = TextData.AnotherWord,
             FamilyName = TextData.EmojiWord,

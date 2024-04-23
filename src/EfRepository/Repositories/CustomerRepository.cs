@@ -10,7 +10,7 @@ public sealed class CustomerRepository : BaseRepository<Customer, Guid, AppDbCon
         await Context.Set<Customer>()
             .Include(e => e.Contacts
                 .Where(i => !i.IsDeleted)
-                .OrderByDescending(i => i.EnteredOn))
+                .OrderByDescending(i => i.EnteredDate))
             .ThenInclude(e => e.EnteredBy)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }

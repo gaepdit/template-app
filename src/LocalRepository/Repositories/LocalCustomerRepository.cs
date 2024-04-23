@@ -18,7 +18,7 @@ public sealed class LocalCustomerRepository : BaseRepository<Customer, Guid>, IC
 
         result.Contacts = (await _contactRepository
                 .GetListAsync(e => e.Customer.Id == id && !e.IsDeleted, token))
-            .OrderByDescending(i => i.EnteredOn)
+            .OrderByDescending(i => i.EnteredDate)
             .ToList();
 
         return result;

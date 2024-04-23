@@ -210,10 +210,8 @@ public sealed class CustomerService : ICustomerService
 
         var contact = _customerManager.CreateContact(customer, user?.Id);
 
-        contact.Honorific = resource.Honorific;
         contact.GivenName = resource.GivenName;
         contact.FamilyName = resource.FamilyName;
-        contact.Title = resource.Title;
         contact.Email = resource.Email;
         contact.Notes = resource.Notes;
         contact.Address = resource.Address;
