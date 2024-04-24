@@ -34,7 +34,7 @@ public sealed class EntryActionService(
 
     public async Task<EntryActionUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         mapper.Map<EntryActionUpdateDto>(
-            await entryActionRepository.FindAsync(entryAction => entryAction.Id == id && !entryAction.IsDeleted, token)
+            await entryActionRepository.FindAsync(action => action.Id == id && !action.IsDeleted, token)
                 .ConfigureAwait(false));
 
     public async Task UpdateAsync(Guid id, EntryActionUpdateDto resource, CancellationToken token = default)

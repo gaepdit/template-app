@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MyApp.Domain.Entities.Contacts;
 using MyApp.Domain.Entities.Customers;
 using MyApp.Domain.Entities.Offices;
-using MyApp.EfRepository.Contexts;
+using MyApp.EfRepository.DbContext;
 using MyApp.EfRepository.Repositories;
 using MyApp.LocalRepository.Repositories;
 using MyApp.WebApp.Platform.Settings;

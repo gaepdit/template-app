@@ -2,7 +2,7 @@
 using MyApp.AppServices.Staff;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Identity;
-using MyApp.EfRepository.Contexts;
+using MyApp.EfRepository.DbContext;
 using MyApp.LocalRepository.Identity;
 using MyApp.WebApp.Platform.Settings;
 

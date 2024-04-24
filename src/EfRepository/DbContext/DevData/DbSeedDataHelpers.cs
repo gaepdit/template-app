@@ -3,29 +3,41 @@ using MyApp.Domain.Identity;
 using MyApp.TestData;
 using MyApp.TestData.Identity;
 
-namespace MyApp.EfRepository.Contexts.SeedDevData;
+namespace MyApp.EfRepository.DbContext.DevData;
 
 public static class DbSeedDataHelpers
 {
     public static void SeedAllData(AppDbContext context)
     {
+        SeedOfficeData(context);
         SeedIdentityData(context);
-        SeedCustomerData(context);
-        SeedContactData(context);
+        SeedEntryTypeData(context);
+        SeedWorkEntryData(context);
     }
 
-    internal static void SeedContactData(AppDbContext context)
+    public static void SeedEntryTypeData(AppDbContext context)
     {
-        if (context.Contacts.Any()) return;
-        context.Contacts.AddRange(ContactData.GetContacts());
+        if (context.EntryTypes.Any()) return;
+        context.EntryTypes.AddRange(EntryTypeData.GetData);
         context.SaveChanges();
     }
 
-    private static void SeedCustomerData(AppDbContext context)
+    private static void SeedWorkEntryData(AppDbContext context)
     {
-        if (context.Customers.Any()) return;
-        context.Customers.AddRange(CustomerData.GetCustomers);
+        if (context.WorkEntries.Any()) return;
+
+        context.Database.BeginTransaction();
+
+        context.WorkEntries.AddRange(WorkEntryData.GetData);
         context.SaveChanges();
+
+        if (!context.EntryActions.Any())
+        {
+            context.EntryActions.AddRange(EntryActionData.GetData);
+            context.SaveChanges();
+        }
+
+        context.Database.CommitTransaction();
     }
 
     internal static void SeedOfficeData(AppDbContext context)
@@ -35,7 +47,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    internal static void SeedIdentityData(AppDbContext context)
+    public static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
         var users = UserData.GetUsers.ToList();

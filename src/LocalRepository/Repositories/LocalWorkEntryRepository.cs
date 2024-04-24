@@ -19,11 +19,11 @@ public sealed class LocalWorkEntryRepository(IEntryActionRepository entryActionR
 
         workEntry.EntryActions.Clear();
         workEntry.EntryActions.AddRange((await entryActionRepository
-                .GetListAsync(entryAction => entryAction.WorkEntry.Id == workEntry.Id &&
-                                        (!entryAction.IsDeleted || includeDeletedActions), token)
+                .GetListAsync(action => action.WorkEntry.Id == workEntry.Id &&
+                                        (!action.IsDeleted || includeDeletedActions), token)
                 .ConfigureAwait(false))
-            .OrderByDescending(entryAction => entryAction.ActionDate)
-            .ThenBy(entryAction => entryAction.Id));
+            .OrderByDescending(action => action.ActionDate)
+            .ThenBy(action => action.Id));
 
         return workEntry;
     }

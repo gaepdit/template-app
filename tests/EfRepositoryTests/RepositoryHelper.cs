@@ -1,17 +1,17 @@
-﻿using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Entities.Contacts;
-using MyApp.Domain.Entities.Customers;
+using MyApp.Domain.Entities.EntryTypes;
 using MyApp.Domain.Entities.Offices;
-using MyApp.EfRepository.Contexts;
-using MyApp.EfRepository.Contexts.SeedDevData;
+using MyApp.Domain.Entities.WorkEntries;
+using MyApp.EfRepository.DbContext;
+using MyApp.EfRepository.DbContext.DevData;
 using MyApp.EfRepository.Repositories;
 using MyApp.TestData;
 using MyApp.TestData.Identity;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
-namespace EfRepositoryTests.TestHelpers;
+namespace EfRepositoryTests;
 
 /// <summary>
 /// <para>
@@ -117,38 +117,37 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         ClearChangeTracker();
     }
 
-    // === Domain entities
-
     private static void ClearAllStaticData()
     {
-        ContactData.ClearData();
-        CustomerData.ClearData();
-        UserData.ClearData();
+        WorkEntryData.ClearData();
+        EntryActionData.ClearData();
+        EntryTypeData.ClearData();
         OfficeData.ClearData();
+        UserData.ClearData();
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of CustomerRepository.
+    /// Seeds data and returns an instance of WorkEntryRepository.
     /// </summary>
-    /// <returns>An <see cref="CustomerRepository"/>.</returns>
-    public ICustomerRepository GetCustomerRepository()
+    /// <returns>An <see cref="WorkEntryRepository"/>.</returns>
+    public IWorkEntryRepository GetWorkEntryRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedAllData(_context);
         Context = new AppDbContext(_options);
-        return new CustomerRepository(Context);
+        return new WorkEntryRepository(Context);
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of ContactRepository.
+    /// Seeds data and returns an instance of EntryTypeRepository.
     /// </summary>
-    /// <returns>An <see cref="ContactRepository"/>.</returns>
-    public IContactRepository GetContactRepository()
+    /// <returns>An <see cref="EntryTypeRepository"/>.</returns>
+    public IEntryTypeRepository GetEntryTypeRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedContactData(_context);
+        DbSeedDataHelpers.SeedEntryTypeData(_context);
         Context = new AppDbContext(_options);
-        return new ContactRepository(Context);
+        return new EntryTypeRepository(Context);
     }
 
     /// <summary>

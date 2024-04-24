@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Domain.Identity;
-using MyApp.EfRepository.Contexts;
-using MyApp.EfRepository.Contexts.SeedDevData;
+using MyApp.EfRepository.DbContext;
+using MyApp.EfRepository.DbContext.DevData;
 using MyApp.WebApp.Platform.Settings;
 
 namespace MyApp.WebApp.Platform.Services;

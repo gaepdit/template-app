@@ -18,7 +18,7 @@ internal static class WorkEntryFilters
             .ContainsText(spec.Text);
 
     private static Expression<Func<WorkEntry, bool>> IsClosed(this Expression<Func<WorkEntry, bool>> predicate) =>
-        predicate.And(workEntry => workEntry.Closed);
+        predicate.And(entry => entry.Closed);
 
     private static Expression<Func<WorkEntry, bool>> IsOpen(this Expression<Func<WorkEntry, bool>> predicate) =>
         predicate.And(workEntry => !workEntry.Closed);
@@ -35,7 +35,7 @@ internal static class WorkEntryFilters
         SearchDeleteStatus? input) => input switch
     {
         SearchDeleteStatus.All => predicate,
-        SearchDeleteStatus.Deleted => predicate.And(workEntry => workEntry.IsDeleted),
+        SearchDeleteStatus.Deleted => predicate.And(entry => entry.IsDeleted),
         _ => predicate.And(workEntry => !workEntry.IsDeleted),
     };
 
@@ -43,27 +43,27 @@ internal static class WorkEntryFilters
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(workEntry => workEntry.ReceivedDate.Date >= input.Value.ToDateTime(TimeOnly.MinValue));
+            : predicate.And(entry => entry.ReceivedDate.Date >= input.Value.ToDateTime(TimeOnly.MinValue));
 
     private static Expression<Func<WorkEntry, bool>> ToReceivedDate(this Expression<Func<WorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(workEntry => workEntry.ReceivedDate.Date <= input.Value.ToDateTime(TimeOnly.MinValue));
+            : predicate.And(entry => entry.ReceivedDate.Date <= input.Value.ToDateTime(TimeOnly.MinValue));
 
     private static Expression<Func<WorkEntry, bool>> ReceivedBy(this Expression<Func<WorkEntry, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
-            : predicate.And(workEntry => workEntry.ReceivedBy != null && workEntry.ReceivedBy.Id == input);
+            : predicate.And(entry => entry.ReceivedBy != null && entry.ReceivedBy.Id == input);
 
     private static Expression<Func<WorkEntry, bool>> IsEntryType(this Expression<Func<WorkEntry, bool>> predicate,
         Guid? input) =>
         input is null
             ? predicate
-            : predicate.And(workEntry => workEntry.EntryType != null && workEntry.EntryType.Id == input);
+            : predicate.And(entry => entry.EntryType != null && entry.EntryType.Id == input);
 
     private static Expression<Func<WorkEntry, bool>> ContainsText(this Expression<Func<WorkEntry, bool>> predicate,
         string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(workEntry => workEntry.Notes.Contains(input));
+        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(entry => entry.Notes.Contains(input));
 }

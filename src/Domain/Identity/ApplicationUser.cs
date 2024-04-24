@@ -25,7 +25,6 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     // Editable user/staff properties
     public const int MaxPhoneLength = 25;
 
-    [InverseProperty("StaffMembers")]
     public Office? Office { get; set; }
 
     public bool Active { get; set; } = true;

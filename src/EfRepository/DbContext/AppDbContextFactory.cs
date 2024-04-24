@@ -1,7 +1,6 @@
-﻿using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace MyApp.EfRepository.Contexts;
+namespace MyApp.EfRepository.DbContext;
 
 /// <summary>
 /// Facilitates some EF Core Tools commands. See "Design-time DbContext Creation":
@@ -13,7 +12,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     public AppDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=template-app;");
+        optionsBuilder.UseSqlServer();
         return new AppDbContext(optionsBuilder.Options);
     }
 }
