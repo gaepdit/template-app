@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MyApp.AppServices.Customers;
+﻿using GaEpd.EmailService;
+using Microsoft.Extensions.DependencyInjection;
+using MyApp.AppServices.EntryTypes;
+using MyApp.AppServices.Notifications;
 using MyApp.AppServices.Offices;
-using MyApp.Domain.Entities.Customers;
+using MyApp.AppServices.WorkEntries;
+using MyApp.Domain.Entities.EntryTypes;
 using MyApp.Domain.Entities.Offices;
+using MyApp.Domain.Entities.WorkEntries;
 
 namespace MyApp.AppServices.RegisterServices;
 
@@ -10,9 +14,17 @@ public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
-        // Customers (and Contacts)
-        services.AddScoped<ICustomerService, CustomerService>();
-        services.AddScoped<ICustomerManager, CustomerManager>();
+        // Work Entries
+        services.AddScoped<IWorkEntryManager, WorkEntryManager>();
+        services.AddScoped<IWorkEntryService, WorkEntryService>();
+
+        // Entry Types
+        services.AddScoped<IEntryTypeManager, EntryTypeManager>();
+        services.AddScoped<IEntryTypeService, EntryTypeService>();
+
+        // Email
+        services.AddTransient<IEmailService, EmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
 
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();

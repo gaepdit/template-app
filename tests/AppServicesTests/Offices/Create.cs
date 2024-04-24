@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using MyApp.AppServices.Offices;
+﻿using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
 using MyApp.Domain.Identity;
@@ -19,7 +18,7 @@ public class Create
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
         var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
+            AppServicesTestsSetup.Mapper!, userServiceMock);
         var resource = new OfficeCreateDto(TextData.ValidName);
 
         var result = await appService.CreateAsync(resource);
