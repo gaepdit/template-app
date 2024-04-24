@@ -1,4 +1,4 @@
-﻿using MyApp.AppServices.Actions.Dto;
+﻿using MyApp.AppServices.EntryActions.Dto;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
@@ -50,5 +50,5 @@ public record WorkEntryViewDto
     // === Lists ===
 
     [UsedImplicitly]
-    public List<ActionViewDto> Actions { get; } = [];
+    public List<EntryActionViewDto> EntryActions { get; } = [];
 }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.Actions.Dto;
+namespace MyApp.AppServices.EntryActions.Dto;
 
-public record ActionUpdateDto
+public record EntryActionUpdateDto
 {
     public Guid WorkEntryId { get; init; }
 

@@ -1,5 +1,5 @@
+using MyApp.Domain.Entities.EntryActions;
 using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.WorkEntryActions;
 using MyApp.Domain.Identity;
 using System.Text.Json.Serialization;
 
@@ -35,7 +35,7 @@ public class WorkEntry : AuditableSoftDeleteEntity
     public string Notes { get; set; } = string.Empty;
 
     // Properties: Actions
-    public List<WorkEntryAction> Actions { get; } = [];
+    public List<EntryAction> EntryActions { get; } = [];
 
     // Properties: Closure
 

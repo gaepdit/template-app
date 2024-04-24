@@ -1,11 +1,11 @@
-﻿using MyApp.Domain.Entities.WorkEntryActions;
+﻿using MyApp.Domain.Entities.EntryActions;
 using MyApp.TestData.Constants;
 
 namespace MyApp.TestData;
 
-internal static class WorkEntryActionData
+internal static class EntryActionData
 {
-    private static IEnumerable<WorkEntryAction> ComplaintActionSeedItems => new List<WorkEntryAction>
+    private static IEnumerable<EntryAction> EntryActionSeedItems => new List<EntryAction>
     {
         new(new Guid("30000000-0000-0000-0000-000000000000"), // 0
             WorkEntryData.GetData.ElementAt(0))
@@ -51,21 +51,21 @@ internal static class WorkEntryActionData
         },
     };
 
-    private static List<WorkEntryAction>? _complaintActions;
+    private static List<EntryAction>? _entryActions;
 
-    public static IEnumerable<WorkEntryAction> GetComplaintActions
+    public static IEnumerable<EntryAction> GetData
     {
         get
         {
-            if (_complaintActions is not null) return _complaintActions;
+            if (_entryActions is not null) return _entryActions;
 
-            _complaintActions = ComplaintActionSeedItems.ToList();
-            _complaintActions[2].SetDeleted("00000000-0000-0000-0000-000000000001");
-            _complaintActions[5].SetDeleted("00000000-0000-0000-0000-000000000001");
-            _complaintActions[6].SetDeleted("00000000-0000-0000-0000-000000000001");
-            return _complaintActions;
+            _entryActions = EntryActionSeedItems.ToList();
+            _entryActions[2].SetDeleted("00000000-0000-0000-0000-000000000001");
+            _entryActions[5].SetDeleted("00000000-0000-0000-0000-000000000001");
+            _entryActions[6].SetDeleted("00000000-0000-0000-0000-000000000001");
+            return _entryActions;
         }
     }
 
-    public static void ClearData() => _complaintActions = null;
+    public static void ClearData() => _entryActions = null;
 }

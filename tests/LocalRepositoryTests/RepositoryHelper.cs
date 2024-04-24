@@ -7,10 +7,10 @@ namespace LocalRepositoryTests;
 
 public static class RepositoryHelper
 {
-    public static LocalCustomerRepository GetCustomerRepository()
+    public static LocalUserStore GetUserStore()
     {
         ClearAllStaticData();
-        return new LocalCustomerRepository(new LocalContactRepository());
+        return new LocalUserStore();
     }
 
     public static LocalOfficeRepository GetOfficeRepository()
@@ -19,17 +19,11 @@ public static class RepositoryHelper
         return new LocalOfficeRepository();
     }
 
-    public static LocalUserStore GetLocalUserStore()
-    {
-        ClearAllStaticData();
-        return new LocalUserStore();
-    }
-
     private static void ClearAllStaticData()
     {
-        ContactData.ClearData();
-        CustomerData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
+        EntryActionData.ClearData();
+        WorkEntryData.ClearData();
     }
 }

@@ -1,4 +1,4 @@
-﻿using MyApp.Domain.Entities.WorkEntryActions;
+﻿using MyApp.Domain.Entities.EntryActions;
 using MyApp.Domain.Identity;
 
 namespace MyApp.Domain.Entities.WorkEntries;
@@ -13,11 +13,11 @@ public class WorkEntryManager : IWorkEntryManager
         return item;
     }
 
-    public WorkEntryAction CreateAction(WorkEntry workEntry, ApplicationUser? user)
+    public EntryAction CreateEntryAction(WorkEntry workEntry, ApplicationUser? user)
     {
-        var action = new WorkEntryAction(Guid.NewGuid(), workEntry);
-        action.SetCreator(user?.Id);
-        return action;
+        var entryAction = new EntryAction(Guid.NewGuid(), workEntry);
+        entryAction.SetCreator(user?.Id);
+        return entryAction;
     }
 
     public void Close(WorkEntry workEntry, string? comment, ApplicationUser? user)

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.Actions.Dto;
+namespace MyApp.AppServices.EntryActions.Dto;
 
-public record ActionCreateDto(Guid WorkEntryId)
+public record EntryActionCreateDto(Guid WorkEntryId)
 {
     [Required]
     [Display(Name = "Action Date")]

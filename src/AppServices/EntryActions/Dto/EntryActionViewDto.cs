@@ -1,9 +1,9 @@
 using MyApp.AppServices.Staff.Dto;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.Actions.Dto;
+namespace MyApp.AppServices.EntryActions.Dto;
 
-public record ActionViewDto
+public record EntryActionViewDto
 {
     public Guid Id { get; [UsedImplicitly] init; }
     public Guid WorkEntryId { get; [UsedImplicitly] init; }

@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
 using MyApp.Domain.Entities.Offices;
 using MyApp.Domain.Identity;
@@ -13,7 +12,7 @@ public class UserStore
     private LocalUserStore _store = default!;
 
     [SetUp]
-    public void SetUp() => _store = RepositoryHelper.GetLocalUserStore();
+    public void SetUp() => _store = RepositoryHelper.GetUserStore();
 
     [TearDown]
     public void TearDown() => _store.Dispose();
@@ -45,9 +44,9 @@ public class UserStore
     [Test]
     public async Task Update_WhenItemIsValid_UpdatesItem()
     {
-        var store = RepositoryHelper.GetLocalUserStore();
+        var store = RepositoryHelper.GetUserStore();
         var user = store.UserStore.First();
-        user.Phone = "1";
+        user.PhoneNumber = "1";
         user.Office = new Office(Guid.NewGuid(), "abc");
 
         var result = await store.UpdateAsync(user, CancellationToken.None);
@@ -63,7 +62,7 @@ public class UserStore
     {
         var user = new ApplicationUser { Id = Guid.Empty.ToString() };
         var action = async () => await _store.UpdateAsync(user, CancellationToken.None);
-        await action.Should().ThrowAsync<EntityNotFoundException>();
+        await action.Should().ThrowAsync<EntityNotFoundException<ApplicationUser>>();
     }
 
     [Test]

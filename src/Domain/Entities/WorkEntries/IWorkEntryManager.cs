@@ -1,4 +1,4 @@
-﻿using MyApp.Domain.Entities.WorkEntryActions;
+﻿using MyApp.Domain.Entities.EntryActions;
 using MyApp.Domain.Identity;
 
 namespace MyApp.Domain.Entities.WorkEntries;
@@ -13,12 +13,12 @@ public interface IWorkEntryManager
     WorkEntry Create(ApplicationUser? user);
 
     /// <summary>
-    /// Creates a new <see cref="WorkEntryAction"/>.
+    /// Creates a new <see cref="EntryAction"/>.
     /// </summary>
     /// <param name="workEntry">The <see cref="WorkEntry"/> this Action belongs to.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The WorkEntryAction that was created.</returns>
-    WorkEntryAction CreateAction(WorkEntry workEntry,  ApplicationUser? user);
+    EntryAction CreateEntryAction(WorkEntry workEntry,  ApplicationUser? user);
     
     /// <summary>
     /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and approved/closed.

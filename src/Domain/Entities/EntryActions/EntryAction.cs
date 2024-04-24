@@ -1,16 +1,16 @@
 ﻿using MyApp.Domain.Entities.WorkEntries;
 using MyApp.Domain.Identity;
 
-namespace MyApp.Domain.Entities.WorkEntryActions;
+namespace MyApp.Domain.Entities.EntryActions;
 
-public class WorkEntryAction : AuditableSoftDeleteEntity
+public class EntryAction : AuditableSoftDeleteEntity
 {
     // Constructors
 
     [UsedImplicitly] // Used by ORM.
-    private WorkEntryAction() { }
+    private EntryAction() { }
 
-    internal WorkEntryAction(Guid id, WorkEntry workEntry) : base(id) => WorkEntry = workEntry;
+    internal EntryAction(Guid id, WorkEntry workEntry) : base(id) => WorkEntry = workEntry;
 
     // Properties
 

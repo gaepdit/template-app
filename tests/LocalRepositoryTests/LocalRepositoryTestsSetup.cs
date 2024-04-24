@@ -5,7 +5,7 @@ using MyApp.Domain.Identity;
 namespace LocalRepositoryTests;
 
 [SetUpFixture]
-public class LocalRepositoryTestsSetup
+internal class LocalRepositoryTestsSetup
 {
     [OneTimeSetUp]
     public void OneTimeSetUp()
