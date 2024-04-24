@@ -1,4 +1,5 @@
 using MyApp.Domain.Entities.EntryTypes;
+using MyApp.Domain.Entities.WorkEntryActions;
 using MyApp.Domain.Identity;
 using System.Text.Json.Serialization;
 
@@ -23,15 +24,18 @@ public class WorkEntry : AuditableSoftDeleteEntity
     [StringLength(25)]
     public WorkEntryStatus Status { get; internal set; } = WorkEntryStatus.Open;
 
-    public DateTimeOffset EnteredDate { get; init; } = DateTimeOffset.Now;
-    public ApplicationUser? EnteredBy { get; init; }
+    public DateTimeOffset ReceivedDate { get; init; } = DateTimeOffset.Now;
+    public ApplicationUser? ReceivedBy { get; init; }
 
     // Properties: Data
 
     public EntryType? EntryType { get; set; }
 
     [StringLength(7000)]
-    public string? Notes { get; set; }
+    public string Notes { get; set; } = string.Empty;
+
+    // Properties: Actions
+    public List<WorkEntryAction> Actions { get; } = [];
 
     // Properties: Closure
 

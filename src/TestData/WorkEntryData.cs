@@ -11,48 +11,48 @@ internal static class WorkEntryData
         new(new Guid("10000000-0000-0000-0000-000000000000")) // 0
         {
             Status = WorkEntryStatus.Closed,
-            EnteredBy = UserData.GetUsers.ElementAt(0),
+            ReceivedBy = UserData.GetUsers.ElementAt(0),
             Notes = TextData.Paragraph,
         },
         new(new Guid("10000000-0000-0000-0000-000000000001")) // 1
         {
             Status = WorkEntryStatus.Open,
-            EnteredBy = UserData.GetUsers.ElementAt(1),
-            EnteredDate = DateTimeOffset.Now.AddMinutes(30),
+            ReceivedBy = UserData.GetUsers.ElementAt(1),
+            ReceivedDate = DateTimeOffset.Now.AddMinutes(30),
         },
         new(new Guid("10000000-0000-0000-0000-000000000002")) // 2
         {
             Status = WorkEntryStatus.Closed,
-            EnteredBy = UserData.GetUsers.ElementAt(2),
+            ReceivedBy = UserData.GetUsers.ElementAt(2),
         },
         new(new Guid("10000000-0000-0000-0000-000000000003")) // 3
         {
             Notes = "Deleted work entry",
             Status = WorkEntryStatus.Closed,
-            EnteredBy = UserData.GetUsers.ElementAt(0),
+            ReceivedBy = UserData.GetUsers.ElementAt(0),
             DeleteComments = TextData.Paragraph,
         },
         new(new Guid("10000000-0000-0000-0000-000000000004")) // 4
         {
             Status = WorkEntryStatus.Open,
-            EnteredBy = UserData.GetUsers.ElementAt(1),
+            ReceivedBy = UserData.GetUsers.ElementAt(1),
         },
         new(new Guid("10000000-0000-0000-0000-000000000005")) // 5
         {
             Status = WorkEntryStatus.Open,
-            EnteredBy = UserData.GetUsers.ElementAt(1),
+            ReceivedBy = UserData.GetUsers.ElementAt(1),
         },
         new(new Guid("10000000-0000-0000-0000-000000000006")) // 6
         {
             Notes = "Open WorkEntry assigned to inactive user.",
             Status = WorkEntryStatus.Open,
-            EnteredBy = UserData.GetUsers.ElementAt(3),
+            ReceivedBy = UserData.GetUsers.ElementAt(3),
         },
     };
 
     private static IEnumerable<WorkEntry>? _workEntries;
 
-    public static IEnumerable<WorkEntry> GetWorkEntries
+    public static IEnumerable<WorkEntry> GetData
     {
         get
         {

@@ -14,7 +14,7 @@ internal static class EntryTypeData
 
     private static IEnumerable<EntryType>? _entryTypes;
 
-    public static IEnumerable<EntryType> GetEntryTypes
+    public static IEnumerable<EntryType> GetData
     {
         get
         {

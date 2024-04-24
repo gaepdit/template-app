@@ -14,7 +14,7 @@ internal static class OfficeData
 
     private static IEnumerable<Office>? _offices;
 
-    public static IEnumerable<Office> GetOffices
+    public static IEnumerable<Office> GetData
     {
         get
         {

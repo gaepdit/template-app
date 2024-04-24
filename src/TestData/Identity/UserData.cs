@@ -14,7 +14,7 @@ internal static partial class UserData
             FamilyName = "User1",
             Email = "admin.user@example.net",
             PhoneNumber = TextData.ValidPhoneNumber,
-            Office = OfficeData.GetOffices.ElementAt(0),
+            Office = OfficeData.GetData.ElementAt(0),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 1
@@ -23,7 +23,7 @@ internal static partial class UserData
             GivenName = "General",
             FamilyName = "User2",
             Email = "general.user@example.net",
-            Office = OfficeData.GetOffices.ElementAt(1),
+            Office = OfficeData.GetData.ElementAt(1),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 2
@@ -32,7 +32,7 @@ internal static partial class UserData
             GivenName = "Limited",
             FamilyName = "User3",
             Email = "limited.user@example.net",
-            Office = OfficeData.GetOffices.ElementAt(0),
+            Office = OfficeData.GetData.ElementAt(0),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 3
@@ -42,7 +42,7 @@ internal static partial class UserData
             FamilyName = "User4",
             Email = "inactive.user@example.net",
             Active = false,
-            Office = OfficeData.GetOffices.ElementAt(0),
+            Office = OfficeData.GetData.ElementAt(0),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
     };
