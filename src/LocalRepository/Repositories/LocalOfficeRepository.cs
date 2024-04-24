@@ -5,5 +5,5 @@ namespace MyApp.LocalRepository.Repositories;
 
 public sealed class LocalOfficeRepository : NamedEntityRepository<Office>, IOfficeRepository
 {
-    public LocalOfficeRepository() : base(OfficeData.GetOffices) { }
+    public LocalOfficeRepository() : base(OfficeData.GetData) { }
 }

@@ -31,7 +31,7 @@ public static class DbSeedDataHelpers
     internal static void SeedOfficeData(AppDbContext context)
     {
         if (context.Offices.Any()) return;
-        context.Offices.AddRange(OfficeData.GetOffices);
+        context.Offices.AddRange(OfficeData.GetData);
         context.SaveChanges();
     }
 

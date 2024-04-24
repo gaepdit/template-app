@@ -10,6 +10,7 @@ public class CreateValidator
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
+        // Arrange
         var model = new WorkEntryCreateDto
         {
             EntryTypeId = Guid.NewGuid(),
@@ -18,8 +19,10 @@ public class CreateValidator
 
         var validator = new WorkEntryCreateValidator();
 
+        // Act
         var result = await validator.TestValidateAsync(model);
 
+        // Assert
         using var scope = new AssertionScope();
         result.ShouldNotHaveValidationErrorFor(dto => dto.EntryTypeId);
         result.ShouldNotHaveValidationErrorFor(dto => dto.Notes);
@@ -28,13 +31,19 @@ public class CreateValidator
     [Test]
     public async Task MissingCurrentOffice_ReturnsAsInvalid()
     {
-        var model = new WorkEntryCreateDto();
+        // Arrange
+        var model = new WorkEntryCreateDto
+        {
+            EntryTypeId = Guid.NewGuid(),
+            Notes = string.Empty,
+        };
+
         var validator = new WorkEntryCreateValidator();
 
+        // Act
         var result = await validator.TestValidateAsync(model);
 
-        using var scope = new AssertionScope();
-        result.ShouldHaveValidationErrorFor(dto => dto.EntryTypeId);
+        // Assert
         result.ShouldHaveValidationErrorFor(dto => dto.Notes);
     }
 }

@@ -22,7 +22,7 @@ public sealed class ActionService(
         var action = workEntryManager.CreateAction(workEntry, currentUser);
 
         action.ActionDate = resource.ActionDate!.Value;
-        action.Comment = resource.Comments;
+        action.Comments = resource.Comments;
 
         await actionRepository.InsertAsync(action, token: token).ConfigureAwait(false);
         return action.Id;
@@ -43,7 +43,7 @@ public sealed class ActionService(
         action.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         action.ActionDate = resource.ActionDate!.Value;
-        action.Comment = resource.Comments;
+        action.Comments = resource.Comments;
 
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
     }

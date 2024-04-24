@@ -7,5 +7,5 @@ public record WorkEntryCommentDto(Guid WorkEntryId)
 {
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    public string? Comment { get; init; } = string.Empty;
+    public string? Comments { get; init; } = string.Empty;
 }

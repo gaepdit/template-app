@@ -96,7 +96,7 @@ public sealed class WorkEntryService(
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Close(workEntry, resource.Comment, currentUser);
+        workEntryManager.Close(workEntry, resource.Comments, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
@@ -118,7 +118,7 @@ public sealed class WorkEntryService(
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Delete(workEntry, resource.Comment, currentUser);
+        workEntryManager.Delete(workEntry, resource.Comments, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
@@ -131,8 +131,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    private async Task<WorkEntry> CreateWorkEntryFromDtoAsync(WorkEntryCreateDto resource,
-        ApplicationUser? currentUser,
+    private async Task<WorkEntry> CreateWorkEntryFromDtoAsync(WorkEntryCreateDto resource, ApplicationUser? currentUser,
         CancellationToken token)
     {
         var workEntry = workEntryManager.Create(currentUser);

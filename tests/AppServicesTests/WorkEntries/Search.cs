@@ -36,10 +36,9 @@ public class Search
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
+        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
-            Substitute.For<INotificationService>(), Substitute.For<IUserService>(),
-            authorizationMock);
+            Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.SearchAsync(new WorkEntrySearchDto(), paging, CancellationToken.None);
@@ -72,7 +71,7 @@ public class Search
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
+        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(),
             authorizationMock);

@@ -12,25 +12,26 @@ namespace AppServicesTests.WorkEntries;
 
 public class Create
 {
-    private readonly ApplicationUser _user = new() { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
-
     [Test]
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()
     {
         // Arrange
+        var id = Guid.NewGuid();
+        var user = new ApplicationUser { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
+        var workEntry = new WorkEntry(id) { ReceivedBy = user };
+
+        var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync()
-            .Returns(_user);
+            .Returns(user);
 
-        var id = Guid.NewGuid();
-        var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
         workEntryManagerMock.Create(Arg.Any<ApplicationUser?>())
-            .Returns(new WorkEntry(id));
+            .Returns(workEntry);
 
         userServiceMock.GetUserAsync(Arg.Any<string>())
-            .Returns(_user);
+            .Returns(user);
         userServiceMock.FindUserAsync(Arg.Any<string>())
-            .Returns(_user);
+            .Returns(user);
 
         var notificationMock = Substitute.For<INotificationService>();
         notificationMock

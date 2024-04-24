@@ -25,10 +25,10 @@ public record WorkEntryViewDto
     // Properties: Review/Closure
 
     [Display(Name = "WorkEntry Closed")]
-    public bool WorkEntryClosed { get; init; }
+    public bool Closed { get; init; }
 
     [Display(Name = "Date Closed")]
-    public DateTimeOffset? WorkEntryClosedDate { get; init; }
+    public DateTimeOffset? ClosedDate { get; init; }
 
     [Display(Name = "Closure Comments")]
     public string? ClosedComments { get; init; }
