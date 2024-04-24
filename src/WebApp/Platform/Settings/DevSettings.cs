@@ -1,15 +1,19 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace MyApp.WebApp.Platform.Settings;
 
-internal static class ApplicationSettings
+internal static partial class AppSettings
 {
+    // DEV configuration settings
     public static DevSettingsSection DevSettings { get; set; } = new();
 
+    // PROD configuration settings
     public static readonly DevSettingsSection ProductionDefault = new()
     {
+        UseDevSettings = false,
         UseInMemoryData = false,
         UseEfMigrations = true,
+        DeleteAndRebuildDatabase = false,
         UseAzureAd = true,
         LocalUserIsAuthenticated = false,
         LocalUserIsStaff = false,
@@ -17,18 +21,31 @@ internal static class ApplicationSettings
         UseSecurityHeadersInDev = false,
     };
 
-    public class DevSettingsSection
+    public record DevSettingsSection
     {
         /// <summary>
-        /// Uses in-memory data when `true`. Connects to a SQL Server database when `false`.
+        /// Equals `true` when dev settings are in use, otherwise `false`.
+        /// </summary>
+        public bool UseDevSettings { get; [UsedImplicitly] init; }
+
+        /// <summary>
+        /// Uses in-memory data store when `true`. Connects to a SQL Server database when `false`.
         /// </summary>
         public bool UseInMemoryData { get; [UsedImplicitly] init; }
 
         /// <summary>
-        /// Uses Entity Framework migrations when `true`. When set to `false`, the database is deleted and
-        /// recreated on each run. (Only applies if <see cref="UseInMemoryData"/> is `false`.)
+        /// Uses Entity Framework migrations when `true`.
+        /// (Only applies if <see cref="UseInMemoryData"/> is `false`.)
         /// </summary>
         public bool UseEfMigrations { get; [UsedImplicitly] init; }
+
+        /// <summary>
+        /// When set to `true`, the database is deleted and recreated on each run. When set to `false`, the database
+        /// is not modified on each run. (If the database does not exist yet, it will not be created if this is set
+        /// to `false`.)
+        /// (Only applies if <see cref="UseInMemoryData"/> and <see cref="UseEfMigrations"/> are both `false`.)
+        /// </summary>
+        public bool DeleteAndRebuildDatabase { get; [UsedImplicitly] init; }
 
         /// <summary>
         /// If `true`, the app must be registered in the Azure portal, and configuration settings added in the
@@ -58,13 +75,5 @@ internal static class ApplicationSettings
         /// Sets whether to include HTTP security headers when running locally in the Development environment.
         /// </summary>
         public bool UseSecurityHeadersInDev { get; [UsedImplicitly] init; }
-    }
-
-    // Raygun client settings
-    public static RaygunClientSettings RaygunSettings { get; } = new();
-
-    public class RaygunClientSettings
-    {
-        public string? ApiKey { get; [UsedImplicitly] init; }
     }
 }

@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" />
         <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="GaEpd.FileService" />
         <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
