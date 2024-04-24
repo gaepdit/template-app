@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" />
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
         <PackageReference Include="FluentValidation.AspNetCore" />
         <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="SonarAnalyzer.CSharp">
@@ -21,11 +20,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
         <ProjectReference Include="..\EmailService\EmailService.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Permissions\Requirements\SiteMaintainerRequirement.cs~vNext\" />
-      <Folder Include="Permissions\Requirements\UserAdministratorRequirement.cs~vNext\" />
     </ItemGroup>
 
 </Project>
