@@ -1,24 +1,17 @@
-﻿namespace MyApp.WebApp.Models;
+﻿using System.Text.Json.Serialization;
 
-public class DisplayMessage
+namespace MyApp.WebApp.Models;
+
+public record DisplayMessage(DisplayMessage.AlertContext Context, string Message, List<string> Details)
 {
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Context must be public so it works with deserialization in TempDataExtensions class
-    public AlertContext Context { get; }
-    public string Message { get; }
-
-    public DisplayMessage(AlertContext context, string message)
-    {
-        Context = context;
-        Message = message;
-    }
-
+    [JsonIgnore]
     public string AlertClass => Context switch
     {
         AlertContext.Primary => "alert-primary",
         AlertContext.Secondary => "alert-secondary",
         AlertContext.Success => "alert-success",
         AlertContext.Danger => "alert-danger",
+        AlertContext.Warning => "alert-warning",
         AlertContext.Info => "alert-info",
         _ => string.Empty,
     };
@@ -29,6 +22,7 @@ public class DisplayMessage
         Secondary,
         Success,
         Danger,
+        Warning,
         Info,
     }
 }

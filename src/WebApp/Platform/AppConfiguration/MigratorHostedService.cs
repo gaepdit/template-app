@@ -5,36 +5,24 @@ using MyApp.EfRepository.DbContext;
 using MyApp.EfRepository.DbContext.DevData;
 using MyApp.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Platform.Services;
+namespace MyApp.WebApp.Platform.AppConfiguration;
 
-public class MigratorHostedService : IHostedService
+public class MigratorHostedService(IServiceProvider serviceProvider, IConfiguration configuration) : IHostedService
 {
-    // Inject the IServiceProvider so we can create the DbContext scoped service.
-    private readonly IServiceProvider _serviceProvider;
-    private readonly IConfiguration _configuration;
-
-    public MigratorHostedService(IServiceProvider serviceProvider, IConfiguration configuration)
-    {
-        _serviceProvider = serviceProvider;
-        _configuration = configuration;
-    }
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // If using in-memory data, no further action required.
-        if (ApplicationSettings.DevSettings.UseInMemoryData) return;
+        using var scope = serviceProvider.CreateScope();
 
-        // Retrieve scoped services.
-        using var scope = _serviceProvider.CreateScope();
+        // If using in-memory data store, no further action required.
+        if (AppSettings.DevSettings.UseInMemoryData) return;
 
-        var migrationConnectionString = _configuration.GetConnectionString("MigrationConnection");
+        var migrationConnectionString = configuration.GetConnectionString("MigrationConnection");
         var migrationOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlServer(migrationConnectionString, builder => builder.MigrationsAssembly("EfRepository"))
-            .Options;
+            .UseSqlServer(migrationConnectionString, builder => builder.MigrationsAssembly("EfRepository")).Options;
 
         await using var migrationContext = new AppDbContext(migrationOptions);
 
-        if (ApplicationSettings.DevSettings.UseEfMigrations)
+        if (AppSettings.DevSettings.UseEfMigrations)
         {
             // Run any EF database migrations if used.
             await migrationContext.Database.MigrateAsync(cancellationToken);
@@ -42,12 +30,17 @@ public class MigratorHostedService : IHostedService
             // Initialize any new roles. (No other data is seeded when running EF migrations.)
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             foreach (var role in AppRole.AllRoles.Keys)
-                if (!await migrationContext.Roles.AnyAsync(e => e.Name == role, cancellationToken))
+            {
+                if (!await migrationContext.Roles.AnyAsync(identityRole => identityRole.Name == role,
+                        cancellationToken))
+                {
                     await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
-        else
+        else if (AppSettings.DevSettings.DeleteAndRebuildDatabase)
         {
-            // Otherwise, delete and re-create the database.
+            // Delete and re-create the database.
             await migrationContext.Database.EnsureDeletedAsync(cancellationToken);
             await migrationContext.Database.EnsureCreatedAsync(cancellationToken);
 
