@@ -28,7 +28,9 @@ public sealed class OfficeService(
 
         var user = _userService.GetCurrentPrincipal();
 
-        if (user is null || !await authorization.Succeeded(user, Policies.ActiveUser)) includeInactive = false;
+        if (includeInactive &&
+            (user is null || !await authorization.Succeeded(user, Policies.ActiveUser).ConfigureAwait(false)))
+            includeInactive = false;
 
         return (await repository.GetStaffMembersListAsync(id.Value, includeInactive, token).ConfigureAwait(false))
             .Select(staff => new ListItem<string>(staff.Id, staff.SortableNameWithInactive)).ToList();
