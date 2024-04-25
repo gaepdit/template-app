@@ -1,6 +1,5 @@
-﻿@using MyApp.Domain.ValueObjects
-@model MyApp.Domain.ValueObjects.IncompleteAddress?
-@if (Model is null || Model == IncompleteAddress.EmptyAddress)
+﻿@model Domain.ValueObjects.IncompleteAddress?
+@if (Model is null || Model.IsEmpty)
 {
     <span class="text-body-secondary">[Not entered]</span>
 }

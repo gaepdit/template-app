@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyApp.AppServices.Permissions;
+﻿using MyApp.AppServices.Permissions;
 
 namespace MyApp.WebApp.Pages.Admin.Users;
 

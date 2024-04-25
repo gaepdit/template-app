@@ -1,6 +1,3 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyApp.AppServices.Permissions;
 using MyApp.AppServices.Staff;
 using MyApp.AppServices.Staff.Dto;
@@ -11,27 +8,21 @@ using MyApp.WebApp.Platform.PageModelHelpers;
 namespace MyApp.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
-public class EditRolesModel : PageModel
+public class EditRolesModel(IStaffService staffService, IAuthorizationService authorization) : PageModel
 {
-    // Constructor
-    private readonly IStaffService _staffService;
-    public EditRolesModel(IStaffService staffService) => _staffService = staffService;
-
-    // Properties
     [BindProperty]
     public string UserId { get; set; } = string.Empty;
 
     [BindProperty]
-    public List<RoleSetting> RoleSettings { get; set; } = new();
+    public List<RoleSetting> RoleSettings { get; set; } = [];
 
     public StaffViewDto DisplayStaff { get; private set; } = default!;
     public string? OfficeName => DisplayStaff.Office?.Name;
 
-    // Methods
     public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var staff = await _staffService.FindAsync(id);
+        var staff = await staffService.FindAsync(id);
         if (staff is null) return NotFound();
 
         DisplayStaff = staff;
@@ -43,8 +34,8 @@ public class EditRolesModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var result = await _staffService.UpdateRolesAsync(UserId,
-            RoleSettings.ToDictionary(r => r.Name, r => r.IsSelected));
+        var rolesDictionary = RoleSettings.ToDictionary(setting => setting.Name, setting => setting.IsSelected);
+        var result = await staffService.UpdateRolesAsync(UserId, rolesDictionary);
 
         if (result.Succeeded)
         {
@@ -55,7 +46,7 @@ public class EditRolesModel : PageModel
         foreach (var err in result.Errors)
             ModelState.AddModelError(string.Empty, string.Concat(err.Code, ": ", err.Description));
 
-        var staff = await _staffService.FindAsync(UserId);
+        var staff = await staffService.FindAsync(UserId);
         if (staff is null) return BadRequest();
 
         DisplayStaff = staff;
@@ -65,14 +56,14 @@ public class EditRolesModel : PageModel
 
     private async Task PopulateRoleSettingsAsync()
     {
-        var roles = await _staffService.GetRolesAsync(DisplayStaff.Id);
+        var roles = await staffService.GetRolesAsync(DisplayStaff.Id);
 
-        RoleSettings.AddRange(AppRole.AllRoles.Select(r => new RoleSetting
+        RoleSettings.AddRange(AppRole.AllRoles.Select(pair => new RoleSetting
         {
-            Name = r.Key,
-            DisplayName = r.Value.DisplayName,
-            Description = r.Value.Description,
-            IsSelected = roles.Contains(r.Key),
+            Name = pair.Key,
+            DisplayName = pair.Value.DisplayName,
+            Description = pair.Value.Description,
+            IsSelected = roles.Contains(pair.Key),
         }));
     }
 

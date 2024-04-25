@@ -8,6 +8,8 @@ public enum SortBy
 {
     [Description("Id")] IdAsc,
     [Description("Id desc")] IdDesc,
+    [Description("ReceivedDate, Id")] ReceivedDateAsc,
+    [Description("ReceivedDate desc, Id")] ReceivedDateDesc,
     [Description("Status, Id")] StatusAsc,
     [Description("Status desc, Id")] StatusDesc,
 }

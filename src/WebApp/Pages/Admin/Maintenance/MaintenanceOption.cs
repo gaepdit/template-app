@@ -7,6 +7,9 @@ public class MaintenanceOption
 
     private MaintenanceOption() { }
 
-    public static MaintenanceOption Office =>
+    public static MaintenanceOption EntryType { get; } =
+        new() { SingularName = "Work Entry Type", PluralName = "Work Entry Types" };
+
+    public static MaintenanceOption Office { get; } =
         new() { SingularName = "Office", PluralName = "Offices" };
 }

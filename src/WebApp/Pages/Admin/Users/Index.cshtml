@@ -1,10 +1,10 @@
 @page "{handler?}"
 @using MyApp.AppServices.Staff.Dto
 @using MyApp.WebApp.Pages.Shared.DisplayTemplates
-@using MyApp.WebApp.Platform.Constants
-@model IndexModel
+@using MyApp.WebApp.Platform.PageModelHelpers
+@model UsersIndexModel
 @{
-    ViewData["Title"] = "User Search";
+    ViewData["Title"] = "Application User Search";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -29,21 +29,21 @@
         <div class="row">
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Office" asp-items="Model.OfficeItems" name="@nameof(Model.Spec.Office)" class="form-select">
-                        <option value="">@TextConstants.SelectTextAny</option>
+                    <select asp-for="Spec.Office" asp-items="Model.OfficesSelectList" name="@nameof(Model.Spec.Office)" class="form-select">
+                        <option value="">@SelectOptions.SelectTextAny</option>
                     </select>
                     <label asp-for="Spec.Office" class="form-label"></label>
                 </div>
             </div>
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Role" asp-items="Model.RoleItems" name="@nameof(Model.Spec.Role)" class="form-select" aria-describedby="rolesHelpBlock">
-                        <option value="">@TextConstants.SelectTextAny</option>
+                    <select asp-for="Spec.Role" asp-items="Model.RolesSelectList" name="@nameof(Model.Spec.Role)" class="form-select" aria-describedby="rolesHelpBlock">
+                        <option value="">@SelectOptions.SelectTextAny</option>
                     </select>
                     <label asp-for="Spec.Role" class="form-label"></label>
                 </div>
                 <div id="rolesHelpBlock" class="form-text">
-                    <a asp-page="Roles" target="_blank">Description of roles</a>
+                    <a asp-page="Roles" asp-fragment="cts-roles" target="_blank">Description of roles</a>
                 </div>
             </div>
             <div class="col-md mb-3">
@@ -53,9 +53,10 @@
                 </div>
             </div>
         </div>
+
         <div class="mt-3 mb-1">
-            <button id="SearchButton" type="submit" class="btn btn-primary col-sm-3 me-2">Search</button>
-            <a asp-page="Index" class="btn btn-outline-secondary col-sm-3 col-md-2">Clear Form</a>
+            <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
+            <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3 col-md-2">Clear Form</a>
         </div>
     </form>
 </div>
@@ -70,7 +71,7 @@
     }
     else
     {
-        <table class="table" aria-label="User search results">
+        <table class="table table-hover" aria-label="User search results">
             <caption class="caption-top">
                 <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
             </caption>
@@ -80,19 +81,21 @@
                 <th scope="col">
                     <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
                        asp-route-Sort="@(Model.Spec.Sort == SortBy.NameAsc ? nameof(SortBy.NameDesc) : nameof(SortBy.NameAsc))">
-                        @Html.DisplayNameFor(m => m.Spec.Name)
-                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(SortBy.NameAsc), down = nameof(SortBy.NameDesc) })
+                        @Html.DisplayNameFor(model => model.Spec.Name)
+                        @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow, 
+                            new { up = nameof(SortBy.NameAsc), down = nameof(SortBy.NameDesc) })
                     </a>
                 </th>
-                <th scope="col">@Html.DisplayNameFor(m => m.Spec.Email)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Spec.Email)</th>
                 <th scope="col">
                     <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
                        asp-route-Sort="@(Model.Spec.Sort == SortBy.OfficeAsc ? nameof(SortBy.OfficeDesc) : nameof(SortBy.OfficeAsc))">
-                        @Html.DisplayNameFor(m => m.Spec.Office)
-                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(SortBy.OfficeAsc), down = nameof(SortBy.OfficeDesc) })
+                        @Html.DisplayNameFor(model => model.Spec.Office)
+                        @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow, 
+                            new { up = nameof(SortBy.OfficeAsc), down = nameof(SortBy.OfficeDesc) })
                     </a>
                 </th>
-                <th scope="col">@Html.DisplayNameFor(m => m.Spec.Status)</th>
+                <th scope="col">Status</th>
                 <th scope="col">
                     <span class="visually-hidden">Actions</span>
                 </th>
@@ -111,8 +114,8 @@
                         }
                     </td>
                     <td>@item.Email</td>
-                    <td>@Html.DisplayFor(m => item.OfficeName, DisplayTemplate.StringOrNone)</td>
-                    <td>@Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)</td>
+                    <td>@Html.DisplayFor(_ => item.OfficeName, DisplayTemplate.StringOrPlaceholder, new { Placeholder = "none" })</td>
+                    <td>@Html.DisplayFor(_ => item.Active, DisplayTemplate.BoolActive)</td>
                     <td>
                         <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">View</a>
                     </td>
