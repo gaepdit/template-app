@@ -37,7 +37,7 @@ public class EditRolesTests
     [Test]
     public async Task OnGet_PopulatesThePageModel()
     {
-        // A
+        // Arrange
         var expectedRoleSettings = AppRole.AllRoles
             .Select(r => new EditRolesModel.RoleSetting
             {
@@ -56,10 +56,10 @@ public class EditRolesTests
         var pageModel = new EditRolesModel(staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData() };
 
-        // A
+        // Act
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
 
-        // A
+        // Assert
         using var scope = new AssertionScope();
         result.Should().BeOfType<PageResult>();
         pageModel.DisplayStaff.Should().Be(StaffViewTest);
@@ -71,14 +71,14 @@ public class EditRolesTests
     [Test]
     public async Task OnGet_MissingIdReturnsNotFound()
     {
-        // A
+        // Arrange
         var pageModel = new EditRolesModel(Substitute.For<IStaffService>())
             { TempData = WebAppTestsSetup.PageTempData() };
 
-        // A
+        // Act
         var result = await pageModel.OnGetAsync(null);
 
-        // A
+        // Assert
         using var scope = new AssertionScope();
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Index");
@@ -87,7 +87,7 @@ public class EditRolesTests
     [Test]
     public async Task OnGet_NonexistentIdReturnsNotFound()
     {
-        // A
+        // Arrange
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.FindAsync(Arg.Any<string>())
             .Returns((StaffViewDto?)null);
@@ -95,17 +95,17 @@ public class EditRolesTests
         var pageModel = new EditRolesModel(staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData() };
 
-        // A
+        // Act
         var result = await pageModel.OnGetAsync(Guid.Empty.ToString());
 
-        // A
+        // Assert
         result.Should().BeOfType<NotFoundResult>();
     }
 
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
-        // A
+        // Arrange
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.", []);
 
@@ -123,10 +123,10 @@ public class EditRolesTests
             TempData = WebAppTestsSetup.PageTempData(),
         };
 
-        // A
+        // Act
         var result = await page.OnPostAsync();
 
-        // A
+        // Assert
         using var scope = new AssertionScope();
         page.ModelState.IsValid.Should().BeTrue();
         result.Should().BeOfType<RedirectToPageResult>();
@@ -138,7 +138,7 @@ public class EditRolesTests
     [Test]
     public async Task OnPost_GivenMissingUser_ReturnsBadRequest()
     {
-        // A
+        // Arrange
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.UpdateRolesAsync(Arg.Any<string>(), Arg.Any<Dictionary<string, bool>>())
             .Returns(IdentityResult.Failed());
@@ -153,17 +153,17 @@ public class EditRolesTests
             PageContext = WebAppTestsSetup.PageContextWithUser(),
         };
 
-        // A
+        // Act
         var result = await page.OnPostAsync();
 
-        // A
+        // Assert
         result.Should().BeOfType<BadRequestResult>();
     }
 
     [Test]
     public async Task OnPost_GivenUpdateFailure_ReturnsPageWithInvalidModelState()
     {
-        // A
+        // Arrange
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.UpdateRolesAsync(Arg.Any<string>(), Arg.Any<Dictionary<string, bool>>())
             .Returns(IdentityResult.Failed(new IdentityError { Code = "CODE", Description = "DESCRIPTION" }));
@@ -181,10 +181,10 @@ public class EditRolesTests
             PageContext = WebAppTestsSetup.PageContextWithUser(),
         };
 
-        // A
+        // Act
         var result = await page.OnPostAsync();
 
-        // A
+        // Assert
         using var scope = new AssertionScope();
         result.Should().BeOfType<PageResult>();
         page.ModelState.IsValid.Should().BeFalse();
