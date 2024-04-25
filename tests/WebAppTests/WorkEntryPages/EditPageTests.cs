@@ -39,7 +39,7 @@ public class EditPageTests
         var id = Guid.NewGuid();
         var dto = new WorkEntryUpdateDto();
 
-        await using var workEntryService = Substitute.For<IWorkEntryService>();
+        var workEntryService = Substitute.For<IWorkEntryService>();
         workEntryService.FindForUpdateAsync(id).Returns(dto);
 
         var authorization = Substitute.For<IAuthorizationService>();
