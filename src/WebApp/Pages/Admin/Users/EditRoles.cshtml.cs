@@ -8,7 +8,7 @@ using MyApp.WebApp.Platform.PageModelHelpers;
 namespace MyApp.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
-public class EditRolesModel(IStaffService staffService, IAuthorizationService authorization) : PageModel
+public class EditRolesModel(IStaffService staffService) : PageModel
 {
     [BindProperty]
     public string UserId { get; set; } = string.Empty;

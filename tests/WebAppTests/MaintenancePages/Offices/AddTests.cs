@@ -19,13 +19,11 @@ public class AddTests
         officeServiceMock.CreateAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(Guid.Empty);
 
-        var staffServiceMock = Substitute.For<IStaffService>();
-
         var validatorMock = Substitute.For<IValidator<OfficeCreateDto>>();
         validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
 
-        var page = new AddModel(officeServiceMock, staffServiceMock, validatorMock)
+        var page = new AddModel(officeServiceMock, validatorMock)
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var expectedMessage =
@@ -56,7 +54,7 @@ public class AddTests
         validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
 
-        var page = new AddModel(Substitute.For<IOfficeService>(), staffServiceMock, validatorMock)
+        var page = new AddModel(Substitute.For<IOfficeService>(), validatorMock)
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act

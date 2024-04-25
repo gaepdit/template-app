@@ -1,15 +1,13 @@
 using FluentValidation;
 using MyApp.AppServices.Offices;
 using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Staff;
 using MyApp.WebApp.Models;
 using MyApp.WebApp.Platform.PageModelHelpers;
 
 namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Policy = nameof(Policies.SiteMaintainer))]
-public class AddModel(IOfficeService officeService, IStaffService staffService, IValidator<OfficeCreateDto> validator)
-    : PageModel
+public class AddModel(IOfficeService officeService, IValidator<OfficeCreateDto> validator) : PageModel
 {
     [BindProperty]
     public OfficeCreateDto Item { get; set; } = default!;
