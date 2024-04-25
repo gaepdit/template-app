@@ -18,7 +18,7 @@ public class IndexModel : PageModel
         [FromServices] IOfficeService service,
         [FromServices] IAuthorizationService authorization)
     {
-        Items = await service.GetListIncludeAssignorAsync();
+        Items = await service.GetListAsync();
         IsSiteMaintainer = await authorization.Succeeded(User, Policies.SiteMaintainer);
     }
 }

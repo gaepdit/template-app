@@ -23,7 +23,7 @@ public class GetActiveListItems
 
         var managerMock = Substitute.For<IEntryTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-        var appService = new EntryTypeService(repoMock, managerMock, AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new EntryTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
 
         // Act
         var result = await appService.GetAsListItemsAsync();

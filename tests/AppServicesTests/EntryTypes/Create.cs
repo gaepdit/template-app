@@ -19,8 +19,7 @@ public class Create
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync()
             .Returns((ApplicationUser?)null);
-        var appService = new EntryTypeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new EntryTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
 
         var result = await appService.CreateAsync(item.Name);
 

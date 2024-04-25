@@ -16,8 +16,7 @@ public class GetList
             .Returns(itemList);
         var managerMock = Substitute.For<IEntryTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-        var appService = new EntryTypeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new EntryTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
 
         var result = await appService.GetListAsync();
 

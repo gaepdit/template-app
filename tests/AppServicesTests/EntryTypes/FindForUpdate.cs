@@ -17,8 +17,7 @@ public class FindForUpdate
             .Returns(item);
         var managerMock = Substitute.For<IEntryTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-        var appService = new EntryTypeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new EntryTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -35,8 +34,7 @@ public class FindForUpdate
         var managerMock = Substitute.For<IEntryTypeManager>();
         var mapperMock = Substitute.For<IMapper>();
         var userServiceMock = Substitute.For<IUserService>();
-        var appService = new EntryTypeService(repoMock, managerMock,
-            mapperMock, userServiceMock);
+        var appService = new EntryTypeService(mapperMock, repoMock, managerMock, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 

@@ -33,7 +33,7 @@ public class AddModel(IOfficeService officeService, IStaffService staffService, 
             return Page();
         }
 
-        HighlightId = await officeService.CreateAsync(Item);
+        HighlightId = await officeService.CreateAsync(Item.Name);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully added.");
         return RedirectToPage("Index");
     }

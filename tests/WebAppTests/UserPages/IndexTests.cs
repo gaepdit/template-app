@@ -4,7 +4,7 @@ using MyApp.AppServices.Staff;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.WebApp.Pages.Admin.Users;
 
-namespace WebAppTests.Pages.Admin.Users;
+namespace WebAppTests.UserPages;
 
 public class IndexTests
 {
@@ -15,14 +15,15 @@ public class IndexTests
     {
         // Arrange
         var officeServiceMock = Substitute.For<IOfficeService>();
-        officeServiceMock.GetActiveListItemsAsync(Arg.Any<CancellationToken>()).Returns(new List<ListItem>());
+        officeServiceMock.GetAsListItemsAsync(Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(new List<ListItem>());
 
         var paging = new PaginatedRequest(1, 1);
         var output = new PaginatedResult<StaffSearchResultDto>(new List<StaffSearchResultDto>(), 1, paging);
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.SearchAsync(Arg.Any<StaffSearchDto>(), Arg.Any<PaginatedRequest>()).Returns(output);
 
-        var page = new IndexModel(officeServiceMock, staffServiceMock)
+        var page = new UsersIndexModel(officeServiceMock, staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
@@ -41,9 +42,10 @@ public class IndexTests
     public async Task OnSearch_IfInvalidModel_ReturnPageWithInvalidModelState()
     {
         var officeServiceMock = Substitute.For<IOfficeService>();
-        officeServiceMock.GetActiveListItemsAsync(Arg.Any<CancellationToken>()).Returns(new List<ListItem>());
+        officeServiceMock.GetAsListItemsAsync(Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(new List<ListItem>());
         var staffServiceMock = Substitute.For<IStaffService>();
-        var page = new IndexModel(officeServiceMock, staffServiceMock)
+        var page = new UsersIndexModel(officeServiceMock, staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData() };
         page.ModelState.AddModelError("Error", "Sample error description");
 

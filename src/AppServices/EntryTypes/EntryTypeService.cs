@@ -6,10 +6,10 @@ using MyApp.Domain.Entities.EntryTypes;
 namespace MyApp.AppServices.EntryTypes;
 
 public sealed class EntryTypeService(
+    IMapper mapper,
     IEntryTypeRepository repository,
     IEntryTypeManager manager,
-    IMapper mapper,
     IUserService userService)
     : MaintenanceItemService<EntryType, EntryTypeViewDto, EntryTypeUpdateDto>
-        (repository, manager, mapper, userService),
+        (mapper, repository, manager, userService),
         IEntryTypeService;

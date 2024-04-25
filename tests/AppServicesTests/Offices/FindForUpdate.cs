@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
@@ -17,8 +18,8 @@ public class FindForUpdate
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
 
-        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(),
-            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>());
+        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 
         // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);
@@ -34,8 +35,8 @@ public class FindForUpdate
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
 
-        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(),
-            Substitute.For<IMapper>(), Substitute.For<IUserService>());
+        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 
         // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);

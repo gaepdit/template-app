@@ -1,4 +1,5 @@
-﻿using MyApp.AppServices.Offices;
+﻿using Microsoft.AspNetCore.Authorization;
+using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
 using MyApp.Domain.Identity;
@@ -11,6 +12,7 @@ public class GetStaff
     [Test]
     public async Task WhenOfficeExists_ReturnsViewDtoList()
     {
+        // Arrange
         var guid = Guid.NewGuid();
         var user = new ApplicationUser
         {
@@ -25,14 +27,14 @@ public class GetStaff
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetStaffMembersListAsync(guid, false, Arg.Any<CancellationToken>())
             .Returns(itemList);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
 
-        var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 
+        // Act
         var result = await appService.GetStaffAsListItemsAsync(guid);
 
+        // Assert
         result.Should().ContainSingle(e =>
             string.Equals(e.Id, user.Id, StringComparison.Ordinal) &&
             string.Equals(e.Name, user.SortableNameWithInactive, StringComparison.Ordinal));

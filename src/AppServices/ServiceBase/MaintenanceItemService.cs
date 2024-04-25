@@ -10,17 +10,20 @@ namespace MyApp.AppServices.ServiceBase;
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 public abstract class MaintenanceItemService<TEntity, TViewDto, TUpdateDto>(
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
+    IMapper mapper,
+    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     INamedEntityRepository<TEntity> repository,
     INamedEntityManager<TEntity> manager,
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-    IMapper mapper,
-    IUserService userService)
-    : IMaintenanceItemService<TViewDto, TUpdateDto>
+    IUserService userService
+) : IMaintenanceItemService<TViewDto, TUpdateDto>
     where TEntity : StandardNamedEntity
     where TUpdateDto : StandardNamedEntityUpdateDto
 #pragma warning restore S2436
 
 {
+    public async Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
+        mapper.Map<TViewDto>(await repository.FindAsync(id, token).ConfigureAwait(false));
+
     public async Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         mapper.Map<TUpdateDto>(await repository.FindAsync(id, token).ConfigureAwait(false));
 

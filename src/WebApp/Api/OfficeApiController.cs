@@ -13,7 +13,7 @@ public class OfficeApiController(
 {
     [HttpGet]
     public async Task<IReadOnlyList<OfficeViewDto>> ListOfficesAsync() =>
-        await officeService.GetListIncludeAssignorAsync();
+        await officeService.GetListAsync();
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<OfficeViewDto>> GetOfficeAsync([FromRoute] Guid id)
