@@ -1,5 +1,6 @@
 ﻿using GaEpd.EmailService;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.AppServices.DataExport;
 using MyApp.AppServices.EntryTypes;
 using MyApp.AppServices.Notifications;
 using MyApp.AppServices.Offices;
@@ -10,7 +11,7 @@ using MyApp.Domain.Entities.WorkEntries;
 
 namespace MyApp.AppServices.RegisterServices;
 
-public static class AppServices
+public static class RegisterAppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
@@ -29,5 +30,8 @@ public static class AppServices
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();
         services.AddScoped<IOfficeService, OfficeService>();
+
+        // Data Export
+        services.AddScoped<ISearchResultsExportService, SearchResultsExportService>();
     }
 }
