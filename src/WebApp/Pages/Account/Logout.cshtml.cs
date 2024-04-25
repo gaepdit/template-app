@@ -1,21 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyApp.Domain.Identity;
 using MyApp.WebApp.Platform.Settings;
 
 namespace MyApp.WebApp.Pages.Account;
 
 [AllowAnonymous]
-public class LogoutModel : PageModel
+public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageModel
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-
-    public LogoutModel(SignInManager<ApplicationUser> signInManager) => _signInManager = signInManager;
-
     public Task<IActionResult> OnGetAsync() => LogOutAndRedirectToIndex();
 
     public Task<IActionResult> OnPostAsync() => LogOutAndRedirectToIndex();
@@ -23,13 +16,13 @@ public class LogoutModel : PageModel
     private async Task<IActionResult> LogOutAndRedirectToIndex()
     {
         // If Azure AD is enabled, sign out all authentication schemes.
-        if (ApplicationSettings.DevSettings.UseAzureAd)
+        if (AppSettings.DevSettings.UseAzureAd)
             return SignOut(new AuthenticationProperties { RedirectUri = "/Index" },
                 IdentityConstants.ApplicationScheme,
                 OpenIdConnectDefaults.AuthenticationScheme);
 
         // If a local user is enabled instead, sign out locally and redirect to home page.
-        await _signInManager.SignOutAsync();
+        await signInManager.SignOutAsync();
         return RedirectToPage("/Index");
     }
 }

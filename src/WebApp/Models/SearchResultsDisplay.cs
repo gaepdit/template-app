@@ -1,11 +1,11 @@
 ﻿using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.Complaints.QueryDto;
+using MyApp.AppServices.WorkEntries.QueryDto;
 
 namespace MyApp.WebApp.Models;
 
 public record SearchResultsDisplay(
     IBasicSearchDisplay Spec,
-    IPaginatedResult<ComplaintSearchResultDto> SearchResults,
+    IPaginatedResult<WorkEntrySearchResultDto> SearchResults,
     PaginationNavModel Pagination,
     bool IsPublic)
 {

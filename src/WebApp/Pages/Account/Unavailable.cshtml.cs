@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿namespace MyApp.WebApp.Pages.Account;
 
-namespace MyApp.WebApp.Pages.Account;
-
+// This page is only used by the ExternalLogin page and is shown to users who have work accounts but are not allowed to sign in to the application.
 [AllowAnonymous]
 public class UnavailableModel : PageModel
 {
-    public static void OnGet()
+    public void OnGet()
     {
         // Method intentionally left empty.
     }

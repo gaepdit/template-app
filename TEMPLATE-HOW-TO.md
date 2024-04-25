@@ -19,6 +19,7 @@ The following steps describe how to use the template for a new application.
         - The project key in the "sonarcloud-scan.yml" workflow file.
         - The comment URL path in the "lighthouse-analysis.yml" workflow file.
         - The URLs in the GitHub and SonarCloud badges in the "README.md" file.
+        - The URL on the support page.
 
 ## Customize the application
 

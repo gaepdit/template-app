@@ -5,7 +5,8 @@ using MyApp.TestData;
 
 namespace MyApp.LocalRepository.Repositories;
 
-public sealed class LocalOfficeRepository() : NamedEntityRepository<Office>(OfficeData.GetData), IOfficeRepository
+public sealed class LocalOfficeRepository()
+    : NamedEntityRepository<Office>(OfficeData.GetData), IOfficeRepository
 {
     public LocalUserStore Staff { get; } = new();
 
