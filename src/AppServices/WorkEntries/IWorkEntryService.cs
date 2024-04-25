@@ -11,8 +11,6 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
 
     Task<WorkEntryUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
 
-    Task<bool> ExistsAsync(Guid id, CancellationToken token = default);
-
     Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec, PaginatedRequest paging,
         CancellationToken token = default);
 
@@ -20,12 +18,11 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
 
     Task UpdateAsync(Guid id, WorkEntryUpdateDto resource, CancellationToken token = default);
 
-    Task CloseAsync(WorkEntryCommentDto resource, string? baseUrl, CancellationToken token = default);
+    Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
 
-    Task<NotificationResult> ReopenAsync(WorkEntryCommentDto resource, string? baseUrl,
-        CancellationToken token = default);
+    Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
 
-    Task DeleteAsync(WorkEntryCommentDto resource, CancellationToken token = default);
+    Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
 
-    Task RestoreAsync(WorkEntryCommentDto resource, CancellationToken token = default);
+    Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
 }

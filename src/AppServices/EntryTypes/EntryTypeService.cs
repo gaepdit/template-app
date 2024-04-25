@@ -10,6 +10,6 @@ public sealed class EntryTypeService(
     IEntryTypeManager manager,
     IMapper mapper,
     IUserService userService)
-    : MaintenanceItemService<Domain.Entities.EntryTypes.EntryType, EntryTypeViewDto, EntryTypeUpdateDto>
+    : MaintenanceItemService<EntryType, EntryTypeViewDto, EntryTypeUpdateDto>
         (repository, manager, mapper, userService),
         IEntryTypeService;

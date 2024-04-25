@@ -40,9 +40,6 @@ public sealed class WorkEntryService(
             .FindAsync(entry => entry.Id == id && !entry.IsDeleted, token)
             .ConfigureAwait(false));
 
-    public async Task<bool> ExistsAsync(Guid id, CancellationToken token = default) =>
-        await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false);
-
     public async Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec,
         PaginatedRequest paging, CancellationToken token = default)
     {
@@ -90,8 +87,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
     }
 
-    public async Task CloseAsync(WorkEntryCommentDto resource, string? baseUrl,
-        CancellationToken token = default)
+    public async Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -100,7 +96,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task<NotificationResult> ReopenAsync(WorkEntryCommentDto resource, string? baseUrl,
+    public async Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource,
         CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
@@ -113,7 +109,7 @@ public sealed class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
     }
 
-    public async Task DeleteAsync(WorkEntryCommentDto resource, CancellationToken token = default)
+    public async Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -122,7 +118,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task RestoreAsync(WorkEntryCommentDto resource, CancellationToken token = default)
+    public async Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

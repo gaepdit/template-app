@@ -14,7 +14,7 @@ public class DashboardIndexModel(IWorkEntryService workEntryService, IAuthorizat
     public bool IsStaff { get; private set; }
     public DashboardCard OpenWorkEntries { get; private set; } = null!;
 
-    public async Task<PageResult> BuildDashboardAsync(CancellationToken token)
+    public async Task<PageResult> OnGetAsync(CancellationToken token)
     {
         IsStaff = await authorization.Succeeded(User, Policies.StaffUser);
 
