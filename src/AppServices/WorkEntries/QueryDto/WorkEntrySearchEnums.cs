@@ -16,9 +16,9 @@ public enum SortBy
 
 
 // "Not Deleted" is included as an additional Delete Status option in the UI representing the null default state.
-// "Deleted" = only deleted complaints
-// "All" = all complaints
-// "Not Deleted" (null) = only non-deleted complaints
+// "Deleted" = only deleted entries
+// "All" = all entries
+// "Not Deleted" (null) = only non-deleted entries
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SearchDeleteStatus
 {

@@ -22,7 +22,7 @@ public class DetailsPagePostNewActionTests
     }
 
     [Test]
-    public async Task OnPostAsync_ComplaintNotFound_ReturnsBadRequestResult()
+    public async Task OnPostAsync_EntryNotFound_ReturnsBadRequestResult()
     {
         // Arrange
         var id = Guid.NewGuid();

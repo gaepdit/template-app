@@ -29,7 +29,7 @@
                     {
                         <tr>
                             <th scope="row">
-                                <a asp-page="Complaints/Details" asp-route-id="@entry.Id.ToString()" class="btn btn-outline-primary btn-sm">@entry.Id.ToString()</a>
+                                <a asp-page="WorkEntries/Details" asp-route-id="@entry.Id.ToString()" class="btn btn-outline-primary btn-sm">@entry.Id.ToString()</a>
                             </th>
                             <td class="text-nowrap">@Html.DisplayFor(_ => entry.ReceivedDate, DisplayTemplate.ShortDate)</td>
                             <td>@Html.DisplayFor(_ => entry.Status)</td>

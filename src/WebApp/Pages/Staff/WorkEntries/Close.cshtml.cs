@@ -10,7 +10,7 @@ using MyApp.WebApp.Platform.PageModelHelpers;
 namespace MyApp.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.Manager))]
-public class ApproveModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
+public class CloseModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     [BindProperty]
     public WorkEntryChangeStatusDto EntryDto { get; set; } = default!;

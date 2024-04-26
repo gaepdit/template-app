@@ -1,4 +1,4 @@
-@page "{id:int?}"
+@page "{id:Guid?}"
 @using GaEpd.AppLibrary.Extensions
 @using MyApp.AppServices.WorkEntries.Permissions
 @using MyApp.WebApp.Pages.Shared.DisplayTemplates
@@ -149,12 +149,12 @@
                                     <div class="col-auto d-print-none ms-2">
                                         @if (!action.IsDeleted)
                                         {
-                                            <a asp-page="../EntryActions/Edit" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <a asp-page="../EntryActions/Delete" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                            <a asp-page="../EntryAction/Edit" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a asp-page="../EntryAction/Delete" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
                                         }
                                         else
                                         {
-                                            <a asp-page="../EntryActions/Restore" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-warning ms-1">Restore</a>
+                                            <a asp-page="../EntryAction/Restore" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-warning ms-1">Restore</a>
                                         }
                                     </div>
                                 }
@@ -185,8 +185,6 @@
             </div>
         }
     </div>
-}
-
 }
 
 @section Scripts

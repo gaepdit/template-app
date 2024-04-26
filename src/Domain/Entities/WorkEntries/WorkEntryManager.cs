@@ -5,7 +5,6 @@ namespace MyApp.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager : IWorkEntryManager
 {
-    // Complaints
     public WorkEntry Create(ApplicationUser? user)
     {
         var item = new WorkEntry(Guid.NewGuid()) { ReceivedBy = user };

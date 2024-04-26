@@ -90,7 +90,7 @@ public class EditPageTests
     }
 
     [Test]
-    public async Task OnPost_ReturnsBadRequestWhenOriginalComplaintIsNull()
+    public async Task OnPost_ReturnsBadRequestWhenOriginalEntryIsNull()
     {
         // Arrange
         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();

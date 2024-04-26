@@ -27,11 +27,11 @@ public class EditActionModel(
 
     public WorkEntryViewDto WorkEntryView { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? entryActionId)
+    public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {
-        if (entryActionId is null) return RedirectToPage("Index");
+        if (actionId is null) return RedirectToPage("Index");
 
-        var item = await actionService.FindForUpdateAsync(entryActionId.Value);
+        var item = await actionService.FindForUpdateAsync(actionId.Value);
         if (item is null) return NotFound();
 
         var workEntryView = await workEntryService.FindAsync(item.WorkEntryId);
@@ -40,7 +40,7 @@ public class EditActionModel(
         if (!await UserCanEditActionItemsAsync(workEntryView)) return Forbid();
 
         UpdateDto = item;
-        EntryActionId = entryActionId.Value;
+        EntryActionId = actionId.Value;
         WorkEntryView = workEntryView;
         return Page();
     }

@@ -21,7 +21,7 @@ public interface IWorkEntryManager
     EntryAction CreateEntryAction(WorkEntry workEntry,  ApplicationUser? user);
     
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and approved/closed.
+    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
     /// </summary>
     /// <param name="workEntry">The Entry that was closed.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>

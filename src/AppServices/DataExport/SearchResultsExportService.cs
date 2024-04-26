@@ -35,7 +35,7 @@ public sealed class SearchResultsExportService(
 
         return (await workEntryRepository.GetListAsync(WorkEntryFilters.SearchPredicate(spec), token)
                 .ConfigureAwait(false))
-            .Select(complaint => new SearchResultsExportDto(complaint)).ToList();
+            .Select(entry => new SearchResultsExportDto(entry)).ToList();
     }
 
     #region IDisposable,  IAsyncDisposable

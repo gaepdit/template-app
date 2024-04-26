@@ -37,7 +37,7 @@ public record SearchResultsExportDto
     [XLColumn(Header = "Date Closed")]
     public DateTimeOffset? DateClosed { get; init; }
 
-    [XLColumn(Header = "Nature of Complaint")]
+    [XLColumn(Header = "Notes")]
     public string? Notes { get; init; }
 
     [XLColumn(Header = "Deleted?")]

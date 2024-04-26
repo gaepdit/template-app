@@ -24,7 +24,7 @@ public static class AuthorizationPolicies
             .AddPolicy(nameof(Policies.UserAdministrator), Policies.UserAdministrator);
 
         // Resource/operation-based permission handlers, e.g.:
-        // var canAssign = await authorization.Succeeded(User, complaintView, ComplaintOperation.Assign);
+        // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
         services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirements>();
 

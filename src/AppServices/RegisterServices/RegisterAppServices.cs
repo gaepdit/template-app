@@ -1,6 +1,7 @@
 ﻿using GaEpd.EmailService;
 using Microsoft.Extensions.DependencyInjection;
 using MyApp.AppServices.DataExport;
+using MyApp.AppServices.EntryActions;
 using MyApp.AppServices.EntryTypes;
 using MyApp.AppServices.Notifications;
 using MyApp.AppServices.Offices;
@@ -19,10 +20,13 @@ public static class RegisterAppServices
         services.AddScoped<IWorkEntryManager, WorkEntryManager>();
         services.AddScoped<IWorkEntryService, WorkEntryService>();
 
+        // Entry Actions
+        services.AddScoped<IEntryActionService, EntryActionService>();
+
         // Entry Types
         services.AddScoped<IEntryTypeManager, EntryTypeManager>();
         services.AddScoped<IEntryTypeService, EntryTypeService>();
-
+        
         // Email
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
