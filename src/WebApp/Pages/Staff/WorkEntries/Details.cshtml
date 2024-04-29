@@ -64,13 +64,23 @@
 
 <div class="container">
     <dl class="row">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ReceivedBy)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @Html.DisplayFor(model => model.ItemView.ReceivedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => model.ItemView.ReceivedDate, DisplayTemplate.LongDateTime)
+        </dd>
         @if (Model.ItemView.Closed)
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ClosedDate)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(model => model.ItemView.ClosedDate, DisplayTemplate.LongDateTimeOrNotEntered)</dd>
+            <dd class="col-sm-8 col-lg-9">
+                @Html.DisplayFor(model => model.ItemView.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                on @Html.DisplayFor(model => model.ItemView.ClosedDate, DisplayTemplate.LongDateTimeOrNotEntered)
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ClosedComments)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <div class="text-break text-pre-line">@Html.DisplayFor(_ => Model.ItemView.ClosedComments, DisplayTemplate.StringOrPlaceholder)</div>
+            </dd>
         }
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ReceivedDate)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(model => model.ItemView.ReceivedDate, DisplayTemplate.LongDateTime)</dd>
     </dl>
 </div>
 

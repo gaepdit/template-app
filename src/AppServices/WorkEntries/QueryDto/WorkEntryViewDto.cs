@@ -30,6 +30,9 @@ public record WorkEntryViewDto
     [Display(Name = "Date Closed")]
     public DateTimeOffset? ClosedDate { get; init; }
 
+    [Display(Name = "Closed By")]
+    public StaffViewDto? ClosedBy { get; init; }
+
     [Display(Name = "Closure Comments")]
     public string? ClosedComments { get; init; }
 
