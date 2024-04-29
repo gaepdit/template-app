@@ -54,10 +54,10 @@ public static class DataPersistence
         }
 
         // Repositories
-        services.AddSingleton<IEmailLogRepository, EmailLogRepository>();
-        services.AddSingleton<IEntryActionRepository, EntryActionRepository>();
-        services.AddSingleton<IEntryTypeRepository,EntryTypeRepository>();
-        services.AddSingleton<IOfficeRepository, OfficeRepository>();
-        services.AddSingleton<IWorkEntryRepository, WorkEntryRepository>();
+        services.AddScoped<IEmailLogRepository, EmailLogRepository>();
+        services.AddScoped<IEntryActionRepository, EntryActionRepository>();
+        services.AddScoped<IEntryTypeRepository,EntryTypeRepository>();
+        services.AddScoped<IOfficeRepository, OfficeRepository>();
+        services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
     }
 }
