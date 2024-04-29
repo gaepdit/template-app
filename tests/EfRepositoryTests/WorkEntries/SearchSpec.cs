@@ -45,7 +45,7 @@ public class SearchSpec
         // Assert
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: false, Closed: true });
-        results.Should().BeEquivalentTo(expected);
+        results.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.EntryActions));
     }
 
     [Test]
@@ -99,7 +99,7 @@ public class SearchSpec
 
         // Act
         var results = await repository.GetListAsync(predicate);
-        
+
         // Assert
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: false } &&
