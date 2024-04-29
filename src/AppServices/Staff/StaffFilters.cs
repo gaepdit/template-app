@@ -1,4 +1,4 @@
-﻿using GaEpd.AppLibrary.Extensions;
+using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.Domain.Identity;
@@ -13,26 +13,30 @@ public static class StaffFilters
             .FilterByEmail(spec.Email)
             .FilterByOffice(spec.Office)
             .FilterByActiveStatus(spec.Status)
-            .OrderByIf(spec.Sort.GetDescription());
+            .OrderByIf(spec.Sort.GetDescription())
+            .ThenBy(user => user.Id);
 
+#pragma warning disable CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
+    // The 'StringComparison' method overload is incompatible with Entity Framework.
     private static IQueryable<ApplicationUser> FilterByName(
         this IQueryable<ApplicationUser> query, string? name) =>
         string.IsNullOrWhiteSpace(name)
             ? query
-            : query.Where(m => m.GivenName.ToLower().Contains(name.ToLower())
-                || m.FamilyName.ToLower().Contains(name.ToLower()));
+            : query.Where(user => user.GivenName.ToLower().Contains(name.ToLower())
+                || user.FamilyName.ToLower().Contains(name.ToLower()));
+#pragma warning restore CA1862
 
     private static IQueryable<ApplicationUser> FilterByEmail(
         this IQueryable<ApplicationUser> query, string? email) =>
-        string.IsNullOrWhiteSpace(email) ? query : query.Where(m => m.Email == email);
+        string.IsNullOrWhiteSpace(email) ? query : query.Where(user => user.Email == email);
 
     private static IQueryable<ApplicationUser> FilterByOffice(
         this IQueryable<ApplicationUser> query, Guid? officeId) =>
-        officeId is null ? query : query.Where(m => m.Office != null && m.Office.Id == officeId);
+        officeId is null ? query : query.Where(user => user.Office != null && user.Office.Id == officeId);
 
     private static IQueryable<ApplicationUser> FilterByActiveStatus(
         this IQueryable<ApplicationUser> query, SearchStaffStatus? status) =>
         status == SearchStaffStatus.All
             ? query
-            : query.Where(m => m.Active == (status == null || status == SearchStaffStatus.Active));
+            : query.Where(user => user.Active == (status == null || status == SearchStaffStatus.Active));
 }

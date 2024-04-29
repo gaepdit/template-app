@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
 using MyApp.AppServices.Offices;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
@@ -12,33 +12,36 @@ public class FindForUpdate
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
     {
+        // Arrange
         var office = new Office(Guid.Empty, TextData.ValidName);
+
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
 
+        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
+
+        // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
+        // Assert
         result.Should().BeEquivalentTo(office);
     }
 
     [Test]
     public async Task WhenDoesNotExist_ReturnsNull()
     {
-        var id = Guid.Empty;
+        // Arrange
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var mapperMock = Substitute.For<IMapper>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            mapperMock, userServiceMock, new MemoryCache(new MemoryCacheOptions()));
+        repoMock.FindAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
 
+        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
+
+        // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
+        // Assert
         result.Should().BeNull();
     }
 }

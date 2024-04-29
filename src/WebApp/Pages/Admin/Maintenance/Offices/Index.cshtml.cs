@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyApp.AppServices.Offices;
+﻿using MyApp.AppServices.Offices;
 using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Permissions.Helpers;
 
 namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Policy = nameof(Policies.AdministrationView))]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel
 {
     public IReadOnlyList<OfficeViewDto> Items { get; private set; } = default!;
@@ -21,6 +19,6 @@ public class IndexModel : PageModel
         [FromServices] IAuthorizationService authorization)
     {
         Items = await service.GetListAsync();
-        IsSiteMaintainer = (await authorization.AuthorizeAsync(User, nameof(Policies.SiteMaintainer))).Succeeded;
+        IsSiteMaintainer = await authorization.Succeeded(User, Policies.SiteMaintainer);
     }
 }

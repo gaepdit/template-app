@@ -16,14 +16,15 @@ public class OfficeUpdateValidator : AbstractValidator<OfficeUpdateDto>
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .Length(AppConstants.MinimumNameLength, AppConstants.MaximumNameLength)
-            .MustAsync(async (_, name, context, token) => await NotDuplicateName(name, context, token))
+            .MustAsync(async (_, name, context, token) =>
+                await NotDuplicateName(name, context, token).ConfigureAwait(false))
             .WithMessage("The name entered already exists.");
     }
 
     private async Task<bool> NotDuplicateName(string name, IValidationContext context,
         CancellationToken token = default)
     {
-        var office = await _repository.FindByNameAsync(name, token);
+        var office = await _repository.FindByNameAsync(name, token).ConfigureAwait(false);
         return office is null || office.Id == (Guid)context.RootContextData["Id"];
     }
 }

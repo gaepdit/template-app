@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Permissions.Helpers;
 
 namespace MyApp.WebApp.Pages;
 
@@ -9,26 +8,34 @@ namespace MyApp.WebApp.Pages;
 [IgnoreAntiforgeryToken]
 #pragma warning restore S4502
 [AllowAnonymous]
-public class ErrorModel : PageModel
+public class ErrorModel(ILogger<ErrorModel> logger, IAuthorizationService authorization) : PageModel
 {
-    private readonly ILogger<ErrorModel> _logger;
-    public ErrorModel(ILogger<ErrorModel> logger) => _logger = logger;
-
     public int? Status { get; private set; }
+    public bool ActiveUser { get; private set; }
 
-    public void OnGet(int? statusCode)
+    public async Task OnGetAsync(int? statusCode)
     {
-        if (statusCode is null)
+        ActiveUser = await authorization.Succeeded(User, Policies.ActiveUser);
+
+        switch (statusCode)
         {
-            _logger.LogError("Error page shown from Get method");
-        }
-        else
-        {
-            _logger.LogError("Error page shown from Get method with status code {StatusCode}", statusCode);
+            case null:
+                logger.LogError("Error page shown from Get method");
+                break;
+            case StatusCodes.Status404NotFound:
+                logger.LogWarning("Error page shown from Get method with status code {StatusCode}", statusCode);
+                break;
+            default:
+                logger.LogError("Error page shown from Get method with status code {StatusCode}", statusCode);
+                break;
         }
 
         Status = statusCode;
     }
 
-    public void OnPost() => _logger.LogError("Error page shown from Post method");
+    public async Task OnPost()
+    {
+        ActiveUser = await authorization.Succeeded(User, Policies.ActiveUser);
+        logger.LogError("Error page shown from Post method");
+    }
 }

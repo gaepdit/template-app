@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Runtime.CompilerServices;

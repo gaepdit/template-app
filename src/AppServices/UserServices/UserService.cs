@@ -1,46 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GaEpd.AppLibrary.Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
 using MyApp.Domain.Identity;
+using System.Security.Claims;
 
 namespace MyApp.AppServices.UserServices;
 
-public class UserService : IUserService
+public class UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+    : IUserService
 {
-    internal const double UserExpirationMinutes = 30.0;
-    
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IMemoryCache _cache;
-
-    public UserService(
-        UserManager<ApplicationUser> userManager,
-        IHttpContextAccessor httpContextAccessor,
-        IMemoryCache cache)
-    {
-        _userManager = userManager;
-        _httpContextAccessor = httpContextAccessor;
-        _cache = cache;
-    }
-
     public async Task<ApplicationUser?> GetCurrentUserAsync()
     {
-        var principal = _httpContextAccessor.HttpContext?.User;
-        return principal is null ? null : await _userManager.GetUserAsync(principal);
+        var principal = GetCurrentPrincipal();
+        return principal is null ? null : await userManager.GetUserAsync(principal).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// Asynchronously retrieves User object based on it's unique identifier.
-    /// </summary>
-    /// <param name="id">User's unique identifier.</param>
-    /// <returns>The User associated with the provided id if present and null otherwise.</returns>
-    public async Task<ApplicationUser?> FindUserAsync(string id)
-    {
-        var user = _cache.Get<ApplicationUser>(id);
-        if (user is not null) return user;
-        
-        user = await _userManager.FindByIdAsync(id);
-        if(user is not null) _cache.Set(id, user, TimeSpan.FromMinutes(UserExpirationMinutes));
-        return user;
-    }
+    public async Task<ApplicationUser> GetUserAsync(string id) =>
+        await FindUserAsync(id).ConfigureAwait(false)
+        ?? throw new EntityNotFoundException<ApplicationUser>(id);
+
+    public Task<ApplicationUser?> FindUserAsync(string id) =>
+        userManager.FindByIdAsync(id);
+
+    public ClaimsPrincipal? GetCurrentPrincipal() => httpContextAccessor.HttpContext?.User;
 }

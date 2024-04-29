@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.Domain.Entities.Offices;
 using MyApp.Domain.Identity;
@@ -14,7 +13,7 @@ public class UserMapping
         GivenName = TextData.ValidName,
         FamilyName = TextData.NewValidName,
         Email = TextData.ValidEmail,
-        Phone = TextData.ValidPhoneNumber,
+        PhoneNumber = TextData.ValidPhoneNumber,
         Office = new Office(Guid.NewGuid(), TextData.ValidName),
     };
 
@@ -28,7 +27,7 @@ public class UserMapping
         result.GivenName.Should().Be(_item.GivenName);
         result.FamilyName.Should().Be(_item.FamilyName);
         result.Email.Should().Be(_item.Email);
-        result.Phone.Should().Be(_item.Phone);
+        result.PhoneNumber.Should().Be(_item.PhoneNumber);
         result.Office.Should().BeEquivalentTo(_item.Office);
         result.Active.Should().BeTrue();
     }
@@ -43,17 +42,6 @@ public class UserMapping
         result.SortableFullName.Should().Be($"{_item.FamilyName}, {_item.GivenName}");
         result.Email.Should().Be(_item.Email);
         result.OfficeName.Should().Be(_item.Office!.Name);
-        result.Active.Should().BeTrue();
-    }
-
-    [Test]
-    public void StaffUpdateMappingWorks()
-    {
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffUpdateDto>(_item);
-
-        using var scope = new AssertionScope();
-        result.Phone.Should().Be(_item.Phone);
-        result.OfficeId.Should().Be(_item.Office!.Id);
         result.Active.Should().BeTrue();
     }
 

@@ -1,48 +1,48 @@
-@page
+@page "{handler?}"
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Template Application";
 }
 
-@if (!Model.ShowDashboard)
-{
-    <h1>Home Page</h1>
-    <p>See your manager to request access to the application.</p>
-}
-else
-{
-    <h1>Dashboard</h1>
-
-    <div class="card mt-4">
-        <div class="card-header">
-            <h2 class="h5">Open Work</h2>
-        </div>
-        <div class="card-body">
-            <p>
-                <em>None.</em>
-            </p>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="callout callout-info">
+            This application is a template for use in creating new web applications.
         </div>
     </div>
-}
+</div>
 
-<div class="card mt-4">
-    <div class="card-header">
-        <h2 class="h5">Some helpful development links</h2>
+<h1>@ViewData["Title"]</h1>
+
+<div class="card mt-4 border-info shadow">
+    <div class="card-header text-bg-info">
+        <h2 class="h5">Some helpful temporary development links</h2>
     </div>
     <div class="card-body">
+        <h3>Public pages</h3>
         <ul>
             <li>
-                <a asp-page="/Account/Index">Account Page</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Users/Index">All Users</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
+                Add links to useful public pages.
             </li>
             <li>
                 @* ReSharper disable once Html.PathError *@
-                <a href="api-docs/">API Docs</a>
+                <a href="api-docs/">API docs</a>
+            </li>
+        </ul>
+
+        <h3>Staff pages</h3>
+        <ul>
+            <li>
+                Add links to useful staff pages.
+            </li>
+            <li>
+                <a asp-page="/Account/Index">Account page</a>
+            </li>
+            <li>
+                <a asp-page="/Admin/Users/Index">All users</a>
+            </li>
+            <li>
+                <a asp-page="/Admin/Maintenance/Index">Site maintenance</a>
             </li>
         </ul>
     </div>

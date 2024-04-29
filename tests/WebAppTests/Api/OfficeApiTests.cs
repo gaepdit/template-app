@@ -10,14 +10,18 @@ public class OfficeApiTests
     [Test]
     public async Task ListOffices_ReturnsListOfOffices()
     {
-        List<OfficeViewDto> officeList = new()
-            { new OfficeViewDto(Guid.Empty, TextData.ValidName, true) };
+        // Arrange
+        List<OfficeViewDto> officeList = [new OfficeViewDto(Guid.NewGuid(), TextData.ValidName, true)];
+
         var serviceMock = Substitute.For<IOfficeService>();
         serviceMock.GetListAsync(CancellationToken.None).Returns(officeList);
-        var apiController = new OfficeApiController(serviceMock);
+        
+        var apiController = new OfficeApiController(serviceMock, Substitute.For<IAuthorizationService>());
 
+        // Act
         var result = await apiController.ListOfficesAsync();
 
+        // Assert
         result.Should().BeEquivalentTo(officeList);
     }
 }

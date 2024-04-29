@@ -1,19 +1,20 @@
-﻿using MyApp.AppServices.Permissions;
-using MyApp.Domain.Identity;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Permissions.AppClaims;
+using MyApp.AppServices.Permissions.Helpers;
+using MyApp.Domain.Identity;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.PolicyTests;
 
 public class RoleBasedPolicy
 {
-    private IAuthorizationService _authorizationService = null!;
+    private IAuthorizationService _authorization = null!;
 
     [SetUp]
-    public void SetUp() => _authorizationService = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
-        collection.AddAuthorization(options =>
-            options.AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer)));
+    public void SetUp() => _authorization = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
+        collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer));
 
     [Test]
     public async Task WhenAuthenticatedAndActiveAndDivisionManager_Succeeds()
@@ -21,10 +22,10 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[]
             {
-                new(nameof(Policies.ActiveUser), true.ToString()),
+                new(AppClaimTypes.ActiveUser, true.ToString()),
                 new(ClaimTypes.Role, RoleName.SiteMaintenance),
             }, "Basic"));
-        var result = (await _authorizationService.AuthorizeAsync(user, Policies.SiteMaintainer)).Succeeded;
+        var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeTrue();
     }
 
@@ -36,7 +37,7 @@ public class RoleBasedPolicy
             {
                 new(ClaimTypes.Role, RoleName.SiteMaintenance),
             }, "Basic"));
-        var result = (await _authorizationService.AuthorizeAsync(user, Policies.SiteMaintainer)).Succeeded;
+        var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
 
@@ -46,9 +47,9 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[]
             {
-                new(nameof(Policies.ActiveUser), true.ToString()),
+                new(AppClaimTypes.ActiveUser, true.ToString()),
             }, "Basic"));
-        var result = (await _authorizationService.AuthorizeAsync(user, Policies.SiteMaintainer)).Succeeded;
+        var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
 
@@ -58,10 +59,10 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[]
             {
-                new(nameof(Policies.ActiveUser), true.ToString()),
+                new(AppClaimTypes.ActiveUser, true.ToString()),
                 new(ClaimTypes.Role, RoleName.SiteMaintenance),
             }));
-        var result = (await _authorizationService.AuthorizeAsync(user, Policies.SiteMaintainer)).Succeeded;
+        var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
 }

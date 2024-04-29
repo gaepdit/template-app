@@ -9,6 +9,5 @@ dotnet sln add (ls -r ./tests/**/*.csproj) -s tests
 Write-Host
 Write-Host "=== Finished creating the solution file. ==="
 Write-Host
-Write-Host "This powershell script will now be deleted."
+Write-Host "This powershell script can now be deleted."
 pause
-# Remove-Item create-sln.ps1

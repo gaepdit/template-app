@@ -1,6 +1,7 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using MyApp.Domain.Identity;
+using MyApp.TestData;
 using MyApp.TestData.Identity;
 
 namespace MyApp.LocalRepository.Identity;
@@ -11,11 +12,10 @@ public sealed class LocalUserStore :
     IQueryableUserStore<ApplicationUser>
 {
     public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
-
     internal ICollection<ApplicationUser> UserStore { get; }
     internal ICollection<IdentityRole> Roles { get; }
     private List<IdentityUserRole<string>> UserRoles { get; }
-    private ICollection<UserLogin> UserLogins { get; }
+    private List<UserLogin> UserLogins { get; }
 
     public LocalUserStore()
     {
@@ -40,12 +40,17 @@ public sealed class LocalUserStore :
         {
             new()
             {
+                RoleId = Roles.Single(e => e.Name == RoleName.Staff).Id,
+                UserId = staffUserId,
+            },
+            new()
+            {
                 RoleId = Roles.Single(e => e.Name == RoleName.SiteMaintenance).Id,
                 UserId = staffUserId,
             },
             new()
             {
-                RoleId = Roles.Single(e => e.Name == RoleName.Staff).Id,
+                RoleId = Roles.Single(e => e.Name == RoleName.UserAdmin).Id,
                 UserId = staffUserId,
             },
         });
@@ -85,8 +90,8 @@ public sealed class LocalUserStore :
 
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        var existingUser = await FindByIdAsync(user.Id, cancellationToken)
-            ?? throw new EntityNotFoundException(typeof(ApplicationUser), user.Id);
+        var existingUser = await FindByIdAsync(user.Id, cancellationToken).ConfigureAwait(false)
+            ?? throw new EntityNotFoundException<ApplicationUser>(user.Id);
         UserStore.Remove(existingUser);
         UserStore.Add(user);
         return IdentityResult.Success;
@@ -94,7 +99,7 @@ public sealed class LocalUserStore :
 
     public async Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        var existingUser = await FindByIdAsync(user.Id, cancellationToken);
+        var existingUser = await FindByIdAsync(user.Id, cancellationToken).ConfigureAwait(false);
         if (existingUser is not null) UserStore.Remove(existingUser);
         return IdentityResult.Success;
     }

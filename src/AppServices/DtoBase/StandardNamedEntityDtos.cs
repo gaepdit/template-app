@@ -4,12 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.AppServices.DtoBase;
 
-public abstract record StandardNamedEntityViewDto
-(
-    Guid Id,
-    string Name,
-    bool Active
-) : INamedEntity;
+public abstract record StandardNamedEntityViewDto(Guid Id, string Name, bool Active) : INamedEntity;
 
 public abstract record StandardNamedEntityCreateDto
 (

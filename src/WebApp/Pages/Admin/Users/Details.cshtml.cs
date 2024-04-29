@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyApp.AppServices.Permissions;
+﻿using MyApp.AppServices.Permissions;
+using MyApp.AppServices.Permissions.Helpers;
 using MyApp.AppServices.Staff;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.Domain.Identity;
@@ -13,7 +11,7 @@ public class DetailsModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
     public string? OfficeName => DisplayStaff.Office?.Name;
-    public IList<AppRole> Roles { get; private set; } = default!;
+    public IReadOnlyList<AppRole> Roles { get; private set; } = default!;
     public bool IsUserAdministrator { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(
@@ -27,7 +25,7 @@ public class DetailsModel : PageModel
 
         DisplayStaff = staff;
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-        IsUserAdministrator = (await authorization.AuthorizeAsync(User, nameof(Policies.UserAdministrator))).Succeeded;
+        IsUserAdministrator = await authorization.Succeeded(User, Policies.UserAdministrator);
 
         return Page();
     }

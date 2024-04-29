@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using MyApp.Domain.Identity;
 using MyApp.LocalRepository.Identity;
 using System.Diagnostics;
@@ -10,7 +9,7 @@ public class UserRoleStore
     private LocalUserStore _store = default!;
 
     [SetUp]
-    public void SetUp() => _store = RepositoryHelper.GetLocalUserStore();
+    public void SetUp() => _store = RepositoryHelper.GetUserStore();
 
     [TearDown]
     public void TearDown() => _store.Dispose();
@@ -95,11 +94,12 @@ public class UserRoleStore
     public async Task GetUsersInRole_IfSome_ReturnsListOfUsers()
     {
         using var store = new LocalUserStore();
-        var result = await store.GetUsersInRoleAsync(RoleName.UserAdmin, CancellationToken.None);
+        var result = await store.GetUsersInRoleAsync(RoleName.Manager, CancellationToken.None);
 
         using var scope = new AssertionScope();
         result.Should().HaveCount(1);
-        result[0].Should().BeEquivalentTo(_store.UserStore.First());
+        result[0].Should().BeEquivalentTo(store.UserStore.First(),
+            options => options.Excluding(e => e.Office));
     }
 
     [Test]

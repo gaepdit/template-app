@@ -9,8 +9,9 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" />
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+        <PackageReference Include="ClosedXML" />
         <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="GaEpd.FileService" />
         <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,6 +21,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\EmailService\EmailService.csproj" />
     </ItemGroup>
 
 </Project>

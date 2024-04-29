@@ -3,51 +3,47 @@ using MyApp.AppServices.Permissions.Requirements;
 
 namespace MyApp.AppServices.Permissions;
 
-#pragma warning disable S125
+#pragma warning disable S125 // Sections of code should not be commented out
 //
 // Two ways to use these policies:
 //
-// A. As an attribute on a PageModel class:
+// A. As an attribute on a PageModel class (must be registered first in `AddAuthorizationPolicies`):
 //
-//    [Authorize(Policy = PolicyName.SiteMaintainer)]
+//    [Authorize(Policy = nameof(Policies.ActiveUser))]
 //    public class AddModel : PageModel
 //
 // B. From a DI authorization service: 
 //
-//    public async Task<IActionResult> OnGetAsync([FromServices] IAuthorizationService authorizationService)
+//    public async Task<IActionResult> OnGetAsync([FromServices] IAuthorizationService authorization)
 //    {
-//        var isStaff = (await authorizationService.AuthorizeAsync(User, Policies.StaffUserPolicy())).Succeeded;
+//        var isStaff = (await authorization.AuthorizeAsync(User, Policies.StaffUser)).Succeeded;
+//
+//        // or, with `using AuthorizationServiceExtensions;`:
+//        var isStaff =  await authorization.Succeeded(User, Policies.StaffUser);
 //    }
 //
 #pragma warning restore S125
 
 public static class Policies
 {
-    // Default policy builders
-    private static AuthorizationPolicyBuilder AuthenticatedUserPolicyBuilder =>
-        new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+    // Default policy builder
+    private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser().AddRequirements(new ActiveUserRequirement());
 
-    private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder =>
-        AuthenticatedUserPolicyBuilder.AddRequirements(new ActiveUserRequirement());
-
-    // Basic policies
-    public static AuthorizationPolicy ActiveUser => ActiveUserPolicyBuilder.Build();
-
-    public static AuthorizationPolicy LoggedInUser => AuthenticatedUserPolicyBuilder.Build();
+    // Claims-based policies
+    public static AuthorizationPolicy ActiveUser { get; } =
+        ActiveUserPolicyBuilder.Build();
 
     // Role-based policies
-    public static AuthorizationPolicy AdministrationView =>
-        ActiveUserPolicyBuilder.AddRequirements(new AdministrationViewRequirement()).Build();
-
-    public static AuthorizationPolicy AdminUser =>
+    public static AuthorizationPolicy Manager { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new ManagerRequirement()).Build();
 
-    public static AuthorizationPolicy SiteMaintainer =>
+    public static AuthorizationPolicy SiteMaintainer { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();
 
-    public static AuthorizationPolicy StaffUser =>
+    public static AuthorizationPolicy StaffUser { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new StaffUserRequirement()).Build();
 
-    public static AuthorizationPolicy UserAdministrator =>
+    public static AuthorizationPolicy UserAdministrator { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new UserAdminRequirement()).Build();
 }

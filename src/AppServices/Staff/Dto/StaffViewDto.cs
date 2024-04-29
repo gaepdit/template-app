@@ -2,6 +2,7 @@
 using GaEpd.AppLibrary.Extensions;
 using MyApp.AppServices.Offices;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace MyApp.AppServices.Staff.Dto;
@@ -15,7 +16,7 @@ public record StaffViewDto : INamedEntity
     [Display(Name = "Email (cannot be changed)")]
     public string? Email { get; init; }
 
-    public string? Phone { get; init; }
+    public string? PhoneNumber { get; init; }
     public OfficeViewDto? Office { get; init; }
     public bool Active { get; init; }
 
@@ -26,9 +27,39 @@ public record StaffViewDto : INamedEntity
     [JsonIgnore]
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
 
+    [JsonIgnore]
+    public string DisplayNameWithOffice
+    {
+        get
+        {
+            var sn = new StringBuilder();
+            sn.Append(Name);
+
+            if (Office != null) sn.Append($" ({Office.Name})");
+            if (!Active) sn.Append(" [Inactive]");
+
+            return sn.ToString();
+        }
+    }
+
+    [JsonIgnore]
+    public string SortableNameWithOffice
+    {
+        get
+        {
+            var sn = new StringBuilder();
+            sn.Append(SortableFullName);
+
+            if (Office != null) sn.Append($" ({Office.Name})");
+            if (!Active) sn.Append(" [Inactive]");
+
+            return sn.ToString();
+        }
+    }
+
     public StaffUpdateDto AsUpdateDto() => new()
     {
-        Phone = Phone,
+        PhoneNumber = PhoneNumber,
         OfficeId = Office?.Id,
         Active = Active,
     };
