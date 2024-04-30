@@ -9,23 +9,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LigerShark.WebOptimizer.Core"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
-        <PackageReference Include="Microsoft.Identity.Web"/>
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build"/>
-        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore"/>
-        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders"/>
+        <PackageReference Include="LigerShark.WebOptimizer.Core" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Identity.Web" />
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
+        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\LocalRepository\LocalRepository.csproj"/>
-        <ProjectReference Include="..\EfRepository\EfRepository.csproj"/>
+        <ProjectReference Include="..\LocalRepository\LocalRepository.csproj" />
+        <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,6 +43,11 @@
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../CHANGELOG.md" />
+        <None Include="../../README.md" />
     </ItemGroup>
 
     <ItemGroup>
