@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="EfCore.TestSupport" />
         <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="Markdig" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="NUnit" />
         <PackageReference Include="NUnit3TestAdapter" />

@@ -32,9 +32,9 @@ public static class TextData
         Environment.NewLine +
         "Pudding ice cream chocolate sweet roll jelly.";
 
-    public const string Paragraph = "Oat cake gummi bears danish I love tart muffin bonbon I love. Danish tiramisu " +
+    public const string Paragraph = "**Oat cake gummi** bears danish I *love* tart muffin bonbon I love. Danish tiramisu " +
         "tootsie roll tart marshmallow icing tootsie roll. Shortbread tiramisu tiramisu chocolate bar biscuit. " +
-        "Liquorice I love biscuit bonbon jujubes croissant.";
+        "~~Liquorice I love biscuit bonbon jujubes croissant.~~";
 
     public static readonly string MultipleParagraphs = "Dessert cheesecake ice cream fruitcake chocolate bar cookie." +
         Environment.NewLine +
