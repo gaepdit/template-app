@@ -3,6 +3,7 @@
 @using MyApp.AppServices.WorkEntries.Permissions
 @using MyApp.WebApp.Pages.Shared.DisplayTemplates
 @using MyApp.WebApp.Pages.Shared.EditorTemplates
+@using MyApp.AppServices.Permissions.Helpers
 @model DetailsModel
 @{
     ViewData["Title"] = $"WorkEntry ID {Model.ItemView.Id.ToString()}";
@@ -92,8 +93,9 @@
 </div>
 
 <h2 class="h3">Notes</h2>
-
-<p class="container text-break text-pre-line">@Html.DisplayFor(_ => Model.ItemView.Notes, DisplayTemplate.StringOrPlaceholder)</p>
+<p class="container text-break text-pre-line">
+    @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes ?? ""))
+    </p>
 
 <div class="container">
     <dl class="row">
