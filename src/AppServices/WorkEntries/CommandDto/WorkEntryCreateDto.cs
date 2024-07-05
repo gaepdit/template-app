@@ -4,6 +4,7 @@ namespace MyApp.AppServices.WorkEntries.CommandDto;
 
 public record WorkEntryCreateDto : IWorkEntryCommandDto
 {
+    [Display(Name = "Entry Type")]
     public Guid EntryTypeId { get; init; }
 
     [DataType(DataType.MultilineText)]
