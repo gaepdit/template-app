@@ -9,6 +9,7 @@ public record WorkEntryUpdateDto : IWorkEntryCommandDto
     public bool IsDeleted { get; init; }
 
     // Data
+    [Display(Name = "Entry Type")]
     public Guid EntryTypeId { get; init; }
 
     [DataType(DataType.MultilineText)]

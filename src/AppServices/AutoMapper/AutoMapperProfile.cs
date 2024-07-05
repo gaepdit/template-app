@@ -31,6 +31,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<WorkEntry, WorkEntrySearchResultDto>();
         CreateMap<WorkEntry, WorkEntryCreateDto>();
+        CreateMap<WorkEntry, WorkEntryUpdateDto>();
         CreateMap<WorkEntry, WorkEntryViewDto>();
     }
 }
