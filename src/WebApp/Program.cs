@@ -78,15 +78,18 @@ builder.Services.AddHostedService<MigratorHostedService>();
 
 // Add API documentation.
 builder.Services.AddMvcCore().AddApiExplorer();
+
+const string apiVersion = "v1";
+const string apiTitle = "MY_APP_NAME API";
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
+    options.SwaggerDoc(apiVersion, new OpenApiInfo
     {
-        Version = "v1",
-        Title = "MY_APP API",
+        Version = apiVersion,
+        Title = apiTitle,
         Contact = new OpenApiContact
         {
-            Name = "MY_APP Support",
+            Name = $"{apiTitle} Support",
             Email = builder.Configuration["SupportEmail"],
         },
     });
@@ -127,9 +130,9 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}")
 app.UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/openapi.json"; })
     .UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("v1/openapi.json", "MY_APP API v1");
+        options.SwaggerEndpoint($"{apiVersion}/openapi.json", $"{apiTitle} {apiVersion}");
         options.RoutePrefix = "api-docs";
-        options.DocumentTitle = "MY_APP_NAME API";
+        options.DocumentTitle = apiTitle;
     });
 
 // Map endpoints.
@@ -137,4 +140,4 @@ app.MapRazorPages();
 app.MapControllers();
 
 // Make it so.
-app.Run();
+await app.RunAsync();
