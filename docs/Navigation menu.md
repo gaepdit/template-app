@@ -1,4 +1,4 @@
-# Menu Bar
+# Navigation Menu
 
 ## Public
 
