@@ -5,11 +5,6 @@
     ViewData["Title"] = "Add A New Work Entry";
     ViewData["NoAnchors"] = "True";
 }
-<head>
-    <link rel="stylesheet" href="~/css/SimpleMDE.css"/>
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" defer></script>
-    <script src="~/js/SimpleMDE.js" defer></script>
-</head>
 
 <h1>@ViewData["Title"]</h1>
 
@@ -22,11 +17,14 @@
         </div>
 
         <h2>Details</h2>
+
+        <textarea id="my-text-area"></textarea>
+
         <div class="row">
             <div class="col-md">
                 <div class="mb-3">
                     @Html.EditorFor(model => model.Item.Notes, EditorTemplate.Textarea,
-                        additionalViewData: new { Rows = 5})
+                        additionalViewData: new { Rows = 5 })
                 </div>
             </div>
             <div class="col-md">
@@ -34,6 +32,7 @@
                     @Html.EditorFor(model => model.Item.EntryTypeId, EditorTemplate.Select,
                         additionalViewData: new { Items = Model.EntryTypesSelectList, Placeholder = string.Empty })
                 </div>
+                
             </div>
         </div>
 
@@ -47,4 +46,11 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/EasyMDE.js" defer></script>
+    <script defer>
+        const easyMDE = new EasyMDE({element: document.getElementById('my-text-area')});
+    </script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/EasyMDE.css"/>
 }
