@@ -21,10 +21,11 @@
       ]
     },
     {
-      "library": "jquery-validate@1.20.1",
+      "library": "jquery-validation@1.20.1",
+      "provider": "jsdelivr",
       "destination": "wwwroot/lib/jquery-validate/",
       "files": [
-        "jquery.validate.min.js"
+        "dist/jquery.validate.min.js"
       ]
     },
     {
