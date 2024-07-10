@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <PackageReference Include="MailKit" />
-      <PackageReference Include="Markdig" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
     </ItemGroup>
