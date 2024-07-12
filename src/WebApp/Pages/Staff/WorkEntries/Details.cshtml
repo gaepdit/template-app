@@ -11,13 +11,6 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<head>
-    <link rel="stylesheet" href="~/css/SimpleMDE.css"/>
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" defer></script>
-    <script src="~/js/SimpleMDE.js" defer></script>
-</head>
-
-
 @if (Model.ItemView.IsDeleted && Model.UserCan[WorkEntryOperation.ManageDeletions])
 {
     <div class="callout callout-danger mb-3">
@@ -206,7 +199,11 @@
     </div>
 }
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/EasyMDE.js" defer></script>
+    <script src="~/js/textarea-to-MDE.js" defer></script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/EasyMDE.css"/>
 }
