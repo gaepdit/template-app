@@ -26,5 +26,5 @@ public class WorkEntryUpdateRequirements :
     }
 
     private bool UserCanEditDetails() => IsOpen() && _user.IsManager();
-    private bool IsOpen() => _resource is { WorkEntryClosed: false, IsDeleted: false };
+    private bool IsOpen() => _resource is { Closed: false, IsDeleted: false };
 }

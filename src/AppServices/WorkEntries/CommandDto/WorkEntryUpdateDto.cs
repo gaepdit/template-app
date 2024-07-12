@@ -5,7 +5,7 @@ namespace MyApp.AppServices.WorkEntries.CommandDto;
 public record WorkEntryUpdateDto : IWorkEntryCommandDto
 {
     // Authorization handler assist properties
-    public bool WorkEntryClosed { get; init; }
+    public bool Closed { get; init; }
     public bool IsDeleted { get; init; }
 
     // Data
