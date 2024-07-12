@@ -20,6 +20,7 @@
 
         <textarea id="my-text-area"></textarea>
 
+
         <div class="row">
             <div class="col-md">
                 <div class="mb-3">
@@ -47,9 +48,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/EasyMDE.js" defer></script>
-    <script defer>
-        const easyMDE = new EasyMDE({element: document.getElementById('my-text-area')});
-    </script>
+    <script src="~/js/textarea-to-MDE.js" defer></script>
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/EasyMDE.css"/>
