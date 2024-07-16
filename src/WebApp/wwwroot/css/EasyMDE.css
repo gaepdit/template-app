@@ -1,9 +1,24 @@
-﻿/**
+﻿/*Dark Mode color changes*/
+
+[data-bs-theme="dark"] .CodeMirror {
+  background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] .CodeMirror-placeholder {
+  color: #f1f1f1 !important;
+}
+
+[data-bs-theme="dark"] .CodeMirror-line {
+  color: white !important;
+}
+
+/**
  * easymde v2.18.0
  * Copyright Jeroen Akkerman
  * @link https://github.com/ionaru/easy-markdown-editor
  * @license MIT
  */
+
 .CodeMirror {
   font-family: monospace;
   height: 300px;
@@ -558,7 +573,7 @@ span.CodeMirror-selectedtext {
 }
 .editor-toolbar button.active,
 .editor-toolbar button:hover {
-  background: #fcfcfc;
+  /*background: #fcfcfc;*/
   border-color: #95a5a6;
 }
 .editor-toolbar i.separator {
