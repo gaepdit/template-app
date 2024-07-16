@@ -3,8 +3,8 @@
     var rows = (int?)ViewData["Rows"] ?? 2;
 }
 
-<div class="form-floating">
-    <textarea asp-for="@__model" class="form-control EasyMDE" rows="@rows.ToString()"></textarea>
+<div>
+    <textarea asp-for="@__model" class="form-control EasyMDE markdown" rows="@rows.ToString()"></textarea>
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>
