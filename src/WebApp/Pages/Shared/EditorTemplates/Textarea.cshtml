@@ -1,10 +1,12 @@
 ﻿@model string
 @{
     var rows = (int?)ViewData["Rows"] ?? 2;
+    bool MDE = (bool?)ViewData["MDE"]?? false;
+    string ClassMDE = (string?)ViewData["ClassMDE"] ?? "EasyMDE";
 }
 
 <div>
-    <textarea asp-for="@__model" class="form-control EasyMDE markdown" rows="@rows.ToString()"></textarea>
+    <textarea asp-for="@__model" class="form-control markdown @if(MDE){@ClassMDE.ToString();}" rows="@rows.ToString()"></textarea>
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>
