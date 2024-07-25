@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using Ganss.Xss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace MyApp.AppServices.Permissions.Helpers
         public static string MarkdownToHtml(string markdown)
         {
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-            return Markdig.Markdown.ToHtml(markdown, pipeline);
+            var sanitizer = new Ganss.Xss.HtmlSanitizer();
+            return sanitizer.Sanitize(Markdig.Markdown.ToHtml(markdown, pipeline));
         }
     }
 }
