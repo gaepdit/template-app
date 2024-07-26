@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="HtmlSanitizer" />
         <PackageReference Include="LigerShark.WebOptimizer.Core" />
         <PackageReference Include="Markdig" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />

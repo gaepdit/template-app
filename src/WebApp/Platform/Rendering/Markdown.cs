@@ -12,7 +12,7 @@ namespace MyApp.AppServices.Permissions.Helpers
     {
         public static string MarkdownToHtml(string markdown)
         {
-            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseBootstrap().Build();
             var sanitizer = new Ganss.Xss.HtmlSanitizer();
             return sanitizer.Sanitize(Markdig.Markdown.ToHtml(markdown, pipeline));
         }
