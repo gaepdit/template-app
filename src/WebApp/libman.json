@@ -52,6 +52,11 @@
         "axios.js.map",
         "axios.min.js.map"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "dompurify@3.1.6",
+      "destination": "wwwroot/lib/dompurify/"
     }
   ]
 }
