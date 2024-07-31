@@ -86,9 +86,10 @@
 </div>
 
 <h2 class="h3"">Notes</h2>
-<p class="container text-break text-pre-line">
+<section class="border border-info p-4 rounded mb-3">
     @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes ?? ""))
-    </p>
+</section>
+
 
 <div class="container">
     <dl class="row">
