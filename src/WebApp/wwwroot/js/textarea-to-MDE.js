@@ -1,6 +1,11 @@
 const textarealist = document.querySelectorAll("textarea.EasyMDE");
 textarealist.forEach((area) => {
   const easyMDEE = new EasyMDE({
+    renderingConfig: {
+      sanitizerFunction: (renderedHTML) => {
+        return DOMPurify.sanitize(renderedHTML, { ALLOWED_TAGS: ["b"] });
+      },
+    },
     element: area,
     placeholder: "Type here...",
     toolbar: [
