@@ -1,0 +1,16 @@
+/*Dark Mode color changes*/
+
+[data-bs-theme="dark"] .CodeMirror {
+  background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] .CodeMirror-placeholder {
+  color: #f1f1f1 !important;
+}
+
+[data-bs-theme="dark"] .CodeMirror-line {
+  color: white !important;
+}
+.editor-toolbar button:hover {
+  background: rgba(255, 0, 0, 0) !important;
+}
