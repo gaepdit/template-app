@@ -11,6 +11,25 @@
 [data-bs-theme="dark"] .CodeMirror-line {
   color: white !important;
 }
-.editor-toolbar button:hover {
+[data-bs-theme="dark"] .CodeMirror-fullscreen.CodeMirror {
+  background-color: #212529 !important;
+}
+[data-bs-theme="dark"] .editor-toolbar button:hover {
   background: rgba(255, 0, 0, 0) !important;
+}
+
+[data-bs-theme="dark"] .editor-toolbar.fullscreen {
+  background-color: #343a40 !important;
+}
+
+[data-bs-theme="dark"] .editor-toolbar button.active {
+  background-color: #ffffff20 !important;
+}
+
+[data-bs-theme="dark"] .CodeMirror-cursor {
+  border-left: 2px solid white;
+}
+
+[data-bs-theme="dark"] .editor-preview {
+  background-color: #2d3338 !important;
 }
