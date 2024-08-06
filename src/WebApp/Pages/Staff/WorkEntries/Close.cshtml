@@ -9,7 +9,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="p-3 border rounded-3">
+<div class="p-3 bg-light-subtle border rounded-3">
     <partial name="Shared/_WorkEntrySummaryPartial" model="Model.ItemView" />
 
     <form method="post">
@@ -25,9 +25,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/EasyMDE.js" defer></script>
-    <script src="~/js/textarea-to-MDE.js" defer></script>
-}
-@section Styles {
-    <link rel="stylesheet" href="~/css/EasyMDE.css"/>
+    <partial name="_ValidationScriptsPartial" />
 }
