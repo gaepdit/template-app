@@ -3,7 +3,7 @@ textarealist.forEach((area) => {
   const easyMDEE = new EasyMDE({
     renderingConfig: {
       sanitizerFunction: (renderedHTML) => {
-            return DOMPurify.sanitize(renderedHTML, { ALLOWED_TAGS: ["b"] });
+        return DOMPurify.sanitize(renderedHTML, { ALLOWED_TAGS: ["b"] });
       },
     },
     element: area,
@@ -21,7 +21,6 @@ textarealist.forEach((area) => {
       "unordered-list",
       "ordered-list",
       "|",
-      "preview",
       "fullscreen",
       "guide",
     ],
