@@ -21,6 +21,7 @@ textarealist.forEach((area) => {
       "unordered-list",
       "ordered-list",
       "|",
+      //"preview", implemented libman code does not work with preview
       "fullscreen",
       "guide",
     ],
