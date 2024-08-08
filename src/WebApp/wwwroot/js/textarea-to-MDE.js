@@ -1,9 +1,9 @@
-const textarealist = document.querySelectorAll("textarea.EasyMDE");
-textarealist.forEach((area) => {
-  const easyMDEE = new EasyMDE({
+const textareaList = document.querySelectorAll("textarea.EasyMDE");
+textareaList.forEach((area) => {
+  new EasyMDE({
     renderingConfig: {
       sanitizerFunction: (renderedHTML) => {
-        return DOMPurify.sanitize(renderedHTML, { ALLOWED_TAGS: ["b"] });
+        return DOMPurify.sanitize(renderedHTML, { USE_PROFILES: { html: true } });
       },
     },
     element: area,
@@ -11,7 +11,6 @@ textarealist.forEach((area) => {
     toolbar: [
       "bold",
       "italic",
-      "strikethrough",
       "|",
       "heading-1",
       "heading-2",
@@ -20,10 +19,12 @@ textarealist.forEach((area) => {
       "quote",
       "unordered-list",
       "ordered-list",
+      "table",
       "|",
-      //"preview", implemented libman code does not work with preview
+      "preview",
       "fullscreen",
       "guide",
     ],
+    toolbarButtonClassPrefix: "mde",
   });
 });
