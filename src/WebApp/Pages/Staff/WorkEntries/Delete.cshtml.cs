@@ -26,7 +26,7 @@ public class DeleteModel(IWorkEntryService workEntryService, IAuthorizationServi
 
         if (!await UserCanManageDeletionsAsync(workEntryView)) return Forbid();
 
-        if (ItemView.IsDeleted)
+        if (workEntryView.IsDeleted)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
                 "Work Entry cannot be deleted because it is already deleted.");
