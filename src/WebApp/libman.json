@@ -41,6 +41,20 @@
       "files": [
         "anchor.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "dompurify@3.1.6",
+      "destination": "wwwroot/lib/dompurify/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "easymde@2.18.0",
+      "destination": "wwwroot/lib/easymde/",
+      "files": [
+        "dist/easymde.min.css",
+        "dist/easymde.min.js"
+      ]
     }
   ]
 }

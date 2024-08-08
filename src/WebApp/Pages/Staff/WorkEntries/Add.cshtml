@@ -17,11 +17,12 @@
         </div>
 
         <h2>Details</h2>
+
         <div class="row">
             <div class="col-md">
                 <div class="mb-3">
                     @Html.EditorFor(model => model.Item.Notes, EditorTemplate.Textarea,
-                        additionalViewData: new { Rows = 5 })
+                        additionalViewData: new { Rows = 5, MDE = true })
                 </div>
             </div>
             <div class="col-md">
@@ -29,6 +30,7 @@
                     @Html.EditorFor(model => model.Item.EntryTypeId, EditorTemplate.Select,
                         additionalViewData: new { Items = Model.EntryTypesSelectList, Placeholder = string.Empty })
                 </div>
+                
             </div>
         </div>
 
@@ -42,4 +44,10 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/easymde/dist/easymde.min.js"></script>
+    <script src="~/js/textarea-to-MDE.js" defer></script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/lib/easymde/dist/easymde.min.css" />
+    <link rel="stylesheet" href="~/css/easymde.darkmode.css"/>
 }

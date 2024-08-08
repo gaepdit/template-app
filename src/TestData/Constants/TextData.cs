@@ -32,9 +32,9 @@ public static class TextData
         Environment.NewLine +
         "Pudding ice cream chocolate sweet roll jelly.";
 
-    public const string Paragraph = "Oat cake gummi bears danish I love tart muffin bonbon I love. Danish tiramisu " +
+    public const string Paragraph = "**Oat cake gummi** bears danish I *love* tart muffin bonbon I love. Danish tiramisu " +
         "tootsie roll tart marshmallow icing tootsie roll. Shortbread tiramisu tiramisu chocolate bar biscuit. " +
-        "Liquorice I love biscuit bonbon jujubes croissant.";
+        "~~Liquorice I love biscuit bonbon jujubes croissant.~~";
 
     public static readonly string MultipleParagraphs = "Dessert cheesecake ice cream fruitcake chocolate bar cookie." +
         Environment.NewLine +
@@ -44,6 +44,23 @@ public static class TextData
         "candy. Oat cake muffin tart bear claw bonbon lollipop. Marshmallow donut icing chocolate bar dessert." +
         Environment.NewLine +
         Environment.NewLine +
+        "## Oat cake muffin" +
+        Environment.NewLine +
+        Environment.NewLine +
         "Dessert cheesecake ice cream fruitcake chocolate bar pie cookie. Croissant marzipan jelly cupcake cupcake " +
-        "lemon drops jelly-o. Shortbread donut pie.";
+        "lemon drops jelly-o. Shortbread donut pie." +
+        Environment.NewLine +
+        Environment.NewLine +
+        "| Dessert | Topping |" +
+        Environment.NewLine +
+        "| --- | --: |" +
+        Environment.NewLine +
+        "| lemon drops | jelly |" +
+        Environment.NewLine +
+        "| brownie | chocolate |" +
+        Environment.NewLine +
+        "| Croissant | Marshmallow |" +
+        Environment.NewLine +
+        Environment.NewLine +
+        "Lemon drops jelly-o. Shortbread donut pie.";
 }

@@ -1,5 +1,6 @@
 ﻿@page "{id:Guid?}"
 @using MyApp.WebApp.Pages.Shared.EditorTemplates
+@using MyApp.WebApp.Platform.Rendering
 @model CloseModel
 
 @{
@@ -9,9 +10,17 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="p-3 border rounded-3">
-    <partial name="Shared/_WorkEntrySummaryPartial" model="Model.ItemView" />
-
+<div class="p-3 bg-light-subtle border rounded-3">
+    <h2 class="h4">Status</h2>
+    <p>@Model.ItemView.Status</p>
+    <h2 class="h4">Entry Type</h2>
+    <p>@Model.ItemView.EntryTypeName</p>
+    <h2 class="h4">Date Received</h2>
+    <p>@Model.ItemView.ReceivedDate</p>
+    <h2 class="h4">Notes</h2>
+    <section class="border border-info p-4 rounded mb-3">
+        @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes))
+    </section>
     <form method="post">
         <div class="mb-3">
             @Html.EditorFor(model => model.EntryDto.Comments, EditorTemplate.Textarea, new { Rows = 3 })

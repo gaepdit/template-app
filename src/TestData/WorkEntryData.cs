@@ -23,6 +23,7 @@ internal static class WorkEntryData
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             ReceivedDate = DateTimeOffset.Now.AddMinutes(30),
             EntryType = EntryTypeData.GetData.ElementAt(0),
+            Notes = TextData.MultipleParagraphs,
         },
         new(new Guid("10000000-0000-0000-0000-000000000002")) // 2
         {

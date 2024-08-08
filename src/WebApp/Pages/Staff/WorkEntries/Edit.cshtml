@@ -21,7 +21,7 @@
             <div class="col-md">
                 <div class="mb-3">
                     @Html.EditorFor(model => model.Item.Notes, EditorTemplate.Textarea,
-                        additionalViewData: new { Rows = 5 })
+                        additionalViewData: new { Rows = 5, MDE = true })
                 </div>
             </div>
             <div class="col-md">
@@ -41,7 +41,14 @@
     </form>
 </div>
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/easymde/dist/easymde.min.js"></script>
+    <script src="~/lib/dompurify/purify.min.js"></script>
+    <script src="~/js/textarea-to-MDE.js" defer></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/easymde/dist/easymde.min.css" />
+    <link rel="stylesheet" href="~/css/easymde.darkmode.css" />
 }

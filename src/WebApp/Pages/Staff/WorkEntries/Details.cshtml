@@ -3,6 +3,7 @@
 @using MyApp.AppServices.WorkEntries.Permissions
 @using MyApp.WebApp.Pages.Shared.DisplayTemplates
 @using MyApp.WebApp.Pages.Shared.EditorTemplates
+@using MyApp.WebApp.Platform.Rendering
 @model DetailsModel
 @{
     ViewData["Title"] = $"WorkEntry ID {Model.ItemView.Id.ToString()}";
@@ -85,8 +86,10 @@
 </div>
 
 <h2 class="h3">Notes</h2>
+<section class="border border-info p-4 rounded mb-3 bg-light-subtle">
+    @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes))
+</section>
 
-<p class="container text-break text-pre-line">@Html.DisplayFor(_ => Model.ItemView.Notes, DisplayTemplate.StringOrPlaceholder)</p>
 
 <div class="container">
     <dl class="row">
@@ -197,7 +200,6 @@
     </div>
 }
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
