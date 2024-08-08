@@ -26,7 +26,7 @@ public class RestoreModel(IWorkEntryService workEntryService, IAuthorizationServ
 
         if (!await UserCanManageDeletionsAsync(workEntryView)) return Forbid();
 
-        if (ItemView.IsDeleted)
+        if (!workEntryView.IsDeleted)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
                 "WorkEntry cannot be restored because it is not deleted.");
@@ -43,7 +43,7 @@ public class RestoreModel(IWorkEntryService workEntryService, IAuthorizationServ
         if (!ModelState.IsValid) return BadRequest();
 
         var workEntryView = await workEntryService.FindAsync(EntryDto.WorkEntryId);
-        if (workEntryView is null || workEntryView.IsDeleted || !await UserCanManageDeletionsAsync(workEntryView))
+        if (workEntryView is null || !workEntryView.IsDeleted || !await UserCanManageDeletionsAsync(workEntryView))
             return BadRequest();
 
         await workEntryService.RestoreAsync(EntryDto);
