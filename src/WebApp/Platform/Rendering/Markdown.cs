@@ -1,20 +1,16 @@
-﻿using Markdig;
-using Ganss.Xss;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ganss.Xss;
+using Markdig;
 
-namespace MyApp.AppServices.Permissions.Helpers
+namespace MyApp.WebApp.Platform.Rendering
 {
     public static class MarkdownHelper
     {
         public static string MarkdownToHtml(string markdown)
         {
-            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseBootstrap().Build();
-            var sanitizer = new Ganss.Xss.HtmlSanitizer();
-            return sanitizer.Sanitize(Markdig.Markdown.ToHtml(markdown, pipeline));
+            var pipeline = new MarkdownPipelineBuilder().UseBootstrap().UseAdvancedExtensions().Build();
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedAttributes.Add("class");
+            return sanitizer.Sanitize(Markdown.ToHtml(markdown, pipeline));
         }
     }
 }
