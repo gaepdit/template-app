@@ -22,6 +22,7 @@ textareaList.forEach((area) => {
       "table",
       "|",
       "preview",
+      "side-by-side",
       "fullscreen",
       "guide",
     ],
