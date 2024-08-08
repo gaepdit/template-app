@@ -85,9 +85,9 @@
     </dl>
 </div>
 
-<h2 class="h3"">Notes</h2>
-<section class="border border-info p-4 rounded mb-3">
-    @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes ?? ""))
+<h2 class="h3">Notes</h2>
+<section class="border border-info p-4 rounded mb-3 bg-light-subtle">
+    @Html.Raw(MarkdownHelper.MarkdownToHtml(Model.ItemView.Notes))
 </section>
 
 

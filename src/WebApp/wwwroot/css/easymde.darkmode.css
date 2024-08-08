@@ -15,7 +15,7 @@
   background-color: #212529 !important;
 }
 [data-bs-theme="dark"] .editor-toolbar button:hover {
-  background: rgba(255, 0, 0, 0) !important;
+  background: none !important;
 }
 
 [data-bs-theme="dark"] .editor-toolbar.fullscreen {
