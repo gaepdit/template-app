@@ -1,6 +1,4 @@
-﻿// Write your JavaScript code.
-
-if (typeof AnchorJS === 'function') {
+﻿if (typeof AnchorJS === 'function') {
     const anchors = new AnchorJS();
     document.addEventListener('DOMContentLoaded', function () {
         anchors.options.placement = "left";
