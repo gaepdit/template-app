@@ -223,6 +223,18 @@ footer a[target]::after, a[target].no-external-link::after {
     border-top-width: calc(var(--bs-border-width) * 2);
 }
 
+/* Table hover background
+-------------------------------------------------- */
+.table-hover.table-borderless th:first-child, .table-hover td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.table-hover.table-borderless td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 /* Callouts
 -------------------------------------------------- */
 /* Adapted from the Bootstrap Docs (https://getbootstrap.com/).
