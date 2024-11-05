@@ -42,7 +42,11 @@ builder.Services.AddRazorPages();
 if (!builder.Environment.IsDevelopment())
 {
     builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
-        .AddHttpsRedirection(options => options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect);
+        .AddHttpsRedirection(options =>
+        {
+            options.HttpsPort = 443;
+            options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+        });
 }
 
 // Configure application monitoring.
