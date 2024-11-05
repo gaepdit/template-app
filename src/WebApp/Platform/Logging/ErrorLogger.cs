@@ -4,7 +4,7 @@ using MyApp.AppServices.ErrorLogging;
 using MyApp.WebApp.Platform.Settings;
 using System.Collections;
 
-namespace MyApp.WebApp.Platform.ErrorLogging;
+namespace MyApp.WebApp.Platform.Logging;
 
 public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvider) : IErrorLogger
 {

@@ -4,13 +4,13 @@ using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Web;
 using MyApp.AppServices.Permissions;
 using MyApp.AppServices.Permissions.Helpers;
 using MyApp.AppServices.Staff.Dto;
 using MyApp.AppServices.UserServices;
 using MyApp.Domain.Entities.Offices;
 using MyApp.Domain.Identity;
-using System.Security.Claims;
 
 namespace MyApp.AppServices.Staff;
 
@@ -125,7 +125,7 @@ public sealed class StaffService(
     public async Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource)
     {
         var principal = userService.GetCurrentPrincipal()!;
-        if (id != principal.FindFirstValue(ClaimConstants.NameIdentifierId) &&
+        if (id != principal.GetNameIdentifierId() &&
             !await authorization.Succeeded(principal, Policies.UserAdministrator).ConfigureAwait(false))
         {
             throw new InsufficientPermissionsException(nameof(Policies.UserAdministrator));
@@ -139,6 +139,7 @@ public sealed class StaffService(
             ? null
             : await officeRepository.GetAsync(resource.OfficeId.Value).ConfigureAwait(false);
         user.Active = resource.Active;
+        user.ProfileUpdatedAt = DateTimeOffset.UtcNow;
 
         return await userManager.UpdateAsync(user).ConfigureAwait(false);
     }

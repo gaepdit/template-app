@@ -6,7 +6,7 @@ using Mindscape.Raygun4Net.AspNetCore;
 using MyApp.AppServices.ErrorLogging;
 using MyApp.AppServices.RegisterServices;
 using MyApp.WebApp.Platform.AppConfiguration;
-using MyApp.WebApp.Platform.ErrorLogging;
+using MyApp.WebApp.Platform.Logging;
 using MyApp.WebApp.Platform.Settings;
 using System.Reflection;
 
