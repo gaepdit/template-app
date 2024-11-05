@@ -415,3 +415,20 @@ svg:not(:root) {
     width: 1.5em;
     height: 1.5em;
 }
+
+/* Menu styles for mobile devices
+-------------------------------------------------- */
+@media (max-width: 395px) {
+    .menu-text {
+        display: none;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .img-logo {
+        width: 30px;
+        height: auto;
+    }
+}
