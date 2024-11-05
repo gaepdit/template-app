@@ -15,7 +15,8 @@ namespace MyApp.WebApp.Platform.AppConfiguration;
 
 public static class DataPersistence
 {
-    public static void AddDataPersistence(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddDataPersistence(this IServiceCollection services, ConfigurationManager configuration,
+        IWebHostEnvironment environment)
     {
         // When configured, use in-memory data; otherwise use a SQL Server database.
         if (AppSettings.DevSettings.UseInMemoryData)
@@ -41,11 +42,13 @@ public static class DataPersistence
         else
         {
             // Entity Framework context
-            services.AddDbContext<AppDbContext>(dbContextOpts =>
+            services.AddDbContext<AppDbContext>(dbBuilder =>
             {
-                dbContextOpts.UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure());
-                dbContextOpts.ConfigureWarnings(builder =>
-                    builder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+                dbBuilder
+                    .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
+                    .ConfigureWarnings(builder => builder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+                
+                if (environment.IsDevelopment()) dbBuilder.EnableSensitiveDataLogging();
             });
 
             // Dapper DB connection

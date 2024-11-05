@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using MyApp.AppServices.Permissions.Requirements;
 
 namespace MyApp.AppServices.Permissions;
@@ -26,6 +27,19 @@ namespace MyApp.AppServices.Permissions;
 
 public static class Policies
 {
+    // These policies are for use in PageModel class attributes, e.g.:
+    // [Authorize(Policy = nameof(Policies.ActiveUser))]
+
+    public static void AddAuthorizationPolicies(this IServiceCollection services)
+    {
+        services.AddAuthorizationBuilder()
+            .AddPolicy(nameof(ActiveUser), ActiveUser)
+            .AddPolicy(nameof(Manager), Manager)
+            .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
+            .AddPolicy(nameof(StaffUser), StaffUser)
+            .AddPolicy(nameof(UserAdministrator), UserAdministrator);
+    }
+
     // Default policy builder
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser().AddRequirements(new ActiveUserRequirement());
