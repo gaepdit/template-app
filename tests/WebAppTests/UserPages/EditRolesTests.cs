@@ -106,8 +106,7 @@ public class EditRolesTests
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
         // Arrange
-        var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.");
+        var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.",[]);
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.UpdateRolesAsync(Arg.Any<string>(), Arg.Any<Dictionary<string, bool>>())

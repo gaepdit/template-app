@@ -75,8 +75,8 @@ public class EditTests
         var page = new EditModel(Substitute.For<IOfficeService>(), validatorMock)
             { Id = Guid.NewGuid(), Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
-        var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.");
+        var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Success,
+            $"“{ItemTest.Name}” successfully updated.", []);
 
         // Act
         var result = await page.OnPostAsync();

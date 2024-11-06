@@ -51,7 +51,7 @@ public class EditTests
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
         // Arrange
-        var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
+        var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.", []);
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.GetCurrentUserAsync().Returns(StaffViewTest);
