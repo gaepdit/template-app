@@ -14,7 +14,7 @@ The following steps describe how to use the template for a new application.
         - [ ] Update the namespace in the "_ViewImports.cshtml" file.
         - [ ] Update the exclusions in the coverlet commands in the "sonarcloud-scan.yml" file.
         - [ ] Update the exclusions in the "finecodecoverage-settings.xml" file.
-    - [ ] "template-app" - Search and replace with the repository name. This will affect the following:
+    - [ ] "template-app" - Search and replace with the GitHub repository name. This will affect the following:
         - [ ] The LocalDB database name in various connection strings.
         - [ ] The project key in the "sonarcloud-scan.yml" workflow file.
         - [ ] The URLs in the GitHub and SonarCloud badges in the "README.md" file.
