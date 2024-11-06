@@ -39,6 +39,9 @@ The following steps describe how to use the template for a new application.
 
 Complete the following tasks when the application is ready for deployment.
 
+* [ ] Coordinate with the DBA team to create the new database and two separate DB accounts:
+    - [ ] An "application" account with only DML rights to use for routine data access.
+    - [ ] A "migrations" account with DDL rights (plus SELECT and INSERT if seeding any data) to use for Entity Framework migrations.
 * [ ] Create server-specific settings and config files and add copies to the "app-config" repository.
 * [ ] Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
 * [ ] Configure the following external services as needed:
