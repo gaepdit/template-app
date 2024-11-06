@@ -89,8 +89,7 @@ public class EditTests
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
         // Arrange
-        var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.", []);
+        var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.",[]);
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);

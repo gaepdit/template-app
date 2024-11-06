@@ -4,7 +4,7 @@
 }
 
 <header role="banner">
-    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
             @if (Model.IsStaffUser)
             {
@@ -20,9 +20,9 @@
                 </a>
                 <a class="navbar-brand nav-link me-2" asp-page="/Index" title="MY_APP_NAME">MY_APP</a>
             }
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
+                <span class="navbar-toggler-icon"></span> <span class="align-middle menu-text">Menu</span>
             </button>
 
             <div class="navbar-collapse collapse d-sm-inline-flex" id="main-nav-content">
@@ -87,7 +87,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
+                                    <form class="py-0 px-2" asp-page="/Account/Logout" method="post">
                                         <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
                                     </form>
                                 </li>
@@ -107,9 +107,9 @@
                             <svg class="bi me-1 theme-icon-active">
                                 <use href="@iconsFile#app-icon-circle-half"></use>
                             </svg>
-                            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+                            <span class="ms-2 visually-hidden" id="bd-theme-text">Toggle theme</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
                             <li>
                                 <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
                                     <svg class="bi me-2 opacity-50">

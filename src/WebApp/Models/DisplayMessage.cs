@@ -2,7 +2,7 @@
 
 namespace MyApp.WebApp.Models;
 
-public record DisplayMessage(DisplayMessage.AlertContext Context, string Message, List<string> Details)
+public record DisplayMessage(DisplayMessage.AlertContext Context, string Message, List<string>? Details = null)
 {
     [JsonIgnore]
     public string AlertClass => Context switch

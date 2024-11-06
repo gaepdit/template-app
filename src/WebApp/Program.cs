@@ -31,18 +31,24 @@ var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ??
 builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
 
 // Configure authorization policies.
-builder.Services.AddAuthorizationPolicies();
+builder.Services.AddAuthorizationHandlers();
 
 // Configure UI services.
 builder.Services.AddRazorPages();
 
+var isDevelopment = builder.Environment.IsDevelopment();
+
 // Starting value for HSTS max age is five minutes to allow for debugging.
 // For more info on updating HSTS max age value for production, see:
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
-if (!builder.Environment.IsDevelopment())
+if (!isDevelopment)
 {
     builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
-        .AddHttpsRedirection(options => options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect);
+        .AddHttpsRedirection(options =>
+        {
+            options.HttpsPort = 443;
+            options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+        });
 }
 
 // Configure application monitoring.
@@ -70,7 +76,7 @@ builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
 // Add data stores.
-builder.Services.AddDataPersistence(builder.Configuration);
+builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);
 builder.Services.AddFileServices(builder.Configuration);
 
 // Initialize database.
@@ -96,7 +102,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Configure bundling and minification.
-builder.Services.AddWebOptimizer();
+builder.Services.AddWebOptimizer(minifyJavaScript: !isDevelopment);
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
@@ -105,7 +111,7 @@ builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure error handling.
-if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+if (isDevelopment) app.UseDeveloperExceptionPage(); // Development
 else app.UseExceptionHandler("/Error"); // Production or Staging
 
 // Configure security HTTP headers
