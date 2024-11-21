@@ -1,5 +1,7 @@
-﻿<script>
+﻿<script src="~/lib/aspnet-client-validation/aspnet-validation.min.js"></script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
+        aspnetClientValidation();
         const forms = document.querySelectorAll('form');
 
         forms.forEach(form => {

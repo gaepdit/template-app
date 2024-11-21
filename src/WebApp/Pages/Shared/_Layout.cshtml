@@ -60,6 +60,13 @@
     </div>
 </footer>
 
+<script src="~/lib/aspnet-client-validation/aspnet-validation.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        aspnetClientValidation();
+    });
+</script>
+
 <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"
         integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="></script>
 @if (!ViewData.ContainsKey("NoAnchors"))
