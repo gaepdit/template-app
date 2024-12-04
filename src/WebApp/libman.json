@@ -30,6 +30,16 @@
         "dist/easymde.min.css",
         "dist/easymde.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "aspnet-client-validation@0.11.0",
+      "destination": "wwwroot/lib/aspnet-client-validation/",
+      "files": [
+        "dist/aspnet-validation.js",
+        "dist/aspnet-validation.min.js",
+        "dist/aspnet-validation.min.js.map"
+      ]
     }
   ]
 }
