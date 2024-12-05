@@ -1,4 +1,4 @@
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApp.Domain.Entities.EntryActions;

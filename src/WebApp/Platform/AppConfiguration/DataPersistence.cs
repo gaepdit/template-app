@@ -1,4 +1,4 @@
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyApp.Domain.Entities.EntryActions;
@@ -15,20 +15,22 @@ namespace MyApp.WebApp.Platform.AppConfiguration;
 
 public static class DataPersistence
 {
-    public static void AddDataPersistence(this IServiceCollection services, ConfigurationManager configuration,
+    public static IServiceCollection AddDataPersistence(this IServiceCollection services,
+        ConfigurationManager configuration,
         IWebHostEnvironment environment)
     {
         // When configured, use in-memory data; otherwise use a SQL Server database.
         if (AppSettings.DevSettings.UseInMemoryData)
         {
             // Use in-memory data for all repositories.
-            services.AddSingleton<IEmailLogRepository, LocalEmailLogRepository>();
-            services.AddSingleton<IEntryActionRepository, LocalEntryActionRepository>();
-            services.AddSingleton<IEntryTypeRepository,LocalEntryTypeRepository>();
-            services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
-            services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
+            services
+                .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
+                .AddSingleton<IEntryActionRepository, LocalEntryActionRepository>()
+                .AddSingleton<IEntryTypeRepository, LocalEntryTypeRepository>()
+                .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
+                .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
 
-            return;
+            return services;
         }
 
         // When in-memory data is disabled, use a database connection.
@@ -47,7 +49,7 @@ public static class DataPersistence
                 dbBuilder
                     .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
                     .ConfigureWarnings(builder => builder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
-                
+
                 if (environment.IsDevelopment()) dbBuilder.EnableSensitiveDataLogging();
             });
 
@@ -57,10 +59,13 @@ public static class DataPersistence
         }
 
         // Repositories
-        services.AddScoped<IEmailLogRepository, EmailLogRepository>();
-        services.AddScoped<IEntryActionRepository, EntryActionRepository>();
-        services.AddScoped<IEntryTypeRepository,EntryTypeRepository>();
-        services.AddScoped<IOfficeRepository, OfficeRepository>();
-        services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
+        services
+            .AddScoped<IEmailLogRepository, EmailLogRepository>()
+            .AddScoped<IEntryActionRepository, EntryActionRepository>()
+            .AddScoped<IEntryTypeRepository, EntryTypeRepository>()
+            .AddScoped<IOfficeRepository, OfficeRepository>()
+            .AddScoped<IWorkEntryRepository, WorkEntryRepository>();
+
+        return services;
     }
 }
