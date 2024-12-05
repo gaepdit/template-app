@@ -1,3 +1,4 @@
+using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
@@ -43,7 +44,8 @@ var isDevelopment = builder.Environment.IsDevelopment();
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
 if (!isDevelopment)
 {
-    builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
+    builder.Services
+        .AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
         .AddHttpsRedirection(options =>
         {
             options.HttpsPort = 443;
@@ -52,32 +54,38 @@ if (!isDevelopment)
 }
 
 // Configure application monitoring.
-builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
-builder.Services.AddSingleton(provider =>
-{
-    var client = new RaygunClient(provider.GetService<RaygunSettings>()!, provider.GetService<IRaygunUserProvider>()!);
-    client.SendingMessage += (_, eventArgs) => eventArgs.Message.Details.Tags.Add(builder.Environment.EnvironmentName);
-    return client;
-});
-builder.Services.AddRaygun(opts =>
-{
-    opts.ApiKey = AppSettings.RaygunSettings.ApiKey;
-    opts.ApplicationVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3);
-    opts.ExcludeErrorsFromLocal = AppSettings.RaygunSettings.ExcludeErrorsFromLocal;
-    opts.IgnoreFormFieldNames = ["*Password"];
-    opts.EnvironmentVariables.Add("ASPNETCORE_*");
-});
-builder.Services.AddRaygunUserProvider();
-builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
+builder.Services
+    .AddTransient<IErrorLogger, ErrorLogger>()
+    .AddSingleton(provider =>
+    {
+        var client = new RaygunClient(provider.GetService<RaygunSettings>()!,
+            provider.GetService<IRaygunUserProvider>()!);
+        client.SendingMessage += (_, eventArgs) =>
+            eventArgs.Message.Details.Tags.Add(builder.Environment.EnvironmentName);
+        return client;
+    })
+    .AddRaygun(opts =>
+    {
+        opts.ApiKey = AppSettings.RaygunSettings.ApiKey;
+        opts.ApplicationVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3);
+        opts.ExcludeErrorsFromLocal = AppSettings.RaygunSettings.ExcludeErrorsFromLocal;
+        opts.IgnoreFormFieldNames = ["*Password"];
+        opts.EnvironmentVariables.Add("ASPNETCORE_*");
+    })
+    .AddRaygunUserProvider()
+    .AddHttpContextAccessor(); // needed by RaygunScriptPartial
 
 // Add app services.
-builder.Services.AddAutoMapperProfiles();
-builder.Services.AddAppServices();
-builder.Services.AddValidators();
+builder.Services
+    .AddAutoMapperProfiles()
+    .AddAppServices()
+    .AddEmailService()
+    .AddValidators();
 
 // Add data stores.
-builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);
-builder.Services.AddFileServices(builder.Configuration);
+builder.Services
+    .AddDataPersistence(builder.Configuration, builder.Environment)
+    .AddFileServices(builder.Configuration);
 
 // Initialize database.
 builder.Services.AddHostedService<MigratorHostedService>();
@@ -117,14 +125,14 @@ else app.UseExceptionHandler("/Error"); // Production or Staging
 // Configure security HTTP headers
 if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
 {
-    app.UseHsts();
-    app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
+    app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
 
 if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 
 // Configure the application pipeline.
-app.UseStatusCodePagesWithReExecute("/Error/{0}")
+app
+    .UseStatusCodePagesWithReExecute("/Error/{0}")
     .UseHttpsRedirection()
     .UseWebOptimizer()
     .UseStaticFiles()
@@ -133,7 +141,8 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}")
     .UseAuthorization();
 
 // Configure API documentation.
-app.UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/openapi.json"; })
+app
+    .UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/openapi.json"; })
     .UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint($"{apiVersion}/openapi.json", $"{apiTitle} {apiVersion}");

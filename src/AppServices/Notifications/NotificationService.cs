@@ -1,5 +1,5 @@
 ﻿using GaEpd.EmailService;
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using MyApp.AppServices.ErrorLogging;
@@ -39,7 +39,7 @@ public class NotificationService(
         Message message;
         try
         {
-            message = Message.Create(subject, recipientEmail, settings.DefaultSender, textBody, htmlBody);
+            message = Message.Create(subject, recipientEmail, textBody, htmlBody);
         }
         catch (Exception e)
         {
@@ -47,7 +47,7 @@ public class NotificationService(
             return NotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
-        if (settings.SaveEmail) await repository.InsertAsync(EmailLog.Create(message), token).ConfigureAwait(false);
+        if (settings.EnableEmailLog) await repository.InsertAsync(message, token).ConfigureAwait(false);
 
         if (settings is { EnableEmail: false, EnableEmailAuditing: false })
         {
@@ -56,7 +56,7 @@ public class NotificationService(
 
         try
         {
-            await emailService.SendEmailAsync(message, settings, token).ConfigureAwait(false);
+            _ = emailService.SendEmailAsync(message,  token).ConfigureAwait(false);
         }
         catch (Exception e)
         {
