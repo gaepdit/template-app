@@ -19,7 +19,7 @@ public class UserRoleStore
     {
         var user = _store.UserStore.Last();
         var roleName = _store.Roles.First().Name;
-        Debug.Assert(roleName != null, "role.NormalizedName != null");
+        Debug.Assert(roleName != null);
         var resultBefore = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
         await _store.AddToRoleAsync(user, roleName, CancellationToken.None);
@@ -35,7 +35,7 @@ public class UserRoleStore
     {
         var user = _store.UserStore.First();
         var roleName = _store.Roles.First().Name;
-        Debug.Assert(roleName != null, "role.NormalizedName != null");
+        Debug.Assert(roleName != null);
         var resultBefore = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
         await _store.RemoveFromRoleAsync(user, roleName, CancellationToken.None);
@@ -75,7 +75,7 @@ public class UserRoleStore
     {
         var user = _store.UserStore.First();
         var roleName = _store.Roles.First().Name;
-        Debug.Assert(roleName != null, "role.NormalizedName != null");
+        Debug.Assert(roleName != null);
         var result = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeTrue();
     }
@@ -85,7 +85,7 @@ public class UserRoleStore
     {
         var user = _store.UserStore.Last();
         var roleName = _store.Roles.First().Name;
-        Debug.Assert(roleName != null, "role.NormalizedName != null");
+        Debug.Assert(roleName != null);
         var result = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeFalse();
     }
