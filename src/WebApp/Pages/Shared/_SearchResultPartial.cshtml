@@ -39,15 +39,18 @@
         <tbody>
         @foreach (var item in Model.SearchResults.Items)
         {
-            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+            <tr>
                 <th scope="row">
-                    <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
+                    <a asp-page="Details" asp-route-id="@item.Id.ToString()"
+                       class="btn btn-sm @(item.IsDeleted ? "btn-outline-danger" : "btn-outline-primary")">
+                        @item.Id.ToString()
+                    </a>
                 </th>
                 <td class="text-nowrap">@Html.DisplayFor(_ => item.ReceivedDate, DisplayTemplate.ShortDate)</td>
                 <td>
                     @if (item.IsDeleted)
                     {
-                        <strong>DELETED</strong>
+                        <strong class="text-danger-emphasis">DELETED</strong>
                         <br />
                     }
                     @Html.DisplayFor(_ => item.Status)
