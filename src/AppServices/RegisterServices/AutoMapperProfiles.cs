@@ -7,5 +7,5 @@ public static class AutoMapperProfiles
 {
     // Add AutoMapper profiles
     public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services) => 
-        services.AddAutoMapper(expression => expression.AddProfile<AutoMapperProfile>());
+        services.AddAutoMapper(configuration => configuration.AddProfile<AutoMapperProfile>());
 }

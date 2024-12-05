@@ -9,7 +9,7 @@ namespace MyApp.AppServices.Notifications;
 
 public class NotificationService(
     IEmailService emailService,
-    IEmailLogRepository repository,
+    IEmailLogRepository emailLogRepository,
     IHostEnvironment environment,
     IConfiguration configuration,
     IErrorLogger errorLogger) : INotificationService
@@ -47,7 +47,7 @@ public class NotificationService(
             return NotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
-        if (settings.EnableEmailLog) await repository.InsertAsync(message, token).ConfigureAwait(false);
+        await emailLogRepository.InsertAsync(message, token).ConfigureAwait(false);
 
         if (settings is { EnableEmail: false, EnableEmailAuditing: false })
         {

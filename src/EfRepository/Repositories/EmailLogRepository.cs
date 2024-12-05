@@ -18,6 +18,10 @@ public sealed class EmailLogRepository(AppDbContext dbContext, IConfiguration co
         await dbContext.SaveChangesAsync(token).ConfigureAwait(false);
     }
 
+    #region IDisposable,  IAsyncDisposable
+
     public void Dispose() => dbContext.Dispose();
     public ValueTask DisposeAsync() => dbContext.DisposeAsync();
+
+    #endregion
 }
