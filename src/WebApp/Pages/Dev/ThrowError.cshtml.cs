@@ -1,4 +1,5 @@
 ﻿using MyApp.AppServices.ErrorLogging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyApp.WebApp.Pages.Dev;
 
@@ -20,6 +21,8 @@ public class ThrowErrorModel(IErrorLogger errorLogger) : PageModel
         }
     }
 
+    [SuppressMessage("Minor Code Smell",
+        "S2325:Methods and properties that don\'t access instance data should be static")]
     public void OnGetUnhandled()
     {
         throw new TestException("Test unhandled exception");
