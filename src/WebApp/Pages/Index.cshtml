@@ -21,29 +21,45 @@
     <div class="card-body">
         <h3>Public pages</h3>
         <ul>
-            <li>
-                Add links to useful public pages.
-            </li>
+            <li>Add links to useful public pages.</li>
             <li>
                 @* ReSharper disable once Html.PathError *@
                 <a href="api-docs/">API docs</a>
             </li>
         </ul>
-
         <h3>Staff pages</h3>
         <ul>
-            <li>
-                Add links to useful staff pages.
-            </li>
-            <li>
-                <a asp-page="/Account/Index">Account page</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Users/Index">All users</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Maintenance/Index">Site maintenance</a>
-            </li>
+            <li>Add links to useful staff pages.</li>
+            <li><a asp-page="/Account/Index">Account page</a></li>
+            <li><a asp-page="/Admin/Users/Index">All users</a></li>
+            <li><a asp-page="/Admin/Maintenance/Index">Site maintenance</a></li>
         </ul>
     </div>
 </div>
+
+<!-- 
+    VUE EXAMPLE 
+-->
+<div id="my-vue-app" class="mt-4">
+    <h3>Vue Example</h3>
+    <p>Current Count: <strong>{{ count }}</strong></p>
+    <button class="btn btn-primary" v-on:click="count++">Increment</button>
+</div>
+
+<!-- 1) Load Vue from a CDN -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<!-- 2) Add our Vue app logic -->
+<script>
+    // Destructure createApp from the Vue global
+    const { createApp } = Vue;
+
+    // Create a simple app that tracks a count variable
+    createApp({
+        data() {
+            return {
+                count: 0
+            };
+        }
+    }).mount('#my-vue-app');
+</script>
