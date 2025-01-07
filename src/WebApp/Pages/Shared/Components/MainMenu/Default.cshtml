@@ -3,8 +3,37 @@
     var iconsFile = Url.Content("~/images/app-icons.svg");
 }
 
+<!-- Add a small <style> block at the top (or in a separate CSS file). -->
+<style>
+    /* 1) New custom class for a bolder, more modern look */
+    .custom-navbar {
+        background-color: #ec1f28; /* A bright red background */
+        color: #fff;              /* White text for contrast */
+    }
+
+    /* Make sure navbar brand & links stand out on the red background */
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link,
+    .custom-navbar .dropdown-toggle {
+        color: #fff !important; /* Override defaults */
+    }
+
+    /* Hover states: slightly lighter shade, adjust as desired */
+    .custom-navbar .navbar-brand:hover,
+    .custom-navbar .nav-link:hover,
+    .custom-navbar .dropdown-toggle:hover {
+        color: #ffd5d5 !important; 
+    }
+
+    /* Optional: lighten the border or remove it if you like */
+    .custom-navbar.border-bottom {
+        border-color: rgba(0,0,0,0.1);
+    }
+</style>
+
 <header role="banner">
-    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+    <!-- 2) Replace 'bg-gradient' with our new custom class 'custom-navbar' -->
+    <nav id="main-nav" class="navbar custom-navbar navbar-expand-sm border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
             @if (Model.IsStaffUser)
             {
@@ -22,7 +51,8 @@
             }
             <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span> <span class="align-middle menu-text">Menu</span>
+                <span class="navbar-toggler-icon"></span> 
+                <span class="align-middle menu-text">Menu</span>
             </button>
 
             <div class="navbar-collapse collapse d-sm-inline-flex" id="main-nav-content">
@@ -50,7 +80,10 @@
                             <a class="nav-link" asp-page="/Staff/WorkEntries/Add" title="Add New Work Entry">
                                 <svg class="bi">
                                     <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
-                                </svg>&nbsp;<span class="d-inline d-sm-none">Add&nbsp;</span>New <span class="d-inline d-sm-none d-lg-inline">Work Entry</span>
+                                </svg>&nbsp;
+                                <span class="d-inline d-sm-none">Add&nbsp;</span>
+                                New 
+                                <span class="d-inline d-sm-none d-lg-inline">Work Entry</span>
                             </a>
                         </li>
                     }
@@ -97,10 +130,13 @@
                     else if (!Model.IsLoginPage)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-body-secondary" asp-page="/Account/Login">Agency&nbsp;Login</a>
+                            <a class="nav-link text-body-secondary" asp-page="/Account/Login">
+                                Agency&nbsp;Login
+                            </a>
                         </li>
                     }
-                    <!-- Dropdown selector for color mode -->
+
+                    <!-- Light/Dark/Auto theme toggle remains as-is -->
                     <li class="nav-item dropdown">
                         <button class="nav-link dropdown-toggle" id="bd-theme" type="button"
                                 aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
