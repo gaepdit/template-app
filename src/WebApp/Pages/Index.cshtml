@@ -4,62 +4,154 @@
     ViewData["Title"] = "Template Application";
 }
 
-<div class="row">
-    <div class="col-lg-9">
-        <div class="callout callout-info">
-            This application is a template for use in creating new web applications.
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="card mt-4 border-info shadow">
-    <div class="card-header text-bg-info">
-        <h2 class="h5">Some helpful temporary development links</h2>
-    </div>
-    <div class="card-body">
-        <h3>Public pages</h3>
-        <ul>
-            <li>Add links to useful public pages.</li>
-            <li>
-                @* ReSharper disable once Html.PathError *@
-                <a href="api-docs/">API docs</a>
-            </li>
-        </ul>
-        <h3>Staff pages</h3>
-        <ul>
-            <li>Add links to useful staff pages.</li>
-            <li><a asp-page="/Account/Index">Account page</a></li>
-            <li><a asp-page="/Admin/Users/Index">All users</a></li>
-            <li><a asp-page="/Admin/Maintenance/Index">Site maintenance</a></li>
-        </ul>
-    </div>
-</div>
-
-<!-- 
-    VUE EXAMPLE 
--->
-<div id="my-vue-app" class="mt-4">
-    <h3>Vue Example</h3>
-    <p>Current Count: <strong>{{ count }}</strong></p>
-    <button class="btn btn-primary" v-on:click="count++">Increment</button>
-</div>
-
-<!-- 1) Load Vue from a CDN -->
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-<!-- 2) Add our Vue app logic -->
-<script>
-    // Destructure createApp from the Vue global
-    const { createApp } = Vue;
-
-    // Create a simple app that tracks a count variable
-    createApp({
-        data() {
-            return {
-                count: 0
-            };
+    <!-- Minimal custom CSS for a modern look -->
+    <style>
+        /* Overall layout */
+        body {
+            margin: 2rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #212529; /* Changed from #f5f6fa to #212529 */
+            color: #f8f9fa;           /* Light text color for dark background */
         }
-    }).mount('#my-vue-app');
-</script>
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: #74b9ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* A simple "modern card" style */
+        .modern-card {
+            background-color: #343a40; /* Slightly lighter than #212529 for contrast */
+            color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+        }
+        .modern-card h2 {
+            margin-top: 0;
+        }
+
+        /* Buttons */
+        button {
+            background-color: #0984e3;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #74b9ff;
+        }
+
+        /* Vue transition classes for a simple fade effect */
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.4s;
+        }
+        .fade-enter-from, .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div id="app">
+        <!-- Modern card for your helpful links -->
+        <modern-card title="Some helpful temporary development links">
+            <h3>Public pages</h3>
+            <ul>
+                <li>Add links to useful public pages.</li>
+                <li><a href="api-docs/">API docs</a></li>
+            </ul>
+
+            <h3>Staff pages</h3>
+            <ul>
+                <li>Add links to useful staff pages.</li>
+                <li><a asp-page="/Account/Index">Account page</a></li>
+                <li><a asp-page="/Admin/Users/Index">All users</a></li>
+                <li><a asp-page="/Admin/Maintenance/Index">Site maintenance</a></li>
+            </ul>
+        </modern-card>
+
+        <!-- Another card for the Vue Example -->
+        <modern-card title="Vue Counter with Transition">
+            <p>Click the button to increment:</p>
+
+            <!-- "fade" transition for the count -->
+            <transition name="fade">
+                <strong v-if="showCount">{{ count }}</strong>
+            </transition>
+
+            <div style="margin-top: 1rem;">
+                <!-- Use v-on:click to avoid Razor conflicts -->
+                <button v-on:click="incrementCounter">Increment</button>
+                <button style="margin-left:0.5rem;" v-on:click="toggleCount">
+                    Toggle Count
+                </button>
+            </div>
+        </modern-card>
+    </div>
+
+    <!-- Load Vue (global build) from CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, defineComponent } = Vue;
+
+        // A reusable "modern card" component
+        const ModernCard = defineComponent({
+          name: 'ModernCard',
+          props: {
+            title: {
+              type: String,
+              default: 'Card Title'
+            }
+          },
+          template: `
+            <div class="modern-card">
+              <h2>{{ title }}</h2>
+              <slot></slot>
+            </div>
+          `
+        });
+
+        // Main Vue App
+        createApp({
+          data() {
+            return {
+              count: 0,
+              showCount: true
+            }
+          },
+          components: {
+            ModernCard
+          },
+          methods: {
+            incrementCounter() {
+              this.count++;
+            },
+            toggleCount() {
+              this.showCount = !this.showCount;
+            }
+          }
+        }).mount('#app');
+    </script>
+
+</body>
+</html>
