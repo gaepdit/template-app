@@ -224,10 +224,6 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     margin-left: -0.25rem !important;
 }
 
-.mt-n1 {
-    margin-top: -0.25rem !important;
-}
-
 /* External links
 -------------------------------------------------- */
 a[target]::after {
@@ -388,17 +384,17 @@ label:has([disabled]), label:has(:disabled) {
 
 /* Footer links
 -------------------------------------------------- */
-footer a {
+.footer-link {
     text-decoration: none;
     padding: .25rem;
     border-radius: 8px;
 }
 
-footer a:hover {
+.footer-link:hover {
     background: hsla(0, 0%, 0%, 0.04);
 }
 
-[data-bs-theme="dark"] footer a:hover {
+[data-bs-theme="dark"] .footer-link:hover {
     background: hsla(0, 0%, 100%, 0.04);
 }
 
