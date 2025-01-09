@@ -7,7 +7,7 @@
 <style>
     /* 1) New custom class for a bolder, more modern look */
     .custom-navbar {
-        background-color: #ec1f28; /* A bright red background */
+        background-color: #007bff; /* A bright red background */
         color: #fff;              /* White text for contrast */
     }
 
@@ -43,9 +43,13 @@
     }
 
     /* Custom Navbar in both themes remains the same */
-    html[data-bs-theme="light"] .custom-navbar,
+    html[data-bs-theme="light"] .custom-navbar {
+        background-color: #007bff;
+        color: #fff;
+    }
+
     html[data-bs-theme="dark"] .custom-navbar {
-        background-color: #ec1f28;
+        background-color: #ff0000;
         color: #fff;
     }
 
