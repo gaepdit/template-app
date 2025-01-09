@@ -67,7 +67,9 @@ public class ExternalLoginModel(
         var user = await userManager.FindByIdAsync(staffId);
         logger.LogInformation("Local user with ID {StaffId} signed in", staffId);
 
-        await signInManager.SignInAsync(user!, false);
+        user!.MostRecentLogin = DateTimeOffset.Now;
+        await userManager.UpdateAsync(user);
+        await signInManager.SignInAsync(user, false);
         return LocalRedirectOrHome();
     }
 
@@ -167,8 +169,8 @@ public class ExternalLoginModel(
             return await FailedLoginAsync(createUserResult, user);
         }
 
-        logger.LogInformation("Created new user {Email} with object ID {ObjectId}", user.Email.MaskEmail(),
-            user.ObjectIdentifier);
+        logger.LogInformation("Created new user {Email} with object ID {ObjectId}",
+            user.Email.MaskEmail(), user.ObjectIdentifier);
 
         // Add new user to application Roles if seeded in app settings or local admin user setting is enabled.
         var seedAdminUsers = configuration.GetSection("SeedAdminUsers").Get<string[]>();
@@ -218,7 +220,6 @@ public class ExternalLoginModel(
         }
 
         await userManager.UpdateAsync(user);
-
         await signInManager.RefreshSignInAsync(user);
         return LocalRedirectOrHome();
     }
@@ -262,9 +263,6 @@ public class ExternalLoginModel(
         return Page();
     }
 
-    private IActionResult LocalRedirectOrHome()
-    {
-        if (ReturnUrl is null) return RedirectToPage("/Staff/Index");
-        return LocalRedirect(ReturnUrl);
-    }
+    private IActionResult LocalRedirectOrHome() =>
+        ReturnUrl is null ? RedirectToPage("/Staff/Index") : LocalRedirect(ReturnUrl);
 }
