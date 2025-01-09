@@ -29,7 +29,73 @@
     .custom-navbar.border-bottom {
         border-color: rgba(0,0,0,0.1);
     }
+
+    /* Light theme styles */
+    html[data-bs-theme="light"] body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* Dark theme styles */
+    html[data-bs-theme="dark"] body {
+        background-color: #212529;
+        color: #f8f9fa;
+    }
+
+    /* Custom Navbar in both themes remains the same */
+    html[data-bs-theme="light"] .custom-navbar,
+    html[data-bs-theme="dark"] .custom-navbar {
+        background-color: #ec1f28;
+        color: #fff;
+    }
+
+    /* Light theme styles for cards */
+    html[data-bs-theme="light"] .card {
+        background-color: #ffffff; /* White background for light mode */
+        color: #000000; /* Dark text for contrast */
+        border-color: #dddddd; /* Light border color */
+    }
+
+    /* Dark theme styles for cards */
+    html[data-bs-theme="dark"] .card {
+        background-color: #343a40; /* Dark background for dark mode */
+        color: #f8f9fa; /* Light text for contrast */
+        border-color: #444; /* Dark border color */
+    }
+
+    /* Card header and footer for light theme */
+    html[data-bs-theme="light"] .card-header,
+    html[data-bs-theme="light"] .card-footer {
+        background-color: #f8f9fa; /* Light gray for headers/footers */
+        border-color: #dddddd;
+    }
+
+    /* Card header and footer for dark theme */
+    html[data-bs-theme="dark"] .card-header,
+    html[data-bs-theme="dark"] .card-footer {
+        background-color: #495057; /* Darker background for headers/footers */
+        border-color: #444;
+    }
 </style>
+
+
+<script>
+  function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  }
+
+  const storedTheme = localStorage.getItem('theme') || 'auto';
+  setTheme(storedTheme);
+
+  document.querySelectorAll('[data-bs-theme-value]').forEach(button => {
+    button.addEventListener('click', () => {
+      const theme = button.getAttribute('data-bs-theme-value');
+      setTheme(theme);
+    });
+  });
+</script>
+
 
 <header role="banner">
     <!-- 2) Replace 'bg-gradient' with our new custom class 'custom-navbar' -->
