@@ -20,11 +20,24 @@
 <div class="callout">
     <small>
         The MY_APP_NAME was developed by Georgia EPD-IT.<br/>
-        @if (Model.Version is not null)
+        The Air Web application was developed by Georgia EPD-IT.<br />
+        @if (!string.IsNullOrEmpty(AppSettings.SupportSettings.InformationalVersion))
         {
-            @:Current version: <em>@Model.Version</em>.<br/>
+            @:Current version: <em>@AppSettings.SupportSettings.InformationalVersion
+                @if (!string.IsNullOrEmpty(AppSettings.SupportSettings.InformationalBuild))
+                {
+                    @:(@AppSettings.SupportSettings.InformationalBuild).
+                }
+
+                @:</em>
         }
+        <br />
+        View the
+        <a href="https://github.com/gaepdit/template-app/blob/main/CHANGELOG.md" target="_blank" rel="noopener"
+           class="text-decoration-hover link-offset-2">Changelog</a>.
+        <br />
         Source code available on
-        <a href="https://github.com/gaepdit/template-app" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">GitHub</a>.
+        <a href="https://github.com/gaepdit/template-app" target="_blank" rel="noopener"
+           class="text-decoration-hover link-offset-2">GitHub</a>.
     </small>
 </div>
