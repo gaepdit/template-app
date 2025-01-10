@@ -1,13 +1,30 @@
-﻿<script src="~/lib/jquery-validate/jquery.validate.min.js"
-        integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ=="></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
-        integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog=="></script>
+﻿<script src="~/lib/aspnet-client-validation/aspnet-validation.min.js"></script>
 <script>
-    // Change validation classes to work with Bootstrap
-    const settings = {
-        validClass: "is-valid",
-        errorClass: "is-invalid"
-    };
-    $.validator.setDefaults(settings);
-    $.validator.unobtrusive.options = settings;
+    document.addEventListener('DOMContentLoaded', function () {
+        aspnetClientValidation();
+        const forms = document.querySelectorAll('form');
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                let isValid = true;
+
+                form.querySelectorAll('input, select, textarea').forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.classList.remove('is-valid');
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+    });
 </script>
