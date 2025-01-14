@@ -16,9 +16,9 @@ public class DetailsModel(
     IEntryActionService entryActionService,
     IAuthorizationService authorization) : PageModel
 {
-    public WorkEntryViewDto ItemView { get; private set; } = default!;
+    public WorkEntryViewDto ItemView { get; private set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; private set; } = new();
-    public EntryActionCreateDto NewAction { get; set; } = default!;
+    public EntryActionCreateDto NewAction { get; set; } = null!;
 
     [TempData]
     public Guid HighlightId { get; set; }

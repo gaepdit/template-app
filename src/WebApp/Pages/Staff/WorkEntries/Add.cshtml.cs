@@ -16,9 +16,9 @@ public class AddModel(
     IValidator<WorkEntryCreateDto> validator) : PageModel
 {
     [BindProperty]
-    public WorkEntryCreateDto Item { get; set; } = default!;
+    public WorkEntryCreateDto Item { get; set; } = null!;
 
-    public SelectList EntryTypesSelectList { get; private set; } = default!;
+    public SelectList EntryTypesSelectList { get; private set; } = null!;
 
     public async Task OnGetAsync()
     {

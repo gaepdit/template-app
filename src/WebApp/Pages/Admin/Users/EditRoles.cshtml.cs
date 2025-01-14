@@ -16,7 +16,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
     [BindProperty]
     public List<RoleSetting> RoleSettings { get; set; } = [];
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
+    public StaffViewDto DisplayStaff { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
 
     public async Task<IActionResult> OnGetAsync(string? id)
@@ -69,9 +69,9 @@ public class EditRolesModel(IStaffService staffService) : PageModel
 
     public class RoleSetting
     {
-        public string Name { get; init; } = default!;
-        public string DisplayName { get; init; } = default!;
-        public string Description { get; init; } = default!;
+        public string Name { get; init; } = string.Empty;
+        public string DisplayName { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
         public bool IsSelected { get; init; }
     }
 }

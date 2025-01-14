@@ -7,7 +7,7 @@ namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel
 {
-    public IReadOnlyList<OfficeViewDto> Items { get; private set; } = default!;
+    public IReadOnlyList<OfficeViewDto> Items { get; private set; } = null!;
     public static MaintenanceOption ThisOption => MaintenanceOption.Office;
     public bool IsSiteMaintainer { get; private set; }
 

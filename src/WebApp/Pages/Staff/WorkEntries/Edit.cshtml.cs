@@ -22,9 +22,9 @@ public class EditModel(
     public Guid Id { get; set; }
 
     [BindProperty]
-    public WorkEntryUpdateDto Item { get; set; } = default!;
+    public WorkEntryUpdateDto Item { get; set; } = null!;
 
-    public SelectList EntryTypesSelectList { get; private set; } = default!;
+    public SelectList EntryTypesSelectList { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
@@ -59,7 +59,7 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task PopulateSelectListsAsync() => 
+    private async Task PopulateSelectListsAsync() =>
         EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync()).ToSelectList();
 
     private Task<bool> UserCanEditAsync(WorkEntryUpdateDto item) =>

@@ -13,9 +13,9 @@ namespace MyApp.WebApp.Pages.Staff.WorkEntries;
 public class ReopenModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     [BindProperty]
-    public WorkEntryChangeStatusDto EntryDto { get; set; } = default!;
+    public WorkEntryChangeStatusDto EntryDto { get; set; } = null!;
 
-    public WorkEntryViewDto ItemView { get; private set; } = default!;
+    public WorkEntryViewDto ItemView { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
