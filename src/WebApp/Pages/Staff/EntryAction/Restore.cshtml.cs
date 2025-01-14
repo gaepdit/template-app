@@ -22,7 +22,7 @@ public class RestoreActionModel(
     [TempData]
     public Guid HighlightId { get; set; }
 
-    public EntryActionViewDto EntryActionViewDto { get; private set; } = default!;
+    public EntryActionViewDto EntryActionViewDto { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {

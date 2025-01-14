@@ -5,7 +5,7 @@ namespace LocalRepositoryTests.Identity;
 
 public class UserRoleStore
 {
-    private LocalUserStore _store = null!;
+    private LocalUserStore _store;
 
     [SetUp]
     public void SetUp() => _store = RepositoryHelper.GetUserStore();

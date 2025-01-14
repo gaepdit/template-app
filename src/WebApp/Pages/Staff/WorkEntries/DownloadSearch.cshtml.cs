@@ -7,7 +7,7 @@ namespace MyApp.WebApp.Pages.Staff.WorkEntries;
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DownloadSearchModel(ISearchResultsExportService searchResultsExportService) : PageModel
 {
-    public WorkEntrySearchDto Spec { get; private set; } = default!;
+    public WorkEntrySearchDto Spec { get; private set; } = null!;
     public int ResultsCount { get; private set; }
     private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

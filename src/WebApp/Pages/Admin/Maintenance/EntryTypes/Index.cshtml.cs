@@ -7,7 +7,7 @@ namespace MyApp.WebApp.Pages.Admin.Maintenance.EntryTypes;
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel
 {
-    public IReadOnlyList<EntryTypeViewDto> Items { get; private set; } = default!;
+    public IReadOnlyList<EntryTypeViewDto> Items { get; private set; } = null!;
     public static MaintenanceOption ThisOption => MaintenanceOption.EntryType;
     public bool IsSiteMaintainer { get; private set; }
 

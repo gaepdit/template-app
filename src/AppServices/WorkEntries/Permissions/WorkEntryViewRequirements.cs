@@ -8,8 +8,8 @@ namespace MyApp.AppServices.WorkEntries.Permissions;
 internal class WorkEntryViewRequirements :
     AuthorizationHandler<WorkEntryOperation, WorkEntryViewDto>
 {
-    private ClaimsPrincipal _user = default!;
-    private WorkEntryViewDto _resource = default!;
+    private ClaimsPrincipal _user = null!;
+    private WorkEntryViewDto _resource = null!;
 
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,

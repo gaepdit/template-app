@@ -10,7 +10,7 @@ namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
 public class AddModel(IOfficeService officeService, IValidator<OfficeCreateDto> validator) : PageModel
 {
     [BindProperty]
-    public OfficeCreateDto Item { get; set; } = default!;
+    public OfficeCreateDto Item { get; set; } = null!;
 
     [TempData]
     public Guid HighlightId { get; set; }

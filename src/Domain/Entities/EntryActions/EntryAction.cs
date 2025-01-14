@@ -14,7 +14,7 @@ public class EntryAction : AuditableSoftDeleteEntity
 
     // Properties
 
-    public WorkEntry WorkEntry { get; private init; } = default!;
+    public WorkEntry WorkEntry { get; private init; } = null!;
 
     public DateOnly ActionDate { get; set; }
 

@@ -20,12 +20,12 @@ public class EditActionModel(
     public Guid EntryActionId { get; set; }
 
     [BindProperty]
-    public EntryActionUpdateDto UpdateDto { get; set; } = default!;
+    public EntryActionUpdateDto UpdateDto { get; set; } = null!;
 
     [TempData]
     public Guid HighlightId { get; set; }
 
-    public WorkEntryViewDto WorkEntryView { get; private set; } = default!;
+    public WorkEntryViewDto WorkEntryView { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {

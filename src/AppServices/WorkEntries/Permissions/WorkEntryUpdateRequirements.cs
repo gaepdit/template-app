@@ -8,8 +8,8 @@ namespace MyApp.AppServices.WorkEntries.Permissions;
 public class WorkEntryUpdateRequirements :
     AuthorizationHandler<WorkEntryUpdateRequirements, WorkEntryUpdateDto>, IAuthorizationRequirement
 {
-    private ClaimsPrincipal _user = default!;
-    private WorkEntryUpdateDto _resource = default!;
+    private ClaimsPrincipal _user = null!;
+    private WorkEntryUpdateDto _resource = null!;
 
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,

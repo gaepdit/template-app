@@ -13,7 +13,7 @@ public class EditModel(IEntryTypeService service, IValidator<EntryTypeUpdateDto>
     public Guid Id { get; set; }
 
     [BindProperty]
-    public EntryTypeUpdateDto Item { get; set; } = default!;
+    public EntryTypeUpdateDto Item { get; set; } = null!;
 
     [BindProperty]
     public string OriginalName { get; set; } = string.Empty;
