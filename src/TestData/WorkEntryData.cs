@@ -29,7 +29,7 @@ internal static class WorkEntryData
         {
             Closed = true,
             Status = WorkEntryStatus.Closed,
-            ReceivedBy = UserData.GetUsers.ElementAt(2),
+            ReceivedBy = UserData.GetUsers.ElementAt(0),
             EntryType = EntryTypeData.GetData.ElementAt(1),
         },
         new(new Guid("10000000-0000-0000-0000-000000000003")) // 3
@@ -60,7 +60,7 @@ internal static class WorkEntryData
             Notes = "Open WorkEntry assigned to inactive user.",
             Closed = false,
             Status = WorkEntryStatus.Open,
-            ReceivedBy = UserData.GetUsers.ElementAt(3),
+            ReceivedBy = UserData.GetUsers.ElementAt(2),
             EntryType = EntryTypeData.GetData.ElementAt(0),
         },
     };
