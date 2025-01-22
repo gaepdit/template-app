@@ -3,15 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "jquery@3.7.1",
-      "destination": "wwwroot/lib/jquery/",
-      "files": [
-        "jquery.min.js",
-        "jquery.min.map",
-        "jquery.js"
-      ]
-    },
-    {
       "library": "bootstrap@5.3.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
@@ -21,22 +12,6 @@
         "css/bootstrap.css",
         "css/bootstrap.min.css",
         "css/bootstrap.min.css.map"
-      ]
-    },
-    {
-      "library": "jquery-validate@1.21.0",
-      "destination": "wwwroot/lib/jquery-validate/",
-      "files": [
-        "jquery.validate.min.js",
-        "jquery.validate.js"
-      ]
-    },
-    {
-      "library": "jquery-validation-unobtrusive@4.0.0",
-      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
-      "files": [
-        "jquery.validate.unobtrusive.min.js",
-        "jquery.validate.unobtrusive.js"
       ]
     },
     {
@@ -54,6 +29,16 @@
       "files": [
         "dist/easymde.min.css",
         "dist/easymde.min.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "aspnet-client-validation@0.11.0",
+      "destination": "wwwroot/lib/aspnet-client-validation/",
+      "files": [
+        "dist/aspnet-validation.js",
+        "dist/aspnet-validation.min.js",
+        "dist/aspnet-validation.min.js.map"
       ]
     }
   ]

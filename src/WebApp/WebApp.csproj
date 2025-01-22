@@ -63,4 +63,8 @@
         </MsDeploySkipRules>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\lib\aspnet-client-validation\" />
+    </ItemGroup>
+
 </Project>
