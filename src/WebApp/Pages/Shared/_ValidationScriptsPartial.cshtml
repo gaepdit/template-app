@@ -1,7 +1,12 @@
-﻿<script src="~/lib/aspnet-client-validation/aspnet-validation.min.js"></script>
+﻿<script src="~/lib/aspnet-client-validation/aspnet-validation.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        aspnetClientValidation();
+        var v = new aspnetValidation.ValidationService();
+        v.ValidationInputCssClassName          = 'is-invalid';                 // change from default of 'input-validation-error'
+        v.ValidationInputValidCssClassName     = 'is-valid';                   // change from default of 'input-validation-valid'
+        v.ValidationMessageCssClassName        = 'invalid-feedback';           // change from default of 'field-validation-error'
+        v.ValidationMessageValidCssClassName   = 'valid-feedback';             // change from default of 'field-validation-valid'
+        v.bootstrap();
         const forms = document.querySelectorAll('form');
 
         forms.forEach(form => {
