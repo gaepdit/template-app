@@ -15,8 +15,9 @@ public static class BindingsConfiguration
             .Bind(AppSettings.RaygunSettings);
 
         // Set app version.
-        var segments = (Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString() ?? "").Split('+');
+        var entryAssembly = Assembly.GetEntryAssembly();
+        var segments = (entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion ?? entryAssembly?.GetName().Version?.ToString() ?? "").Split('+');
 
         AppSettings.SupportSettings.InformationalVersion = segments[0];
         if (segments.Length > 0)
