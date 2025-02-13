@@ -9,7 +9,6 @@ using MyApp.AppServices.RegisterServices;
 using MyApp.WebApp.Platform.AppConfiguration;
 using MyApp.WebApp.Platform.Logging;
 using MyApp.WebApp.Platform.Settings;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

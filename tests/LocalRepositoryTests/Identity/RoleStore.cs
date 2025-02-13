@@ -1,4 +1,5 @@
 using MyApp.LocalRepository.Identity;
+using MyApp.TestData.Constants;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;
@@ -43,6 +44,13 @@ public class RoleStore
         var role = _store.Roles.First();
         var result = await _store.FindByIdAsync(role.Id, CancellationToken.None);
         result.Should().BeEquivalentTo(role);
+    }
+
+    [Test]
+    public async Task FindById_WithInvalidId_ReturnsNull()
+    {
+        var result = await _store.FindByIdAsync(TextData.NonExistentName, CancellationToken.None);
+        result.Should().BeNull();
     }
 
     [Test]
