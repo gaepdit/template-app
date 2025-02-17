@@ -25,6 +25,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     {
         base.OnModelCreating(builder);
 
+        // === Unique indexes ===
+        builder.Entity<ApplicationUser>().HasIndex(user => user.ObjectIdentifier).IsUnique();
+
         // === Auto-includes ===
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
