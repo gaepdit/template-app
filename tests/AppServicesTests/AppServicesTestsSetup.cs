@@ -11,16 +11,14 @@ namespace AppServicesTests;
 public class AppServicesTestsSetup
 {
     internal static IMapper? Mapper;
-    internal static MapperConfiguration? MapperConfig;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
         // AutoMapper profiles are added here.
-        MapperConfig = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfile()));
-        Mapper = MapperConfig.CreateMapper();
+        Mapper = new MapperConfiguration(expression => expression.AddProfile(new AutoMapperProfile())).CreateMapper();
 
-        AssertionOptions.AssertEquivalencyUsing(opts => opts
+        AssertionOptions.AssertEquivalencyUsing(options => options
             // Setting this option globally since our DTOs generally exclude properties, e.g., audit properties.
             // See: https://fluentassertions.com/objectgraphs/#matching-members
             .ExcludingMissingMembers()
@@ -39,8 +37,9 @@ public class AppServicesTestsSetup
     {
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context) =>
-            selectedMembers.Where(e => !(e.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
-                e.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
+            selectedMembers.Where(e =>
+                !(e.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
+                  e.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
 
         public bool IncludesMembers => false;
         public override string ToString() => "Exclude SecurityStamp and ConcurrencyStamp from IdentityUser";
