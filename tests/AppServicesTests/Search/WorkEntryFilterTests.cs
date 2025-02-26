@@ -95,15 +95,16 @@ public class WorkEntryFilterTests
     public void ReceivedBySpec_ReturnsFilteredList()
     {
         // Arrange
-        var referenceItem = WorkEntryData.GetData.First(entry => entry.ReceivedBy != null);
+        var workEntries = WorkEntryData.GetData.ToList();
+
+        var referenceItem = workEntries.First(entry => entry.ReceivedBy != null);
         var spec = new WorkEntrySearchDto { ReceivedBy = referenceItem.ReceivedBy!.Id };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
-        var expected = WorkEntryData.GetData
-            .Where(entry => entry is { IsDeleted: false } && entry.ReceivedBy == referenceItem.ReceivedBy);
+        var expected = workEntries.Where(entry => !entry.IsDeleted && entry.ReceivedBy == referenceItem.ReceivedBy);
 
         // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
+        var result = workEntries.Where(expression.Compile());
 
         // Assert
         result.Should().BeEquivalentTo(expected);
