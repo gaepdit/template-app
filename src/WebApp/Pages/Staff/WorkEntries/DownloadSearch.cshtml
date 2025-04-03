@@ -31,5 +31,5 @@ else
             Return to search results
         </a>
     </p>
-    <script>window.location = document.getElementById("download-link").href;</script>
+    <script asp-add-content-to-csp>window.location = document.getElementById("download-link").href;</script>
 }
